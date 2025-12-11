@@ -112,7 +112,7 @@ export default function Services() {
               className="flex items-center gap-3 hover:opacity-80 transition-opacity"
             >
               <img
-                src="/images/monsta parramatta logo (1).svg"
+                src="/images/logo.svg"
                 alt="Monsta Media"
                 className="h-10 w-auto"
                 loading="eager"

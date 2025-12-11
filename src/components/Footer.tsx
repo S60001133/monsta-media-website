@@ -18,7 +18,7 @@ export default function Footer() {
             {/* Brand */}
             <div className="space-y-2">
               <img 
-                src="/images/monsta parramatta logo (1).svg" 
+                src="/images/logo.svg" 
                 alt="Monsta Media" 
                 className="h-12 w-auto mb-4"
                 loading="lazy"
