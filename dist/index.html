@@ -101,7 +101,43 @@
       gtag('config', 'G-H2W8ZSZYS6');
     });
   </script>
-
+  <!-- Vapi AI Assistant Button Styles -->
+  <style>
+    button[id*="vapi-support-btn"], .vapi-btn {
+      position: fixed !important;
+      bottom: 16px !important;
+      left: 16px !important;
+      z-index: 2147483647 !important; /* force above all content */
+      pointer-events: auto !important;
+      font-family: "Times New Roman", Times, serif !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+    button[id*="vapi-support-btn"] *, .vapi-btn * {
+      font-family: "Times New Roman", Times, serif !important;
+    }
+    #vapi-title-container {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: flex-start !important;
+      gap: .1px !important;
+    }
+    #vapi-title, #vapi-subtitle {
+      line-height: 1.2 !important;
+      margin: 0 !important;
+    }
+    @media (max-width: 768px) {
+      button[id*="vapi-support-btn"], .vapi-btn {
+        bottom: 80px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        max-width: calc(100vw - 32px) !important;
+      }
+      #vapi-title { font-size: 13px !important; }
+      #vapi-subtitle { font-size: 11px !important; }
+    }
+  </style>
   <!-- Facebook Domain Verification -->
   <meta name="facebook-domain-verification" content="8z81g0u98zgt1shdizvp76m6fkfpqg" />
   
