@@ -2,7 +2,7 @@ import { useState } from 'react'
 import CTAButton from '../components/CTAButton'
 
 export default function About() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -14,7 +14,7 @@ export default function About() {
   const handleNavigation = (path: string) => {
     window.history.pushState({}, '', path)
     window.dispatchEvent(new PopStateEvent('popstate'))
-    setIsOpen(false)
+    setMobileMenuOpen(false)
   }
 
   const flipCubes = [
@@ -91,49 +91,56 @@ export default function About() {
               />
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button (mimics Home) */}
             <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden text-black p-2"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden flex flex-col gap-1.5 p-2 z-50"
               aria-label="Toggle menu"
             >
-              {isOpen ? (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              )}
+              <span className={`w-6 h-0.5 bg-black transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`w-6 h-0.5 bg-black transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`w-6 h-0.5 bg-black transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
           </div>
 
-          {/* Mobile Menu */}
-          {isOpen && (
-            <div className="md:hidden py-6 space-y-4 border-t border-black/10">
-              {navLinks.map((link) => (
+          {/* Mobile Menu Overlay (mimics Home) */}
+          {mobileMenuOpen && (
+            <div className="fixed inset-0 z-40 md:hidden">
+              <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
+              <nav className="relative flex flex-col items-center justify-center h-full gap-8">
                 <button
-                  key={link.path}
-                  onClick={() => handleNavigation(link.path)}
-                  className="block w-full text-left text-black/80 hover:text-neon-blue transition-colors font-medium py-2"
+                  onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }}
+                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
                 >
-                  {link.name}
+                  Services
                 </button>
-              ))}
-              <div className="pt-4">
+                <button
+                  onClick={() => { handleNavigation('/crm'); setMobileMenuOpen(false); }}
+                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
+                >
+                  CRM
+                </button>
+                <button
+                  onClick={() => { handleNavigation('/finance'); setMobileMenuOpen(false); }}
+                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
+                >
+                  Finance
+                </button>
+                <button
+                  onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }}
+                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
+                >
+                  About Us
+                </button>
                 <CTAButton
-                  text="Book a Call"
+                  text="Start Now"
                   variant="primary"
-                  size="sm"
+                  size="md"
                   ripple
                   magnetic
-                  onClick={() => {
-                    window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'
-                    setIsOpen(false)
-                  }}
+                  onClick={() => { window.open('https://calendar.monstamediaparramatta.com/calendar', '_blank'); setMobileMenuOpen(false); }}
                 />
-              </div>
+              </nav>
             </div>
           )}
         </div>
