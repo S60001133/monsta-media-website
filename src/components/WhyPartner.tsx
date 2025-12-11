@@ -133,7 +133,7 @@ export default function WhyPartner() {
             <div className="feature-box">
               <div className="feature-box-header">
                 <span className="icon">
-                  <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/6911793375ec1e386b49e440.svg" alt="AI-Focused Expertise Icon" />
+                  <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/6911793375ec1e386b49e440.svg" alt="AI-Focused Expertise Icon" loading="lazy" />
                 </span>
                 <h3>AI-Focused Expertise</h3>
               </div>
@@ -142,7 +142,7 @@ export default function WhyPartner() {
             <div className="feature-box">
               <div className="feature-box-header">
                 <span className="icon">
-                  <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69117933d1ba950d30ee1248.svg" alt="No-Nonsense Approach Icon" />
+                  <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69117933d1ba950d30ee1248.svg" alt="No-Nonsense Approach Icon" loading="lazy" />
                 </span>
                 <h3>No-Nonsense Approach</h3>
               </div>
@@ -151,7 +151,7 @@ export default function WhyPartner() {
             <div className="feature-box">
               <div className="feature-box-header">
                 <span className="icon">
-                  <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69117933d4d77957688c4f72.svg" alt="Australian Owned & Operated Icon" />
+                  <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69117933d4d77957688c4f72.svg" alt="Australian Owned & Operated Icon" loading="lazy" />
                 </span>
                 <h3>Australian Owned & Operated</h3>
               </div>
@@ -160,7 +160,7 @@ export default function WhyPartner() {
             <div className="feature-box">
               <div className="feature-box-header">
                 <span className="icon">
-                  <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69117933d4d779de898c4f71.svg" alt="Your Growth Partner Icon" />
+                  <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69117933d4d779de898c4f71.svg" alt="Your Growth Partner Icon" loading="lazy" />
                 </span>
                 <h3>Your Growth Partner</h3>
               </div>
@@ -169,7 +169,7 @@ export default function WhyPartner() {
             <div className="feature-box">
               <div className="feature-box-header">
                 <span className="icon">
-                  <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/6911793375ec1e783449e441.svg" alt="Transparent Reporting Icon" />
+                  <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/6911793375ec1e783449e441.svg" alt="Transparent Reporting Icon" loading="lazy" />
                 </span>
                 <h3>Transparent Reporting</h3>
               </div>

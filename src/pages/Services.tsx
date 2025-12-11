@@ -115,6 +115,7 @@ export default function Services() {
                 src="/images/monsta parramatta logo (1).svg"
                 alt="Monsta Media"
                 className="h-10 w-auto"
+                loading="eager"
               />
             </button>
 
@@ -294,6 +295,7 @@ export default function Services() {
                 <img
                   src={service.image}
                   alt={service.title}
+                  loading="lazy"
                   style={{
                     width: '100%',
                     height: '100%',

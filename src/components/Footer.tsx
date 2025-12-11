@@ -21,6 +21,7 @@ export default function Footer() {
                 src="/images/monsta parramatta logo (1).svg" 
                 alt="Monsta Media" 
                 className="h-12 w-auto mb-4"
+                loading="lazy"
               />
               <p className="text-black/60 text-sm leading-snug max-w-xs" style={{ marginLeft: '8px' }}>
                 AI-Powered Marketing That Delivers Results

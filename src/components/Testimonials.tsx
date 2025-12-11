@@ -212,7 +212,8 @@ export default function Testimonials() {
         >
           <img 
             src="/images/testimonials-icon.png" 
-            alt="Testimonials" 
+            alt="Testimonials"
+            loading="lazy" 
             style={{
               width: '300px',
               height: '150px',

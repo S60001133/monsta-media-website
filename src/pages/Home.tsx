@@ -39,7 +39,7 @@ export default function Home() {
       {/* Navigation Hint */}
       <div className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 md:px-8 py-4 md:py-6 transition-colors duration-300 ${navBackground ? 'bg-black' : 'bg-transparent'}`}>
         <div className="flex items-center gap-3">
-          <img src="/images/logo.svg" alt="Brand Logo" className="h-6 md:h-8 w-auto" />
+          <img src="/images/logo.svg" alt="Brand Logo" className="h-6 md:h-8 w-auto" loading="eager" />
         </div>
         
         {/* Scrolling Marquee - Hidden on mobile */}
@@ -230,8 +230,9 @@ export default function Home() {
             backgroundImage: 'url(/images/hero-bg.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            filter: 'blur(2px)',
-            opacity: 0.7
+            filter: 'blur(1px)',
+            opacity: 0.6,
+            willChange: 'transform'
           }}
           role="img"
           aria-label="Digital marketing agency office background"

@@ -27,18 +27,20 @@ export default function GlitchText({ text, image, className = '', as: Component 
   if (image) {
     return (
       <div className={`relative inline-block ${className}`}>
-        <img src={image} alt={text || 'Logo'} className="relative z-10 w-full h-full object-contain" />
+        <img src={image} alt={text || 'Logo'} className="relative z-10 w-full h-full object-contain" loading="eager" />
         {isGlitching && (
           <>
             <img
               src={image}
               alt="glitch-layer-1"
+              loading="lazy"
               className="absolute top-0 left-0 -z-10 w-full h-full object-contain opacity-70 animate-glitch"
               style={{ clipPath: 'polygon(0 0, 100% 0, 100% 45%, 0 45%)', transform: 'translate(-2px)', filter: 'hue-rotate(90deg)' }}
             />
             <img
               src={image}
               alt="glitch-layer-2"
+              loading="lazy"
               className="absolute top-0 left-0 -z-10 w-full h-full object-contain opacity-70 animate-glitch"
               style={{ clipPath: 'polygon(0 80%, 100% 20%, 100% 100%, 0 100%)', transform: 'translate(2px)', animationDirection: 'reverse', filter: 'hue-rotate(-90deg)' }}
             />

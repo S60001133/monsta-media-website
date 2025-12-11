@@ -49,6 +49,7 @@ export default function About() {
                 src="/images/monsta parramatta logo (1).svg" 
                 alt="Monsta Media" 
                 className="h-10 w-auto"
+                loading="eager"
               />
             </button>
 
