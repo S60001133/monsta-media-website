@@ -14,9 +14,9 @@ export default function Footer() {
       `}</style>
       <footer className="bg-white border-t border-gray-200 text-black relative z-50" style={{ paddingTop: '20px', paddingBottom: '0px' }}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-8 text-center md:text-left">
             {/* Brand */}
-            <div className="space-y-2">
+            <div className="space-y-2 flex flex-col items-center md:items-start">
               <img 
                 src="/images/logo.svg" 
                 alt="Monsta Media" 
@@ -28,7 +28,7 @@ export default function Footer() {
               </p>
               
               {/* Social Media Icons */}
-              <div className="flex gap-6" style={{ marginLeft: '12px', marginTop: '24px' }}>
+              <div className="flex gap-6 justify-center md:justify-start" style={{ marginLeft: '12px', marginTop: '24px' }}>
                 {/* Facebook */}
                 <a 
                   href="https://www.facebook.com/profile.php?id=100093687556341" 
@@ -74,9 +74,9 @@ export default function Footer() {
             <div></div>
 
             {/* Services */}
-            <div className="md:col-span-1">
+            <div className="md:col-span-1 flex flex-col items-center md:items-start">
               <h3 className="font-bold mb-4 text-black">Services</h3>
-              <ul className="space-y-2 text-sm">
+              <ul className="text-sm space-y-1 md:space-y-2">
                 <li><a href="/services#ai-and-automation" className="footer-link block cursor-pointer">AI & Automation</a></li>
                 <li><a href="/services#web-development" className="footer-link block cursor-pointer">Web Development</a></li>
                 <li><a href="/services#local-or-national-seo" className="footer-link block cursor-pointer">Local or National SEO</a></li>
@@ -91,7 +91,7 @@ export default function Footer() {
             <div></div>
 
             {/* Contact */}
-            <div>
+            <div className="flex flex-col items-center md:items-start">
               <h3 className="font-bold mb-4 text-black">Get In Touch</h3>
               <ul className="space-y-2 text-sm text-black/60">
                 <li>Parramatta, NSW</li>
@@ -113,9 +113,10 @@ export default function Footer() {
           </div>
 
           {/* Bottom Bar */}
-          <div style={{ marginTop: '60px' }} className="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-center items-center gap-4 text-sm">
+          <div style={{ marginTop: '60px' }} className="pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4 text-sm text-center">
             <p className="text-black/60">&copy; {year} Monsta Media Parramatta. All rights reserved.</p>
-            <span className="text-black/60">|</span>
+            <div className="hidden md:block w-px h-5 bg-black/20" aria-hidden="true"></div>
+            <div className="block md:hidden h-px w-12 bg-black/20" aria-hidden="true"></div>
             <a href="https://privacy-policy.monstamediaparramatta.com/privacy-policy" target="_blank" rel="noopener noreferrer" className="footer-link cursor-pointer">Privacy Policy</a>
           </div>
         </div>
