@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import CTAButton from '../components/CTAButton'
 
 export default function CRM() {
@@ -69,6 +69,104 @@ export default function CRM() {
       highlight: false
     }
   ]
+
+  const [currentPlanIndex, setCurrentPlanIndex] = useState(0)
+  const touchStartX = useRef<number | null>(null)
+  const touchEndX = useRef<number | null>(null)
+
+  const goToPlan = (index: number) => {
+    if (index < 0) {
+      setCurrentPlanIndex(pricingPlans.length - 1)
+      return
+    }
+    if (index >= pricingPlans.length) {
+      setCurrentPlanIndex(0)
+      return
+    }
+    setCurrentPlanIndex(index)
+  }
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null
+    touchEndX.current = null
+  }
+
+  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchEndX.current = event.touches[0]?.clientX ?? null
+  }
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return
+    const deltaX = touchStartX.current - touchEndX.current
+    const threshold = 40
+
+    if (deltaX > threshold) {
+      goToPlan(currentPlanIndex + 1)
+    } else if (deltaX < -threshold) {
+      goToPlan(currentPlanIndex - 1)
+    }
+
+    touchStartX.current = null
+    touchEndX.current = null
+  }
+
+  const renderPlanCard = (plan: typeof pricingPlans[number], idx: number) => (
+    <div 
+      key={idx}
+      style={{
+        padding: '22px 18px',
+        background: plan.highlight ? 'linear-gradient(135deg, #ff1493 0%, #ff1a8a 100%)' : 'rgba(255,255,255,0.08)',
+        borderRadius: '12px',
+        border: plan.highlight ? '2px solid #ff1493' : '1px solid rgba(255,255,255,0.15)',
+        backdropFilter: 'blur(10px)',
+        position: 'relative',
+        boxShadow: plan.highlight ? '0 10px 28px rgba(255,20,147,0.2)' : '0 4px 12px rgba(0,0,0,0.14)',
+        width: '100%'
+      }}
+    >
+      {plan.highlight && (
+        <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#ffffff', color: '#ff1493', padding: '5px 16px', borderRadius: '18px', fontSize: '11px', fontWeight: 900, fontFamily: 'Montserrat', boxShadow: '0 8px 20px rgba(255,20,147,0.26)', border: '1px solid rgba(255,20,147,0.35)' }}>
+          MOST POPULAR
+        </div>
+      )}
+      <h3 style={{ fontSize: '19px', fontWeight: 800, marginBottom: '8px', color: plan.highlight ? '#0b0712' : '#ffffff', fontFamily: 'Montserrat', letterSpacing: '-0.25px' }}>
+        {plan.name}
+      </h3>
+      <p style={{ fontSize: '12px', marginBottom: '14px', color: plan.highlight ? 'rgba(11,7,18,0.85)' : 'rgba(255,255,255,0.7)', lineHeight: '18px' }}>
+        {plan.description}
+      </p>
+      <div style={{ marginBottom: '18px', paddingBottom: '18px', borderBottom: `1px solid ${plan.highlight ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.15)'}` }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+          <span style={{ fontSize: '32px', fontWeight: 900, color: plan.highlight ? '#0b0712' : '#ff1493', fontFamily: 'Montserrat' }}>
+            {plan.price}
+          </span>
+          <span style={{ fontSize: '12px', color: plan.highlight ? 'rgba(11,7,18,0.7)' : 'rgba(255,255,255,0.7)', fontWeight: 600 }}>
+            {plan.period}
+          </span>
+        </div>
+      </div>
+      <div style={{ marginBottom: '18px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        {plan.features.map((feature, fIdx) => (
+          <div key={fIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12px', color: plan.highlight ? 'rgba(11,7,18,0.9)' : 'rgba(255,255,255,0.85)', lineHeight: '18px' }}>
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0, marginTop: '2px' }}>
+              <path d="M17.172 5.172a1 1 0 00-1.414 0L8 12.929l-3.758-3.758a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0l10-10z" fill={plan.highlight ? '#0b0712' : '#ff1493'} />
+            </svg>
+            <span>{feature}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <CTAButton
+          text="Get Started"
+          variant={plan.highlight ? "secondary" : "primary"}
+          size="md"
+          ripple
+          magnetic
+          onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
+        />
+      </div>
+    </div>
+  )
 
   return (
     <div className="min-h-screen bg-white text-black">
@@ -230,74 +328,50 @@ export default function CRM() {
               Choose the perfect plan for your business. Scale anytime, cancel anytime.
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '20px', justifyItems: 'center' }}>
-            {pricingPlans.map((plan, idx) => (
-              <div 
-                key={idx}
-                style={{
-                  padding: '22px 18px',
-                  background: plan.highlight ? 'linear-gradient(135deg, #ff1493 0%, #ff1a8a 100%)' : 'rgba(255,255,255,0.08)',
-                  borderRadius: '12px',
-                  border: plan.highlight ? '2px solid #ff1493' : '1px solid rgba(255,255,255,0.15)',
-                  backdropFilter: 'blur(10px)',
-                  position: 'relative',
-                  transform: plan.highlight ? 'translateY(-8px)' : 'translateY(0)',
-                  transition: 'all 0.3s ease',
-                  boxShadow: plan.highlight ? '0 10px 28px rgba(255,20,147,0.2)' : '0 4px 12px rgba(0,0,0,0.14)',
-                  width: '100%'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = plan.highlight ? 'translateY(-10px)' : 'translateY(-5px)';
-                  e.currentTarget.style.boxShadow = plan.highlight ? '0 12px 32px rgba(255,20,147,0.24)' : '0 8px 18px rgba(255,20,147,0.14)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = plan.highlight ? 'translateY(-8px)' : 'translateY(0)';
-                  e.currentTarget.style.boxShadow = plan.highlight ? '0 10px 28px rgba(255,20,147,0.2)' : '0 4px 12px rgba(0,0,0,0.14)';
-                }}
+          <div className="md:hidden relative" style={{ marginBottom: '24px' }}>
+            <div
+              className="overflow-hidden"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              <div
+                className="flex transition-transform duration-300"
+                style={{ transform: `translateX(-${currentPlanIndex * 100}%)` }}
               >
-                {plan.highlight && (
-                  <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#ffffff', color: '#ff1493', padding: '5px 16px', borderRadius: '18px', fontSize: '11px', fontWeight: 900, fontFamily: 'Montserrat', boxShadow: '0 8px 20px rgba(255,20,147,0.26)', border: '1px solid rgba(255,20,147,0.35)' }}>
-                    MOST POPULAR
+                {pricingPlans.map((plan, idx) => (
+                  <div key={plan.name} style={{ minWidth: '100%', padding: '0 6px' }}>
+                    {renderPlanCard(plan, idx)}
                   </div>
-                )}
-                <h3 style={{ fontSize: '19px', fontWeight: 800, marginBottom: '8px', color: plan.highlight ? '#0b0712' : '#ffffff', fontFamily: 'Montserrat', letterSpacing: '-0.25px' }}>
-                  {plan.name}
-                </h3>
-                <p style={{ fontSize: '12px', marginBottom: '14px', color: plan.highlight ? 'rgba(11,7,18,0.85)' : 'rgba(255,255,255,0.7)', lineHeight: '18px' }}>
-                  {plan.description}
-                </p>
-                <div style={{ marginBottom: '18px', paddingBottom: '18px', borderBottom: `1px solid ${plan.highlight ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.15)'}` }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                    <span style={{ fontSize: '32px', fontWeight: 900, color: plan.highlight ? '#0b0712' : '#ff1493', fontFamily: 'Montserrat' }}>
-                      {plan.price}
-                    </span>
-                    <span style={{ fontSize: '12px', color: plan.highlight ? 'rgba(11,7,18,0.7)' : 'rgba(255,255,255,0.7)', fontWeight: 600 }}>
-                      {plan.period}
-                    </span>
-                  </div>
-                </div>
-                <div style={{ marginBottom: '18px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {plan.features.map((feature, fIdx) => (
-                    <div key={fIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12px', color: plan.highlight ? 'rgba(11,7,18,0.9)' : 'rgba(255,255,255,0.85)', lineHeight: '18px' }}>
-                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0, marginTop: '2px' }}>
-                        <path d="M17.172 5.172a1 1 0 00-1.414 0L8 12.929l-3.758-3.758a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0l10-10z" fill={plan.highlight ? '#0b0712' : '#ff1493'} />
-                      </svg>
-                      <span>{feature}</span>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                  <CTAButton
-                    text="Get Started"
-                    variant={plan.highlight ? "secondary" : "primary"}
-                    size="md"
-                    ripple
-                    magnetic
-                    onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
-                  />
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
+            <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2" style={{ pointerEvents: 'none' }}>
+              <button
+                onClick={() => goToPlan(currentPlanIndex - 1)}
+                aria-label="Previous plan"
+                className="bg-white/80 text-black rounded-full w-10 h-10 flex items-center justify-center shadow-md"
+                style={{ pointerEvents: 'auto' }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                </svg>
+              </button>
+              <button
+                onClick={() => goToPlan(currentPlanIndex + 1)}
+                aria-label="Next plan"
+                className="bg-white/80 text-black rounded-full w-10 h-10 flex items-center justify-center shadow-md"
+                style={{ pointerEvents: 'auto' }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div className="hidden md:grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '20px', justifyItems: 'center' }}>
+            {pricingPlans.map((plan, idx) => renderPlanCard(plan, idx))}
           </div>
         </div>
       </section>
