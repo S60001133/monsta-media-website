@@ -125,7 +125,7 @@ export default function CRM() {
       }}
     >
       {plan.highlight && (
-        <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#ffffff', color: '#ff1493', padding: '5px 16px', borderRadius: '18px', fontSize: '11px', fontWeight: 900, fontFamily: 'Montserrat', boxShadow: '0 8px 20px rgba(255,20,147,0.26)', border: '1px solid rgba(255,20,147,0.35)' }}>
+        <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#ffffff', color: '#ff1493', padding: '5px 16px', borderRadius: '18px', fontSize: '11px', fontWeight: 900, fontFamily: 'Montserrat', boxShadow: '0 8px 20px rgba(255,20,147,0.26)', border: '1px solid rgba(255,20,147,0.35)', zIndex: 10 }}>
           MOST POPULAR
         </div>
       )}
@@ -328,42 +328,42 @@ export default function CRM() {
               Choose the perfect plan for your business. Scale anytime, cancel anytime.
             </p>
           </div>
-          <div className="md:hidden relative" style={{ marginBottom: '24px' }}>
+          <div className="md:hidden relative w-full px-4" style={{ marginBottom: '24px' }}>
             <div
-              className="overflow-hidden"
+              className="overflow-hidden w-full"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
             >
               <div
-                className="flex transition-transform duration-300"
+                className="flex transition-transform duration-300 w-full"
                 style={{ transform: `translateX(-${currentPlanIndex * 100}%)` }}
               >
                 {pricingPlans.map((plan, idx) => (
-                  <div key={plan.name} style={{ minWidth: '100%', padding: '0 6px' }}>
+                  <div key={plan.name} style={{ minWidth: '100%', padding: '0 8px', boxSizing: 'border-box' }}>
                     {renderPlanCard(plan, idx)}
                   </div>
                 ))}
               </div>
             </div>
-            <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2" style={{ pointerEvents: 'none' }}>
+            <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4" style={{ pointerEvents: 'none' }}>
               <button
                 onClick={() => goToPlan(currentPlanIndex - 1)}
                 aria-label="Previous plan"
-                className="bg-white/80 text-black rounded-full w-10 h-10 flex items-center justify-center shadow-md"
-                style={{ pointerEvents: 'auto' }}
+                className="text-white w-8 h-8 flex items-center justify-center"
+                style={{ pointerEvents: 'auto', textShadow: '0 0 12px rgba(255,255,255,0.8)' }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                 </svg>
               </button>
               <button
                 onClick={() => goToPlan(currentPlanIndex + 1)}
                 aria-label="Next plan"
-                className="bg-white/80 text-black rounded-full w-10 h-10 flex items-center justify-center shadow-md"
-                style={{ pointerEvents: 'auto' }}
+                className="text-white w-8 h-8 flex items-center justify-center"
+                style={{ pointerEvents: 'auto', textShadow: '0 0 12px rgba(255,255,255,0.8)' }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                 </svg>
               </button>

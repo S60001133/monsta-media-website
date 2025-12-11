@@ -349,42 +349,42 @@ export default function Testimonials() {
         </div>
 
         {/* Mobile Slider */}
-        <div className="md:hidden relative z-20" style={{ marginBottom: spacingConfig.carousel.mb, marginTop: spacingConfig.carousel.mt }}>
+        <div className="md:hidden relative z-20 w-full px-6" style={{ marginBottom: spacingConfig.carousel.mb, marginTop: spacingConfig.carousel.mt }}>
           <div
-            className="overflow-hidden"
+            className="overflow-hidden w-full"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
             <div
-              className="flex transition-transform duration-300"
+              className="flex transition-transform duration-300 w-full"
               style={{ transform: `translateX(-${mobileIndex * 100}%)` }}
             >
               {testimonials.map((testimonial) => (
-                <div key={testimonial.name} style={{ minWidth: '100%', padding: '0 12px' }}>
+                <div key={testimonial.name} style={{ minWidth: '100%', padding: '0 8px', boxSizing: 'border-box' }}>
                   {renderTestimonialCard(testimonial)}
                 </div>
               ))}
             </div>
           </div>
-          <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2" style={{ pointerEvents: 'none' }}>
+          <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4" style={{ pointerEvents: 'none' }}>
             <button
               onClick={handleMobilePrev}
               aria-label="Previous testimonial"
-              className="bg-white/80 text-black rounded-full w-10 h-10 flex items-center justify-center"
-              style={{ pointerEvents: 'auto' }}
+              className="text-white w-8 h-8 flex items-center justify-center"
+              style={{ pointerEvents: 'auto', textShadow: '0 0 12px rgba(255,255,255,0.8)' }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
               </svg>
             </button>
             <button
               onClick={handleMobileNext}
               aria-label="Next testimonial"
-              className="bg-white/80 text-black rounded-full w-10 h-10 flex items-center justify-center"
-              style={{ pointerEvents: 'auto' }}
+              className="text-white w-8 h-8 flex items-center justify-center"
+              style={{ pointerEvents: 'auto', textShadow: '0 0 12px rgba(255,255,255,0.8)' }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
               </svg>
             </button>

@@ -1,6 +1,11 @@
 export default function Footer() {
   const year = new Date().getFullYear()
 
+  const handleNavigation = (path: string) => {
+    window.history.pushState({}, '', path)
+    window.dispatchEvent(new PopStateEvent('popstate'))
+  }
+
   return (
     <>
       <style>{`
@@ -77,13 +82,13 @@ export default function Footer() {
             <div className="md:col-span-1 flex flex-col items-center md:items-start">
               <h3 className="font-bold mb-4 text-black">Services</h3>
               <ul className="text-sm space-y-1 md:space-y-2">
-                <li><a href="/services#ai-and-automation" className="footer-link block cursor-pointer">AI & Automation</a></li>
-                <li><a href="/services#web-development" className="footer-link block cursor-pointer">Web Development</a></li>
-                <li><a href="/services#local-or-national-seo" className="footer-link block cursor-pointer">Local or National SEO</a></li>
-                <li><a href="/services#social-media-ads" className="footer-link block cursor-pointer">Social Media Ads</a></li>
-                <li><a href="/services#organic-social-media" className="footer-link block cursor-pointer">Organic Social Media</a></li>
-                <li><a href="/crm" className="footer-link block cursor-pointer">CRM Management</a></li>
-                <li><a href="/finance" className="footer-link block cursor-pointer">Get Finance</a></li>
+                <li><button onClick={() => handleNavigation('/services#ai-and-automation')} className="footer-link block cursor-pointer text-left">AI & Automation</button></li>
+                <li><button onClick={() => handleNavigation('/services#web-development')} className="footer-link block cursor-pointer text-left">Web Development</button></li>
+                <li><button onClick={() => handleNavigation('/services#local-or-national-seo')} className="footer-link block cursor-pointer text-left">Local or National SEO</button></li>
+                <li><button onClick={() => handleNavigation('/services#social-media-ads')} className="footer-link block cursor-pointer text-left">Social Media Ads</button></li>
+                <li><button onClick={() => handleNavigation('/services#organic-social-media')} className="footer-link block cursor-pointer text-left">Organic Social Media</button></li>
+                <li><button onClick={() => handleNavigation('/crm')} className="footer-link block cursor-pointer text-left">CRM Management</button></li>
+                <li><button onClick={() => handleNavigation('/finance')} className="footer-link block cursor-pointer text-left">Get Finance</button></li>
               </ul>
             </div>
 
