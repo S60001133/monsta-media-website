@@ -1,0 +1,259 @@
+.cta-button-wrapper {
+    position: relative;
+    display: inline-block;
+    perspective: 1000px;
+}
+
+/* Particles removed per request */
+
+/* Button styles */
+.cta-button {
+    position: relative;
+    padding: 0.55rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+    --mx: 50%;
+    --my: 50%;
+    --nx: 0;
+    --ny: 0;
+    perspective: 1000px;
+}
+
+.cta-button--primary {
+    background: linear-gradient(135deg, #ff1493, #ea048b);
+    color: #fff;
+    box-shadow: 0 10px 25px rgba(255, 20, 147, 0.35), 0 0 20px rgba(255, 20, 147, 0.45);
+}
+
+.cta-button--secondary {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 20, 147, 0.6);
+    color: #ffb3d9;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 6px 18px rgba(255, 20, 147, 0.25), 0 0 12px rgba(255, 20, 147, 0.35);
+}
+
+/* Hover state */
+.cta-button.hovered {
+    transform: translateY(-8px) scale(1.05) rotateX(calc(var(--ny) * -8deg)) rotateY(calc(var(--nx) * 8deg));
+    box-shadow: 0 20px 50px rgba(236, 0, 140, 0.6), 0 0 60px rgba(0, 217, 255, 0.4);
+}
+
+.cta-button--primary.hovered {
+    background: linear-gradient(135deg, #ff3ab5, #ff1493);
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+    .cta-button {
+        padding: 0.42rem 0.9rem;
+        font-size: 0.82rem;
+        animation-duration: 2.2s; /* gentler heartbeat */
+    }
+    .cta-button--xs { padding: 0.28rem 0.65rem; font-size: 0.75rem; }
+    .cta-button--sm { padding: 0.36rem 0.8rem; font-size: 0.8rem; }
+
+    /* Soften transforms on mobile */
+    .cta-button.hovered {
+        transform: translateY(-6px) scale(1.03) rotateX(calc(var(--ny) * -4deg)) rotateY(calc(var(--nx) * 4deg));
+    }
+    .cta-button.magnetic:hover {
+        transform: translateY(-5px) translateX(calc((var(--mx) - 50%) * 0.02)) scale(1.03) rotateX(calc(var(--ny) * -3deg)) rotateY(calc(var(--nx) * 3deg));
+    }
+    .button-trail { filter: blur(8px); width: 44px; height: 44px; }
+}
+
+/* Button text */
+.button-text {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.cta-button.hovered .button-text {
+    transform: scale(1.1);
+}
+
+/* Glow effect */
+.button-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, 0.35) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.cta-button.hovered .button-glow {
+    opacity: 1;
+    animation: pulseGlow 1s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+/* Active/Click state */
+.cta-button:active {
+    transform: translateY(-4px) scale(1.02);
+}
+
+/* Magnetic hover subtle translation based on cursor position */
+.cta-button.magnetic:hover {
+    transform: translateY(-6px) translateX(calc((var(--mx) - 50%) * 0.04)) scale(1.04);
+}
+
+/* Animated neon edge traveling around the button */
+.cta-button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: conic-gradient(from 0deg, rgba(255,20,147,0.0) 0deg, rgba(255,20,147,0.8) 90deg, rgba(255,20,147,0.0) 180deg, rgba(255,20,147,0.8) 270deg, rgba(255,20,147,0.0) 360deg);
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0.0;
+    transition: opacity 0.3s ease;
+}
+
+.cta-button.hovered::before {
+    opacity: 0.9;
+    animation: edgeSpin 2.2s linear infinite;
+}
+
+@keyframes edgeSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Reflective sheen sweep */
+.button-sheen {
+    position: absolute;
+    top: 0; left: -40%;
+    width: 40%; height: 100%;
+    transform: skewX(-20deg);
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0) 100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cta-button.hovered .button-sheen {
+    opacity: 1;
+    animation: sheenSweep 1.3s ease-in-out forwards;
+}
+
+@keyframes sheenSweep {
+    0% { left: -40%; }
+    100% { left: 110%; }
+}
+
+/* Trailing streak following cursor */
+.button-trail {
+    position: absolute;
+    width: 60px; height: 60px;
+    left: var(--mx); top: var(--my);
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(255,20,147,0.35) 0%, rgba(255,20,147,0.0) 70%);
+    filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.cta-button.hovered .button-trail {
+    opacity: 1;
+    transition: left 0.08s linear, top 0.08s linear, opacity 0.2s ease;
+}
+
+/* Stronger tilt on magnetic */
+.cta-button.magnetic:hover {
+    transform: translateY(-6px) translateX(calc((var(--mx) - 50%) * 0.04)) scale(1.05) rotateX(calc(var(--ny) * -6deg)) rotateY(calc(var(--nx) * 6deg));
+}
+
+/* Ripple effect */
+.ripple {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 9999px;
+    transform: translate(-50%, -50%);
+    animation: rippleExpand 0.6s ease-out forwards;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+@keyframes rippleExpand {
+    0% {
+        opacity: 0.9;
+        box-shadow: 0 0 0 0 rgba(234, 4, 139, 0.6), 0 0 0 0 rgba(0, 217, 255, 0.5);
+    }
+    60% {
+        opacity: 0.6;
+        box-shadow: 0 0 0 20px rgba(234, 4, 139, 0.25), 0 0 0 30px rgba(0, 217, 255, 0.2);
+    }
+    100% {
+        opacity: 0;
+        box-shadow: 0 0 0 50px rgba(234, 4, 139, 0.0), 0 0 0 70px rgba(0, 217, 255, 0.0);
+    }
+}
+
+/* Accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .particle,
+    .cta-button,
+    .cta-button.hovered,
+    .button-glow,
+    .ripple {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Size variants */
+.cta-button--sm {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.85rem;
+    border-radius: 9999px;
+}
+
+.cta-button--md {
+    /* defaults already set above */
+}
+
+.cta-button--xs {
+    padding: 0.32rem 0.75rem;
+    font-size: 0.8rem;
+    border-radius: 9999px;
+}
+
+.cta-button--lg {
+    padding: 1.1rem 2.2rem;
+    font-size: 1.1rem;
+}
