@@ -49,33 +49,43 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght=900&display=swap" as="style">
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght=900&display=swap"
-    rel="stylesheet">
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'">
 
-  <!-- Meta Pixel Code -->
+  <!-- Meta Pixel Code (Deferred) -->
   <script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '362575786593909');
-  fbq('track', 'PageView');
+  window.addEventListener('load', function() {
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '362575786593909');
+    fbq('track', 'PageView');
+  });
   </script>
   <!-- End Meta Pixel Code -->
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2W8ZSZYS6"></script>
+  <!-- Google tag (gtag.js) - Deferred -->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-H2W8ZSZYS6');
+    window.addEventListener('load', function() {
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-H2W8ZSZYS6';
+      document.head.appendChild(script);
+      
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H2W8ZSZYS6');
+    });
   </script>
 
   <!-- Facebook Domain Verification -->
@@ -186,20 +196,25 @@
     #vapi-title,#vapi-subtitle{line-height:1.2!important;margin:0!important}
     @media (max-width:768px){button[id*="vapi-support-btn"],.vapi-btn{bottom:80px!important;left:50%!important;transform:translateX(-50%)!important;max-width:calc(100vw - 32px)!important}#vapi-title{font-size:13px!important}#vapi-subtitle{font-size:11px!important}}
   </style>
-  <script type="module" crossorigin src="/assets/index-vHTbXIio.js"></script>
+  <script type="module" crossorigin src="/assets/index-CmRxDL9j.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/react-vendor-D7amQhf0.js">
   <link rel="modulepreload" crossorigin href="/assets/motion-vendor-Du2wDsyT.js">
-  <link rel="stylesheet" crossorigin href="/assets/index-CzEmLzuv.css">
+  <link rel="stylesheet" crossorigin href="/assets/index-BcGwsxV2.css">
 </head>
 
 <body style="background-color: #030305; margin: 0;">
   <div id="root"></div>
   <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=362575786593909&ev=PageView&noscript=1" /></noscript>
-    <script
-      src="https://beta.leadconnectorhq.com/loader.js"
-      data-resources-url="https://beta.leadconnectorhq.com/chat-widget/loader.js"
-      data-widget-id="6683aa35dd58562a86bbef3d">
-    </script>
+  <!-- LeadConnector Widget (Deferred) -->
+  <script>
+    window.addEventListener('load', function() {
+      var script = document.createElement('script');
+      script.src = 'https://beta.leadconnectorhq.com/loader.js';
+      script.setAttribute('data-resources-url', 'https://beta.leadconnectorhq.com/chat-widget/loader.js');
+      script.setAttribute('data-widget-id', '6683aa35dd58562a86bbef3d');
+      document.body.appendChild(script);
+    });
+  </script>
 </body>
 
 </html>
