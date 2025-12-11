@@ -227,7 +227,7 @@ export default function Home() {
         <div 
           className="absolute inset-0 w-full h-full z-0"
           style={{ 
-            backgroundImage: 'url(/images/hero-bg.jpg)',
+            backgroundImage: 'url(/images/hero-bg.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             filter: 'blur(1px)',
