@@ -4,6 +4,18 @@ export default function Footer() {
   const handleNavigation = (path: string) => {
     window.history.pushState({}, '', path)
     window.dispatchEvent(new PopStateEvent('popstate'))
+    
+    // Handle hash anchors for smooth scrolling
+    const hashIndex = path.indexOf('#')
+    if (hashIndex !== -1) {
+      const anchorId = path.substring(hashIndex + 1)
+      setTimeout(() => {
+        const element = document.getElementById(anchorId)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 0)
+    }
   }
 
   return (
