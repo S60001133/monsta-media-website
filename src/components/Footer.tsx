@@ -14,7 +14,10 @@ export default function Footer() {
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'start' })
         }
-      }, 0)
+      }, 100)
+    } else {
+      // Scroll to top for non-hash navigation
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 
