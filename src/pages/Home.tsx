@@ -37,7 +37,7 @@ export default function Home() {
       </div>
 
       {/* Navigation Hint */}
-      <div className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 md:px-8 py-4 md:py-6 transition-colors duration-300 ${navBackground ? 'bg-black' : 'bg-transparent'}`}>
+      <div className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 md:px-8 py-4 md:py-6 transition-colors duration-300 ${navBackground ? 'bg-black shadow-lg' : 'bg-transparent'}`}>
         <div className="flex items-center gap-3">
           <img src="/images/logo.svg" alt="Brand Logo" className="h-6 md:h-8 w-auto" loading="eager" />
         </div>
@@ -184,7 +184,7 @@ export default function Home() {
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
           <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-          <nav className="relative flex flex-col items-center justify-center h-full gap-8">
+          <nav className="relative z-50 flex flex-col items-center justify-center h-full gap-8">
             <button
               onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }}
               className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"

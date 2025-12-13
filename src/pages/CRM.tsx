@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import CTAButton from '../components/CTAButton'
 
 export default function CRM() {
-  
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -111,7 +111,7 @@ export default function CRM() {
   }
 
   const renderPlanCard = (plan: typeof pricingPlans[number], idx: number) => (
-    <div 
+    <div
       key={idx}
       style={{
         padding: '22px 18px',
@@ -168,8 +168,6 @@ export default function CRM() {
     </div>
   )
 
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
   return (
     <div className="min-h-screen bg-white text-black">
       {/* Navigation */}
@@ -177,13 +175,13 @@ export default function CRM() {
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <button 
+            <button
               onClick={() => handleNavigation('/')}
               className="flex items-center gap-3 hover:opacity-80 transition-opacity"
             >
-              <img 
-                src="/images/logo.svg" 
-                alt="Monsta Media" 
+              <img
+                src="/images/logo.svg"
+                alt="Monsta Media"
                 className="h-10 w-auto"
                 loading="lazy"
               />
@@ -208,9 +206,9 @@ export default function CRM() {
                   }}
                 >
                   {link.name}
-                  <span 
+                  <span
                     className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-                    style={{ 
+                    style={{
                       backgroundColor: '#ff1493',
                       boxShadow: '0 0 8px #ff1493'
                     }}
@@ -237,8 +235,8 @@ export default function CRM() {
               <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`} />
               <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
-          </div>
-          {/* Mobile Menu Overlay (mimics Home) */}
+          </div>          
+          {/* Mobile Menu Overlay */}
           {mobileMenuOpen && (
             <div className="fixed inset-0 z-40 md:hidden">
               <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />

@@ -24,13 +24,13 @@ export default function Finance() {
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <button 
+            <button
               onClick={() => handleNavigation('/')}
               className="flex items-center gap-3 hover:opacity-80 transition-opacity"
             >
-              <img 
-                src="/images/logo.svg" 
-                alt="Monsta Media" 
+              <img
+                src="/images/logo.svg"
+                alt="Monsta Media"
                 className="h-10 w-auto"
                 loading="lazy"
               />
@@ -55,9 +55,9 @@ export default function Finance() {
                   }}
                 >
                   {link.name}
-                  <span 
+                  <span
                     className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-                    style={{ 
+                    style={{
                       backgroundColor: '#ff1493',
                       boxShadow: '0 0 8px #ff1493'
                     }}
@@ -85,7 +85,7 @@ export default function Finance() {
               <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
           </div>
-          {/* Mobile Menu Overlay (mimics Home) */}
+          {/* Mobile Menu Overlay */}
           {mobileMenuOpen && (
             <div className="fixed inset-0 z-40 md:hidden">
               <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
@@ -241,22 +241,22 @@ export default function Finance() {
               Simple, straightforward criteria to help you access the marketing funding you need
             </p>
           </div>
-          
+
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px', marginBottom: '48px' }}>
             {[
-              { 
-                title: 'Minimum Finance Amount', 
-                requirement: '$5,000', 
+              {
+                title: 'Minimum Finance Amount',
+                requirement: '$5,000',
                 desc: 'Our finance solutions start at $5,000 to ensure meaningful investment in your marketing growth'
               },
-              { 
-                title: 'Business History', 
-                requirement: '1+ Year', 
+              {
+                title: 'Business History',
+                requirement: '1+ Year',
                 desc: 'Your business must have been operating for at least one year to demonstrate stability and commitment'
               },
-              { 
-                title: 'Employment History', 
-                requirement: '2+ Years', 
+              {
+                title: 'Employment History',
+                requirement: '2+ Years',
                 desc: 'If self-employed or sole trader, we require at least two years of continuous employment history'
               }
             ].map((req, idx) => (
@@ -308,7 +308,7 @@ export default function Finance() {
                 </div>
               ))}
             </div>
-          </div>    
+          </div>
         </div>
       </section>
 

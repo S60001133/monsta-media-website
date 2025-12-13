@@ -167,7 +167,7 @@ export default function Services() {
               <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
           </div>
-          {/* Mobile Menu Overlay (mimics Home) */}
+          {/* Mobile Menu Overlay */}
           {mobileMenuOpen && (
             <div className="fixed inset-0 z-40 md:hidden">
               <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
@@ -254,64 +254,64 @@ export default function Services() {
                 id={sectionId}
                 key={service.title}
                 className="rounded-2xl border hover:border-[#ff1493]/50 transition-all duration-300 flex-col md:flex-row"
-              style={{
-                backgroundColor: isBlackCard ? '#000000' : '#ffffff',
-                borderColor: isBlackCard ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-                boxShadow: '0 10px 30px rgba(0,0,0,0.06)',
-                padding: '24px',
-                display: 'flex',
-                flexDirection: window.innerWidth < 768 ? 'column' : (index % 2 === 0 ? 'row' : 'row-reverse'),
-                alignItems: 'center',
-                gap: '24px',
-              }}
-            >
-              {/* Content Side */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <div>
-                  <p style={{ color: '#ff1493', fontWeight: 700, fontSize: '13px', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
-                    {service.subtitle}
-                  </p>
-                  <h3 style={{ fontSize: '26px', letterSpacing: '-0.03em', fontWeight: 800, color: isBlackCard ? '#ffffff' : '#023e8aff', fontFamily: 'Montserrat', marginBottom: '12px' }}>
-                    {service.title}
-                  </h3>
-                  <p style={{ fontSize: '16px', lineHeight: '26px', color: isBlackCard ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.65)', marginBottom: '16px' }}>
-                    {service.body}
-                  </p>
-                </div>
-                <div style={{ marginTop: '8px' }}>
-                  {service.bullets.map((item) => (
-                    <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '10px' }}>
-                      <span style={{ color: '#ff1493', fontWeight: 800 }}>•</span>
-                      <p style={{ fontSize: '14px', lineHeight: '22px', color: isBlackCard ? 'rgba(255,255,255,0.75)' : '#1f1f1f' }}>{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Image Side */}
-              <div
-                className="w-full md:w-auto"
                 style={{
-                  flex: '0 0 auto',
-                  maxWidth: '320px',
-                  width: '100%',
-                  height: '280px',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
+                  backgroundColor: isBlackCard ? '#000000' : '#ffffff',
+                  borderColor: isBlackCard ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.06)',
+                  padding: '24px',
+                  display: 'flex',
+                  flexDirection: window.innerWidth < 768 ? 'column' : (index % 2 === 0 ? 'row' : 'row-reverse'),
+                  alignItems: 'center',
+                  gap: '24px',
                 }}
               >
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  loading="lazy"
+                {/* Content Side */}
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  <div>
+                    <p style={{ color: '#ff1493', fontWeight: 700, fontSize: '13px', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
+                      {service.subtitle}
+                    </p>
+                    <h3 style={{ fontSize: '26px', letterSpacing: '-0.03em', fontWeight: 800, color: isBlackCard ? '#ffffff' : '#023e8aff', fontFamily: 'Montserrat', marginBottom: '12px' }}>
+                      {service.title}
+                    </h3>
+                    <p style={{ fontSize: '16px', lineHeight: '26px', color: isBlackCard ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.65)', marginBottom: '16px' }}>
+                      {service.body}
+                    </p>
+                  </div>
+                  <div style={{ marginTop: '8px' }}>
+                    {service.bullets.map((item) => (
+                      <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '10px' }}>
+                        <span style={{ color: '#ff1493', fontWeight: 800 }}>•</span>
+                        <p style={{ fontSize: '14px', lineHeight: '22px', color: isBlackCard ? 'rgba(255,255,255,0.75)' : '#1f1f1f' }}>{item}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Image Side */}
+                <div
+                  className="w-full md:w-auto"
                   style={{
+                    flex: '0 0 auto',
+                    maxWidth: '320px',
                     width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
+                    height: '280px',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
                   }}
-                />
+                >
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    loading="lazy"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                </div>
               </div>
-            </div>
             )
           })}
         </div>

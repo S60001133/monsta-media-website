@@ -41,13 +41,13 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <button 
+            <button
               onClick={() => handleNavigation('/')}
               className="flex items-center gap-3 hover:opacity-80 transition-opacity"
             >
-              <img 
-                src="/images/logo.svg" 
-                alt="Monsta Media" 
+              <img
+                src="/images/logo.svg"
+                alt="Monsta Media"
                 className="h-10 w-auto"
                 loading="eager"
               />
@@ -72,9 +72,9 @@ export default function About() {
                   }}
                 >
                   {link.name}
-                  <span 
+                  <span
                     className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-                    style={{ 
+                    style={{
                       backgroundColor: '#ff1493',
                       boxShadow: '0 0 8px #ff1493'
                     }}
@@ -102,8 +102,7 @@ export default function About() {
               <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
           </div>
-
-          {/* Mobile Menu Overlay (mimics Home) */}
+          {/* Mobile Menu Overlay */}
           {mobileMenuOpen && (
             <div className="fixed inset-0 z-40 md:hidden">
               <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
@@ -167,7 +166,7 @@ export default function About() {
           <h2 style={{ fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '48px', fontWeight: 900, fontFamily: 'Montserrat', color: '#023e8a', textAlign: 'center' }}>
             Why Choose Monsta Media?
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div style={{ padding: '40px', backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', textAlign: 'center' }}>
               <div style={{ fontSize: '48px', marginBottom: '20px' }}>🏢</div>
@@ -210,7 +209,7 @@ export default function About() {
             <span style={{ color: '#ff1493' }}>MONSTA</span>
             <span style={{ color: '#023e8a' }}> Stand For?</span>
           </h2>
-          
+
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
@@ -219,7 +218,7 @@ export default function About() {
             alignItems: 'center',
           }}>
             {flipCubes.map((cube, idx) => (
-              <div 
+              <div
                 key={idx}
                 className="flip-cube"
                 style={{
@@ -230,7 +229,7 @@ export default function About() {
                   margin: '0 auto',
                 }}
               >
-                <div 
+                <div
                   className="cube-container"
                   style={{
                     width: '100%',
@@ -240,7 +239,7 @@ export default function About() {
                     transition: 'transform 0.6s cubic-bezier(.5,-0.5,.5,1.5)',
                   }}
                 >
-                  <div 
+                  <div
                     className="cube-front"
                     style={{
                       position: 'absolute',
@@ -252,8 +251,8 @@ export default function About() {
                       transform: 'rotateX(0deg) translateZ(125px)',
                     }}
                   >
-                    <img 
-                      src={cube.front} 
+                    <img
+                      src={cube.front}
                       alt={`${cube.alt} Front`}
                       style={{
                         width: '100%',
@@ -263,7 +262,7 @@ export default function About() {
                       }}
                     />
                   </div>
-                  <div 
+                  <div
                     className="cube-back"
                     style={{
                       position: 'absolute',
@@ -275,8 +274,8 @@ export default function About() {
                       transform: 'rotateX(180deg) translateZ(125px)',
                     }}
                   >
-                    <img 
-                      src={cube.back} 
+                    <img
+                      src={cube.back}
                       alt={`${cube.alt} Back`}
                       style={{
                         width: '100%',
@@ -299,24 +298,24 @@ export default function About() {
           <h2 style={{ fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '32px', fontWeight: 900, fontFamily: 'Montserrat', color: '#023e8a', textAlign: 'center' }}>
             Our Story
           </h2>
-          
+
           <div style={{ fontSize: '16px', lineHeight: '28px', color: 'rgba(0,0,0,0.7)', marginBottom: '24px', textAlign: 'center' }}>
             <p style={{ marginBottom: '20px' }}>
               Based in <strong style={{ color: '#ff1493' }}>Parramatta, Sydney</strong>, Monsta Media Parramatta is a proudly <strong style={{ color: '#ff1493' }}>Australian-owned and operated</strong> digital marketing agency helping local and national businesses achieve extraordinary growth and revenue acceleration.
             </p>
-            
+
             <p style={{ marginBottom: '20px' }}>
               With over a decade of experience perfecting our craft, we've mastered the art of digital marketing. From website development and social media management to Google Ads, Facebook & Instagram Ads, and SEO campaigns—we deliver results that speak for themselves. Our deep understanding of the Australian market gives us a unique advantage in creating campaigns that resonate with local audiences.
             </p>
-            
+
             <p style={{ marginBottom: '20px' }}>
               What sets us apart is our commitment to being <strong style={{ color: '#ff1493' }}>brand-owned and brand-operated</strong>. We don't outsource. We don't cut corners. Every service is performed by our dedicated in-house team right here in Parramatta, ensuring your data remains secure and your campaigns receive the attention they deserve.
             </p>
-            
+
             <p style={{ marginBottom: '20px' }}>
               We're at the <strong style={{ color: '#ff1493' }}>cutting edge of marketing technology</strong>, leveraging AI automation and advanced tools to streamline processes, optimize campaigns, and deliver superior results. Our investment in the latest technology means you get more efficiency, better targeting, and higher ROI.
             </p>
-            
+
             <p>
               Our expertise extends beyond digital marketing—we've mastered the <strong style={{ color: '#ff1493' }}>Art of Closing</strong>. The biggest gap in lead generation isn't getting leads; it's closing them. Our award-winning sales methodology ensures that the leads we deliver don't just arrive—they convert into paying customers.
             </p>
@@ -330,14 +329,14 @@ export default function About() {
           <h2 style={{ fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '32px', fontWeight: 900, fontFamily: 'Montserrat', color: '#023e8a', textAlign: 'center' }}>
             Our Expertise
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div 
+            <div
               className="group"
-              style={{ 
-                padding: '32px', 
-                backgroundColor: '#f9f9f9', 
-                borderRadius: '12px', 
+              style={{
+                padding: '32px',
+                backgroundColor: '#f9f9f9',
+                borderRadius: '12px',
                 borderLeft: '4px solid #ff1493',
                 transition: 'all 0.3s ease',
                 cursor: 'pointer'
@@ -361,12 +360,12 @@ export default function About() {
               </p>
             </div>
 
-            <div 
+            <div
               className="group"
-              style={{ 
-                padding: '32px', 
-                backgroundColor: '#f9f9f9', 
-                borderRadius: '12px', 
+              style={{
+                padding: '32px',
+                backgroundColor: '#f9f9f9',
+                borderRadius: '12px',
                 borderLeft: '4px solid #ff1493',
                 transition: 'all 0.3s ease',
                 cursor: 'pointer'
@@ -390,12 +389,12 @@ export default function About() {
               </p>
             </div>
 
-            <div 
+            <div
               className="group"
-              style={{ 
-                padding: '32px', 
-                backgroundColor: '#f9f9f9', 
-                borderRadius: '12px', 
+              style={{
+                padding: '32px',
+                backgroundColor: '#f9f9f9',
+                borderRadius: '12px',
                 borderLeft: '4px solid #ff1493',
                 transition: 'all 0.3s ease',
                 cursor: 'pointer'
@@ -419,12 +418,12 @@ export default function About() {
               </p>
             </div>
 
-            <div 
+            <div
               className="group"
-              style={{ 
-                padding: '32px', 
-                backgroundColor: '#f9f9f9', 
-                borderRadius: '12px', 
+              style={{
+                padding: '32px',
+                backgroundColor: '#f9f9f9',
+                borderRadius: '12px',
                 borderLeft: '4px solid #ff1493',
                 transition: 'all 0.3s ease',
                 cursor: 'pointer'
@@ -448,12 +447,12 @@ export default function About() {
               </p>
             </div>
 
-            <div 
+            <div
               className="group"
-              style={{ 
-                padding: '32px', 
-                backgroundColor: '#f9f9f9', 
-                borderRadius: '12px', 
+              style={{
+                padding: '32px',
+                backgroundColor: '#f9f9f9',
+                borderRadius: '12px',
                 borderLeft: '4px solid #ff1493',
                 transition: 'all 0.3s ease',
                 cursor: 'pointer'
@@ -477,12 +476,12 @@ export default function About() {
               </p>
             </div>
 
-            <div 
+            <div
               className="group"
-              style={{ 
-                padding: '32px', 
-                backgroundColor: '#f9f9f9', 
-                borderRadius: '12px', 
+              style={{
+                padding: '32px',
+                backgroundColor: '#f9f9f9',
+                borderRadius: '12px',
                 borderLeft: '4px solid #ff1493',
                 transition: 'all 0.3s ease',
                 cursor: 'pointer'
