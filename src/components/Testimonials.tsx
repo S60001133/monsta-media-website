@@ -397,6 +397,8 @@ export default function Testimonials() {
           style={{ 
             marginBottom: spacingConfig.carousel.mb,
             marginTop: spacingConfig.carousel.mt,
+            justifyContent: 'center',
+            width: '100%',
           }}
         >
           {/* Left Navigation Arrow */}
@@ -605,6 +607,34 @@ export default function Testimonials() {
               </div>
             </div>
           </div>
+
+          {/* Right Navigation Arrow */}
+          <button
+            onClick={handleNext}
+            className="absolute top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer z-30 transition-all duration-300"
+            style={{
+              right: '-80px',
+              width: spacingConfig.arrows.width,
+              height: spacingConfig.arrows.height,
+              border: '2px solid white',
+              borderRadius: '8px',
+              backgroundColor: 'transparent',
+              color: 'white',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.border = '2px solid #ff1493';
+              e.currentTarget.style.backgroundColor = '#ff1493';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.border = '2px solid white';
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }}
+            aria-label="Next testimonials"
+          >
+            <svg className="fill-current" style={{ width: spacingConfig.arrows.iconSize, height: spacingConfig.arrows.iconSize }} viewBox="0 0 24 24">
+              <path d="M9 4l8 8-8 8" fill="currentColor" />
+            </svg>
+          </button>
         </div>
 
         {/* Desktop Carousel Close */}

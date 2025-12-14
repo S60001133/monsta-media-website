@@ -70,7 +70,7 @@ export default function CRM() {
     }
   ]
 
-  const [currentPlanIndex, setCurrentPlanIndex] = useState(0)
+  const [currentPlanIndex, setCurrentPlanIndex] = useState(1) // Start with Professional (Most Popular)
   const touchStartX = useRef<number | null>(null)
   const touchEndX = useRef<number | null>(null)
 
@@ -389,8 +389,20 @@ export default function CRM() {
             </div>
           </div>
 
-          <div className="hidden md:grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '20px', justifyItems: 'center' }}>
-            {pricingPlans.map((plan, idx) => renderPlanCard(plan, idx))}
+          <div className="hidden md:flex" style={{ display: 'flex', gap: '20px', marginBottom: '20px', justifyContent: 'center', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+            {pricingPlans.map((plan, idx) => (
+              <div 
+                key={plan.name} 
+                style={{ 
+                  flex: plan.highlight ? '0 1 450px' : '0 1 280px',
+                  transform: plan.highlight ? 'scale(1.08)' : 'scale(1)',
+                  marginTop: plan.highlight ? '0' : '30px',
+                  zIndex: plan.highlight ? 10 : 1
+                }}
+              >
+                {renderPlanCard(plan, idx)}
+              </div>
+            ))}
           </div>
         </div>
       </section>
