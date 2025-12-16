@@ -2,8 +2,7 @@
     position: relative;
     display: inline-block;
     perspective: 1000px;
-}
-
+} /* <-- Added missing closing brace */
 /* Particles removed per request */
 
 /* Button styles */
@@ -20,6 +19,8 @@
     overflow: hidden;
     transform-style: preserve-3d;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+    background: #111;
+    color: #fff;
     --mx: 50%;
     --my: 50%;
     --nx: 0;
@@ -50,6 +51,7 @@
 
 .cta-button--primary.hovered {
     background: linear-gradient(135deg, #ff3ab5, #ff1493);
+    color: #fff;
 }
 
 /* Mobile optimizations */
@@ -243,9 +245,7 @@
     border-radius: 9999px;
 }
 
-.cta-button--md {
-    /* defaults already set above */
-}
+
 
 .cta-button--xs {
     padding: 0.32rem 0.75rem;

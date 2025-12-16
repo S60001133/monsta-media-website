@@ -1,8 +1,10 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
+
 
 export default function CRM() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [navBackground, setNavBackground] = useState(false)
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -10,6 +12,15 @@ export default function CRM() {
     { name: 'Finance', path: '/finance' },
     { name: 'About Us', path: '/about' },
   ]
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setNavBackground(window.scrollY > 10 || window.innerWidth < 768)
+    }
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const handleNavigation = (path: string) => {
     window.history.pushState({}, '', path)
@@ -110,68 +121,91 @@ export default function CRM() {
     touchEndX.current = null
   }
 
-  const renderPlanCard = (plan: typeof pricingPlans[number], idx: number) => (
-    <div
-      key={idx}
-      style={{
-        padding: '22px 18px',
-        background: plan.highlight ? 'linear-gradient(135deg, #ff1493 0%, #ff1a8a 100%)' : 'rgba(255,255,255,0.08)',
-        borderRadius: '12px',
-        border: plan.highlight ? '2px solid #ff1493' : '1px solid rgba(255,255,255,0.15)',
-        backdropFilter: 'blur(10px)',
-        position: 'relative',
-        boxShadow: plan.highlight ? '0 10px 28px rgba(255,20,147,0.2)' : '0 4px 12px rgba(0,0,0,0.14)',
-        width: '100%'
-      }}
-    >
-      {plan.highlight && (
-        <div style={{ position: 'absolute', top: '-14px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#ffffff', color: '#ff1493', padding: '5px 16px', borderRadius: '18px', fontSize: '11px', fontWeight: 900, fontFamily: 'Montserrat', boxShadow: '0 8px 20px rgba(255,20,147,0.26)', border: '1px solid rgba(255,20,147,0.35)', zIndex: 10 }}>
-          MOST POPULAR
-        </div>
-      )}
-      <h3 style={{ fontSize: '19px', fontWeight: 800, marginBottom: '8px', color: plan.highlight ? '#0b0712' : '#ffffff', fontFamily: 'Montserrat', letterSpacing: '-0.25px' }}>
-        {plan.name}
-      </h3>
-      <p style={{ fontSize: '12px', marginBottom: '14px', color: plan.highlight ? 'rgba(11,7,18,0.85)' : 'rgba(255,255,255,0.7)', lineHeight: '18px' }}>
-        {plan.description}
-      </p>
-      <div style={{ marginBottom: '18px', paddingBottom: '18px', borderBottom: `1px solid ${plan.highlight ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.15)'}` }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-          <span style={{ fontSize: '32px', fontWeight: 900, color: plan.highlight ? '#0b0712' : '#ff1493', fontFamily: 'Montserrat' }}>
-            {plan.price}
-          </span>
-          <span style={{ fontSize: '12px', color: plan.highlight ? 'rgba(11,7,18,0.7)' : 'rgba(255,255,255,0.7)', fontWeight: 600 }}>
-            {plan.period}
-          </span>
-        </div>
-      </div>
-      <div style={{ marginBottom: '18px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        {plan.features.map((feature, fIdx) => (
-          <div key={fIdx} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', fontSize: '12px', color: plan.highlight ? 'rgba(11,7,18,0.9)' : 'rgba(255,255,255,0.85)', lineHeight: '18px' }}>
-            <svg width="14" height="14" viewBox="0 0 20 20" fill="none" style={{ flexShrink: 0, marginTop: '2px' }}>
-              <path d="M17.172 5.172a1 1 0 00-1.414 0L8 12.929l-3.758-3.758a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0l10-10z" fill={plan.highlight ? '#0b0712' : '#ff1493'} />
-            </svg>
-            <span>{feature}</span>
+  const renderPlanCard = (plan: typeof pricingPlans[number], idx: number) => {
+    // White text for all cards, but keep accent for highlight
+    const accentColor = plan.highlight ? '#fff' : '#ff1493';
+    const priceColor = plan.highlight ? '#fff' : '#fff';
+    const periodColor = plan.highlight ? '#fff' : '#ffb6d5';
+    const descColor = plan.highlight ? '#fff' : '#fff';
+    const featureColor = plan.highlight ? '#fff' : '#fff';
+    return (
+      <div
+        key={idx}
+        style={{
+          padding: plan.highlight ? '10px 8px' : '6px 4px',
+          background: plan.highlight ? 'linear-gradient(135deg, #ff1493 0%, #ff1a8a 100%)' : 'rgba(255,255,255,0.08)',
+          borderRadius: '10px',
+          border: '1px solid rgba(255,255,255,0.15)',
+          backdropFilter: 'blur(8px)',
+          position: 'relative',
+          boxShadow: plan.highlight ? '0 6px 16px rgba(255,20,147,0.18)' : '0 2px 6px rgba(0,0,0,0.10)',
+          width: '100%',
+          minHeight: plan.highlight ? '380px' : '260px',
+          height: '100%',
+          maxWidth: plan.highlight ? '300px' : '220px',
+          marginLeft: plan.highlight ? '-3px' : '0',
+          marginRight: plan.highlight ? '-3px' : '0',
+          marginTop: '4px',
+          zIndex: plan.highlight ? 2 : 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        }}
+      >
+        {plan.highlight && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '-14px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              background: '#fff',
+              color: '#ff1493',
+              fontWeight: 800,
+              fontSize: '10px',
+              padding: '2px 10px',
+              borderRadius: '9999px',
+              boxShadow: '0 1px 6px rgba(255,20,147,0.08)',
+              letterSpacing: '0.04em',
+              zIndex: 10,
+              border: 'none',
+              textTransform: 'uppercase',
+            }}
+            className="most-popular-badge"
+          >
+            Most Popular
           </div>
-        ))}
+        )}
+              {/* Remove mobile override for Most Popular badge top position */}
+        <div>
+          <h3 style={{ fontSize: '15px', fontWeight: 700, marginBottom: '7px', color: accentColor, fontFamily: 'Montserrat' }}>{plan.name}</h3>
+          {plan.price && <div style={{ fontSize: '20px', fontWeight: 800, color: priceColor, marginBottom: 4 }}>{plan.price}<span style={{ fontSize: '11px', fontWeight: 400, color: periodColor }}>{plan.period}</span></div>}
+          <div style={{ color: descColor, fontSize: '11px', marginBottom: 8 }}>{plan.description}</div>
+          <ul style={{ color: featureColor, fontSize: '11px', marginBottom: 8, paddingLeft: 14 }}>
+            {plan.features.map((feature, i) => (
+              <li key={i} style={{ marginBottom: 3, listStyle: 'disc' }}>{feature}</li>
+            ))}
+          </ul>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
+          <CTAButton
+            text="Start Now"
+            variant={plan.highlight ? "primary" : "secondary"}
+            size="sm"
+            ripple
+            magnetic
+            onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
+          />
+        </div>
       </div>
-      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-        <CTAButton
-          text="Get Started"
-          variant={plan.highlight ? "secondary" : "primary"}
-          size="md"
-          ripple
-          magnetic
-          onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
-        />
-      </div>
-    </div>
-  )
+    );
+  }
 
+  // ...existing code...
   return (
-    <div className="min-h-screen bg-white text-black">
+    <>
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 md:bg-white/80 md:backdrop-blur-xl md:border-b md:border-black/10" style={{ contentVisibility: 'auto', containIntrinsicSize: '80px 80px' }}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${navBackground ? 'bg-black' : 'bg-transparent'} md:bg-white/80 md:backdrop-blur-xl md:border-b md:border-black/10`} style={{ contentVisibility: 'auto', containIntrinsicSize: '80px 80px' }}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
@@ -191,18 +225,12 @@ export default function CRM() {
             <div className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
                 <button
-                  key={link.path}
                   onClick={() => handleNavigation(link.path)}
-                  className="text-black/80 font-medium relative group transition-colors"
+                  className="text-black font-medium relative group transition-colors"
                   style={{
+                    color: '#000',
                     textShadow: 'none',
                     transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = '#ff1493';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = 'rgba(0,0,0,0.8)';
                   }}
                 >
                   {link.name}
@@ -235,49 +263,55 @@ export default function CRM() {
               <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`} />
               <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
-          </div>          
-          {/* Mobile Menu Overlay */}
-          {mobileMenuOpen && (
-            <div className="fixed inset-0 z-40 md:hidden">
-              <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-              <nav className="relative flex flex-col items-center justify-center h-full gap-8">
-                <button
-                  onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  Services
-                </button>
-                <button
-                  onClick={() => { handleNavigation('/crm'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  CRM
-                </button>
-                <button
-                  onClick={() => { handleNavigation('/finance'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  Finance
-                </button>
-                <button
-                  onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  About Us
-                </button>
-                <CTAButton
-                  text="Start Now"
-                  variant="primary"
-                  size="md"
-                  ripple
-                  magnetic
-                  onClick={() => { window.open('https://calendar.monstamediaparramatta.com/calendar', '_blank'); setMobileMenuOpen(false); }}
-                />
-              </nav>
-            </div>
-          )}
+          </div>
         </div>
       </nav>
+
+      {/* Hardcoded Mobile Overlay Navigation (sibling to nav) - Home style */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-9999 bg-black/95 transition-opacity duration-300"
+          style={{ top: 0, left: 0, width: '100vw', height: '100vh' }}
+        >
+          {/* Logo top left */}
+          <img
+            src="/images/logo.svg"
+            alt="Monsta Media"
+            className="h-12 w-auto"
+            loading="lazy"
+            style={{ position: 'absolute', top: 24, left: 24, zIndex: 2 }}
+          />
+          {/* Hamburger/X toggle button top right, same as nav */}
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="md:hidden flex flex-col gap-1.5 p-2 z-50"
+            aria-label="Toggle menu"
+            style={{ position: 'absolute', top: 16, right: 16, zIndex: 10, background: 'none', border: 'none' }}
+          >
+            <span className={`w-6 h-0.5 bg-white transition-all rotate-45 translate-y-2`} />
+            <span className={`w-6 h-0.5 bg-white transition-all opacity-0`} />
+            <span className={`w-6 h-0.5 bg-white transition-all -rotate-45 -translate-y-2`} />
+          </button>
+          {/* Evenly spaced nav links and CTA */}
+          <div className="flex flex-col items-center justify-center w-full h-full" style={{ minHeight: '100vh', paddingTop: '80px', paddingBottom: '40px' }}>
+            <div className="flex flex-col items-center justify-center grow" style={{ width: '100%', maxWidth: '320px', margin: '0 auto', flex: 1, gap: '36px' }}>
+              <span onClick={() => { handleNavigation('/'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Home</span>
+              <span onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Services</span>
+              <span onClick={() => { handleNavigation('/finance'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Finance</span>
+              <span onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>About Us</span>
+              <CTAButton
+                text="Start Now"
+                variant="primary"
+                size="md"
+                ripple
+                magnetic
+                onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
+                className="mt-9"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section style={{ backgroundImage: 'linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%)', paddingTop: '140px', paddingBottom: '100px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '800px 800px' }}>
@@ -290,13 +324,24 @@ export default function CRM() {
               Manage, nurture, and convert your leads with enterprise-grade CRM tools. Automate your entire lead funnel with intelligent workflows, AI-powered automation, and real-time analytics.
             </p>
           </div>
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <CTAButton
+                text="Book Your Free Consultation"
+                variant="primary"
+                size="lg"
+                ripple
+                magnetic
+                onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
+                className="mt-4 mx-auto"
+              />
+            </div>
         </div>
       </section>
 
       {/* Key Benefits Section */}
       <section style={{ backgroundColor: '#f8f9ff', paddingTop: '100px', paddingBottom: '100px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '900px 900px' }}>
         <div className="max-w-6xl" style={{ width: '100%' }}>
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
             <h2 className="font-black mb-4" style={{ fontSize: '40px', fontFamily: 'Montserrat', color: '#023e8aff', letterSpacing: '-0.5px' }}>
               Why Choose Our CRM?
             </h2>
@@ -304,7 +349,7 @@ export default function CRM() {
               Industry-leading features designed to scale your business
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '28px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
             {[
               { title: 'Lead Dashboard', desc: 'Unified view of all your leads with real-time insights', icon: '📊' },
               { title: 'Automation', desc: 'Automatically nurture leads through email and SMS workflows', icon: '⚙️' },
@@ -337,33 +382,45 @@ export default function CRM() {
       </section>
 
       {/* Pricing Section */}
-      <section style={{ backgroundImage: 'linear-gradient(135deg, #000000 0%, #1a1a1a 100%)', paddingTop: '60px', paddingBottom: '60px', paddingLeft: '20px', paddingRight: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', contentVisibility: 'auto', containIntrinsicSize: '840px 840px' }}>
+      <section style={{ backgroundImage: 'linear-gradient(135deg, #000000 0%, #1a1a1a 100%)', paddingTop: '40px', paddingBottom: '24px', paddingLeft: '20px', paddingRight: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', contentVisibility: 'auto', containIntrinsicSize: '840px 840px' }}>
         <div className="max-w-5xl" style={{ width: '100%', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <h2 className="font-black mb-2" style={{ fontSize: '30px', fontFamily: 'Montserrat', color: '#ffffff', letterSpacing: '-0.3px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '0' }}>
+            <h2 className="font-black mb-2" style={{ fontSize: '30px', fontFamily: 'Montserrat', color: '#ffffff', letterSpacing: '-0.3px', marginBottom: 0 }}>
               Simple, Transparent Pricing
             </h2>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', maxWidth: '500px', margin: '0 auto' }}>
+            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', maxWidth: '500px', margin: '0 auto 0 auto', marginBottom: 0 }}>
               Choose the perfect plan for your business. Scale anytime, cancel anytime.
             </p>
           </div>
-          <div className="md:hidden relative w-full px-4" style={{ marginBottom: '24px' }}>
+          <div className="md:hidden flex w-full justify-center items-center px-4 mobile-plan-card-container" style={{ marginBottom: '24px', zIndex: 2 }}>
+                  {/* Extra top margin for mobile plan card container only on mobile */}
+                  <style>{`
+                    @media (max-width: 768px) {
+                      .mobile-plan-card-container {
+                        margin-top: 38px !important;
+                      }
+                    }
+                  `}</style>
             <div
-              className="overflow-hidden w-full"
+              className="flex transition-transform duration-300 w-full max-w-[420px]"
+              style={{ overflow: 'visible', transform: `translateX(-${currentPlanIndex * 100}%)` }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
             >
-              <div
-                className="flex transition-transform duration-300 w-full"
-                style={{ transform: `translateX(-${currentPlanIndex * 100}%)` }}
-              >
-                {pricingPlans.map((plan, idx) => (
-                  <div key={plan.name} style={{ minWidth: '100%', padding: '0 8px', boxSizing: 'border-box' }}>
-                    {renderPlanCard(plan, idx)}
-                  </div>
-                ))}
-              </div>
+              {pricingPlans.map((plan, idx) => (
+                <div
+                  key={plan.name}
+                  style={{
+                    minWidth: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  {renderPlanCard(plan, idx)}
+                </div>
+              ))}
             </div>
             <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4" style={{ pointerEvents: 'none' }}>
               <button
@@ -389,20 +446,31 @@ export default function CRM() {
             </div>
           </div>
 
-          <div className="hidden md:flex" style={{ display: 'flex', gap: '20px', marginBottom: '20px', justifyContent: 'center', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-            {pricingPlans.map((plan, idx) => (
-              <div 
-                key={plan.name} 
-                style={{ 
-                  flex: plan.highlight ? '0 1 450px' : '0 1 280px',
-                  transform: plan.highlight ? 'scale(1.08)' : 'scale(1)',
-                  marginTop: plan.highlight ? '0' : '30px',
-                  zIndex: plan.highlight ? 10 : 1
-                }}
-              >
-                {renderPlanCard(plan, idx)}
-              </div>
-            ))}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+            <div className="hidden md:flex" style={{ gap: '32px', marginBottom: '24px', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'center', marginTop: '-180px' }}>
+              {pricingPlans.map((plan, idx) => (
+                <div
+                  key={plan.name}
+                  style={{
+                    flex: plan.highlight ? '0 1 440px' : '0 1 340px',
+                    zIndex: plan.highlight ? 2 : 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'end',
+                    alignItems: 'stretch',
+                    marginTop: plan.highlight ? '0' : '0',
+                    marginBottom: plan.highlight ? '0' : '0',
+                    position: 'relative',
+                    minHeight: plan.highlight ? '600px' : '520px',
+                    height: '100%',
+                    maxWidth: plan.highlight ? '440px' : '340px',
+                  }}
+                >
+                  {renderPlanCard(plan, idx)}
+                </div>
+              ))}
+            </div>
+            {/* No extra CTA below cards; each card has its own CTA */}
           </div>
         </div>
       </section>
@@ -428,6 +496,6 @@ export default function CRM() {
           />
         </div>
       </section>
-    </div>
-  )
+    </>
+  );
 }

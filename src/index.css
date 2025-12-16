@@ -1,3 +1,7 @@
+/* Ensure pointer cursor for all links and clickable elements */
+a, button, [role="button"], .cursor-pointer, .group:hover, .group:focus, .text-link, .nav-link, .cta-button, .cta-button-wrapper, .hover\:cursor-pointer:hover {
+  cursor: pointer !important;
+}
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss/preflight";
 @import "tailwindcss";

@@ -1,8 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
+
 
 export default function Finance() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [navBackground, setNavBackground] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setNavBackground(window.scrollY > 10 || window.innerWidth < 768)
+    }
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -20,7 +31,7 @@ export default function Finance() {
   return (
     <div className="min-h-screen bg-white text-black">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 md:bg-white/80 md:backdrop-blur-xl md:border-b md:border-black/10" style={{ contentVisibility: 'auto', containIntrinsicSize: '80px 80px' }}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${navBackground ? 'bg-black' : 'bg-transparent'} md:bg-white/80 md:backdrop-blur-xl md:border-b md:border-black/10`} style={{ contentVisibility: 'auto', containIntrinsicSize: '80px 80px' }}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
@@ -85,48 +96,50 @@ export default function Finance() {
               <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
           </div>
-          {/* Mobile Menu Overlay */}
-          {mobileMenuOpen && (
-            <div className="fixed inset-0 z-40 md:hidden">
-              <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-              <nav className="relative flex flex-col items-center justify-center h-full gap-8">
-                <button
-                  onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  Services
-                </button>
-                <button
-                  onClick={() => { handleNavigation('/crm'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  CRM
-                </button>
-                <button
-                  onClick={() => { handleNavigation('/finance'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  Finance
-                </button>
-                <button
-                  onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  About Us
-                </button>
-                <CTAButton
-                  text="Start Now"
-                  variant="primary"
-                  size="md"
-                  ripple
-                  magnetic
-                  onClick={() => { window.open('https://calendar.monstamediaparramatta.com/calendar', '_blank'); setMobileMenuOpen(false); }}
-                />
-              </nav>
-            </div>
-          )}
         </div>
       </nav>
+
+      {/* Custom Mobile Overlay Navigation (no Finance link, CRM instead) */}
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 md:hidden">
+          <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
+          <nav className="relative z-50 flex flex-col items-center justify-center h-full gap-8">
+            <button
+              onClick={() => { handleNavigation('/'); setMobileMenuOpen(false); }}
+              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors mt-16"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }}
+              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
+            >
+              Services
+            </button>
+            <button
+              onClick={() => { handleNavigation('/crm'); setMobileMenuOpen(false); }}
+              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
+            >
+              CRM
+            </button>
+            <button
+              onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }}
+              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
+            >
+              About Us
+            </button>
+            <CTAButton
+              text="Start Now"
+              variant="primary"
+              size="md"
+              ripple
+              magnetic
+              onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
+              className="mt-9"
+            />
+          </nav>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section style={{ backgroundImage: 'linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%)', paddingTop: '140px', paddingBottom: '100px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '800px 800px' }}>

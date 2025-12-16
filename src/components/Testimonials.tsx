@@ -146,7 +146,7 @@ const spacingConfig = {
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [mobileIndex, setMobileIndex] = useState(0)
+  // Removed unused mobileIndex state
   const visibleCount = 3
   const touchStartX = useRef<number | null>(null)
   const touchEndX = useRef<number | null>(null)
@@ -188,13 +188,7 @@ export default function Testimonials() {
     return () => window.removeEventListener('keydown', handleKeyPress)
   }, [])
 
-  const handleMobilePrev = () => {
-    setMobileIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
-  }
-
-  const handleMobileNext = () => {
-    setMobileIndex((prev) => (prev + 1) % testimonials.length)
-  }
+  // Removed handleMobilePrev and handleMobileNext since mobileIndex state is gone
 
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
     touchStartX.current = event.touches[0]?.clientX ?? null
@@ -207,14 +201,9 @@ export default function Testimonials() {
 
   const handleTouchEnd = () => {
     if (touchStartX.current === null || touchEndX.current === null) return
-    const deltaX = touchStartX.current - touchEndX.current
-    const threshold = 40
+    // Swipe navigation variables removed (no longer used)
 
-    if (deltaX > threshold) {
-      handleMobileNext()
-    } else if (deltaX < -threshold) {
-      handleMobilePrev()
-    }
+    // Mobile swipe navigation handlers removed (no longer needed)
 
     touchStartX.current = null
     touchEndX.current = null
@@ -303,8 +292,10 @@ export default function Testimonials() {
     <section 
       className="relative bg-black" 
       style={{
-        padding: `${spacingConfig.section.pt} ${spacingConfig.section.px} ${spacingConfig.section.pb}`,
+        padding: `${spacingConfig.section.pt} ${spacingConfig.section.px} calc(${spacingConfig.section.pb} + 80px)`,
         margin: `${spacingConfig.section.my} 0`,
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
       {/* Background */}
@@ -316,32 +307,38 @@ export default function Testimonials() {
 
       <div className="max-w-7xl mx-auto relative z-10" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {/* Section Title */}
-        <div 
-          className="text-center relative z-30" 
+        <div
+          className="relative z-30"
           style={{
             marginBottom: spacingConfig.heading.mb,
             paddingTop: spacingConfig.heading.py,
             paddingBottom: spacingConfig.heading.py,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            textAlign: 'center',
           }}
         >
-          <img 
-            src="/images/testimonials-icon.png" 
+          <img
+            src="/images/testimonials-icon.png"
             alt="Testimonials"
-            loading="lazy" 
+            loading="lazy"
             style={{
               width: '300px',
               height: '150px',
-              margin: '0 auto 16px auto',
+              marginBottom: '16px',
               display: 'block',
             }}
           />
-          <h2 
-            style={{ 
+          <h2
+            style={{
               fontSize: spacingConfig.heading.fontSize,
               fontFamily: 'Montserrat',
               fontWeight: 900,
               color: '#ffffff',
               letterSpacing: '0.01rem',
+              margin: 0,
             }}
           >
             Testimonials
@@ -349,40 +346,64 @@ export default function Testimonials() {
         </div>
 
         {/* Mobile Slider */}
-        <div className="md:hidden relative z-20 w-full px-6" style={{ marginBottom: spacingConfig.carousel.mb, marginTop: spacingConfig.carousel.mt }}>
+        <div className="md:hidden relative z-20 w-full px-6" style={{ marginBottom: '0px', marginTop: spacingConfig.carousel.mt }}>
           <div
-            className="overflow-hidden w-full"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+            className="relative w-full"
+            style={{ margin: '0 auto', maxWidth: '100vw' }}
           >
-            <div
-              className="flex transition-transform duration-300 w-full"
-              style={{ transform: `translateX(-${mobileIndex * 100}%)` }}
-            >
-              {testimonials.map((testimonial) => (
-                <div key={testimonial.name} style={{ minWidth: '100%', padding: '0 8px', boxSizing: 'border-box' }}>
-                  {renderTestimonialCard(testimonial)}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4" style={{ pointerEvents: 'none' }}>
+            {/* Overlay navigation arrows */}
             <button
-              onClick={handleMobilePrev}
+              onClick={() => {
+                const container = document.getElementById('testimonial-scroll-container');
+                if (container) {
+                  container.scrollBy({ left: -window.innerWidth * 0.92, behavior: 'smooth' });
+                }
+              }}
               aria-label="Previous testimonial"
-              className="text-white w-8 h-8 flex items-center justify-center"
-              style={{ pointerEvents: 'auto', textShadow: '0 0 12px rgba(255,255,255,0.8)' }}
+              className="absolute left-2 top-1/2 -translate-y-1/2 text-white w-8 h-8 flex items-center justify-center bg-black/60 rounded-full z-30"
+              style={{ textShadow: '0 0 12px rgba(255,255,255,0.8)', minWidth: 32, minHeight: 32 }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
               </svg>
             </button>
+            <div
+              id="testimonial-scroll-container"
+              className="flex overflow-x-auto w-full hide-scrollbar"
+              style={{ WebkitOverflowScrolling: 'touch', scrollSnapType: 'x mandatory', gap: 0, justifyContent: 'center' }}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              {testimonials.map((testimonial) => (
+                <div
+                  key={testimonial.name}
+                  style={{
+                    minWidth: '92vw',
+                    maxWidth: '92vw',
+                    boxSizing: 'border-box',
+                    padding: '0',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    scrollSnapAlign: 'center',
+                  }}
+                >
+                  <div style={{ width: '100%', maxWidth: 400, margin: '0 auto' }}>
+                    {renderTestimonialCard(testimonial)}
+                  </div>
+                </div>
+              ))}
+            </div>
             <button
-              onClick={handleMobileNext}
+              onClick={() => {
+                const container = document.getElementById('testimonial-scroll-container');
+                if (container) {
+                  container.scrollBy({ left: window.innerWidth * 0.92, behavior: 'smooth' });
+                }
+              }}
               aria-label="Next testimonial"
-              className="text-white w-8 h-8 flex items-center justify-center"
-              style={{ pointerEvents: 'auto', textShadow: '0 0 12px rgba(255,255,255,0.8)' }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-white w-8 h-8 flex items-center justify-center bg-black/60 rounded-full z-30"
+              style={{ textShadow: '0 0 12px rgba(255,255,255,0.8)', minWidth: 32, minHeight: 32 }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
@@ -406,7 +427,7 @@ export default function Testimonials() {
             onClick={handlePrev}
             className="absolute top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer z-30 transition-all duration-300"
             style={{
-              left: '-80px',
+              left: '-40px',
               width: spacingConfig.arrows.width,
               height: spacingConfig.arrows.height,
               border: '2px solid white',
@@ -613,7 +634,7 @@ export default function Testimonials() {
             onClick={handleNext}
             className="absolute top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer z-30 transition-all duration-300"
             style={{
-              right: '-80px',
+              right: '-40px',
               width: spacingConfig.arrows.width,
               height: spacingConfig.arrows.height,
               border: '2px solid white',
@@ -637,22 +658,33 @@ export default function Testimonials() {
           </button>
         </div>
 
+
         {/* Desktop Carousel Close */}
         </div>
 
-      {/* CTA Section */}
-      <div 
-        style={{ 
+      {/* Hide scrollbar for mobile carousel */}
+      <style>{`
+        .hide-scrollbar {
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none; /* IE 10+ */
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none; /* Chrome/Safari/Webkit */
+        }
+      `}</style>
+
+      {/* CTA Section - pinned to bottom */}
+      <div
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          bottom: 0,
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          marginTop: '5px', 
-          marginBottom: '0px',
-          paddingLeft: spacingConfig.section.px,
-          paddingRight: spacingConfig.section.px,
-          position: 'relative',
-          zIndex: 20,
+          padding: '4px 0 2px 0', // Reduced padding
+          pointerEvents: 'auto',
+          zIndex: 30,
         }}
       >
         <CTAButton
@@ -660,27 +692,8 @@ export default function Testimonials() {
           variant="primary"
           size="md"
           ripple
-          magnetic
-          onClick={() => window.open('https://calendar.monstamediaparramatta.com/calendar', '_blank')}
         />
       </div>
-
-      <style>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.6s ease-out forwards;
-          opacity: 0;
-        }
-      `}</style>
     </section>
-  )
+  );
 }

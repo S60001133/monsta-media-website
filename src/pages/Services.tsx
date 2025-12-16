@@ -1,8 +1,19 @@
 import { useState, useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
+import MobileOverlayNav from '../components/MobileOverlayNav'
 
 export default function Services() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [navBackground, setNavBackground] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setNavBackground(window.scrollY > 10 || window.innerWidth < 768)
+    }
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   // SEO: Update document title
   useEffect(() => {
@@ -104,7 +115,7 @@ export default function Services() {
   return (
     <div className="min-h-screen bg-white text-black">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 md:bg-white/80 md:backdrop-blur-xl md:border-b md:border-black/10">
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${navBackground ? 'bg-black' : 'bg-transparent'} md:bg-white/80 md:backdrop-blur-xl md:border-b md:border-black/10`}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex items-center justify-between h-20">
             <button
@@ -168,45 +179,18 @@ export default function Services() {
             </button>
           </div>
           {/* Mobile Menu Overlay */}
-          {mobileMenuOpen && (
-            <div className="fixed inset-0 z-40 md:hidden">
-              <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-              <nav className="relative flex flex-col items-center justify-center h-full gap-8">
-                <button
-                  onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  Services
-                </button>
-                <button
-                  onClick={() => { handleNavigation('/crm'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  CRM
-                </button>
-                <button
-                  onClick={() => { handleNavigation('/finance'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  Finance
-                </button>
-                <button
-                  onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }}
-                  className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-                >
-                  About Us
-                </button>
-                <CTAButton
-                  text="Start Now"
-                  variant="primary"
-                  size="md"
-                  ripple
-                  magnetic
-                  onClick={() => { window.open('https://calendar.monstamediaparramatta.com/calendar', '_blank'); setMobileMenuOpen(false); }}
-                />
-              </nav>
-            </div>
-          )}
+          <MobileOverlayNav
+            open={mobileMenuOpen}
+            onClose={() => setMobileMenuOpen(false)}
+            onNavigate={(path) => { handleNavigation(path); setMobileMenuOpen(false) }}
+            links={[
+              { name: 'Services', path: '/services' },
+              { name: 'CRM', path: '/crm' },
+              { name: 'Finance', path: '/finance' },
+              { name: 'About Us', path: '/about' },
+            ]}
+            cta={{ text: 'Start Now', href: 'https://calendar.monstamediaparramatta.com/calendar', size: 'md', variant: 'primary' }}
+          />
         </div>
       </nav>
 
