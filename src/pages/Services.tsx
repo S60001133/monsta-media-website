@@ -180,9 +180,9 @@ export default function Services() {
           </div>
           {/* Mobile Menu Overlay */}
           <MobileOverlayNav
-            open={mobileMenuOpen}
+            isOpen={mobileMenuOpen}
             onClose={() => setMobileMenuOpen(false)}
-            onNavigate={(path) => { handleNavigation(path); setMobileMenuOpen(false) }}
+            onNavigate={(path: string) => { handleNavigation(path); setMobileMenuOpen(false) }}
             links={[
               { name: 'Services', path: '/services' },
               { name: 'CRM', path: '/crm' },
