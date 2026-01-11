@@ -187,25 +187,29 @@ export default function Home() {
           <nav className="relative z-50 flex flex-col items-center justify-center h-full gap-8">
             <button
               onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
+              className="text-lg font-medium text-white hover:text-pink-400 transition-colors"
+              style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}
             >
               Services
             </button>
             <button
               onClick={() => { handleNavigation('/crm'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
+              className="text-lg font-medium text-white hover:text-pink-400 transition-colors"
+              style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}
             >
               CRM
             </button>
             <button
               onClick={() => { handleNavigation('/finance'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
+              className="text-lg font-medium text-white hover:text-pink-400 transition-colors"
+              style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}
             >
               Finance
             </button>
             <button
               onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
+              className="text-lg font-medium text-white hover:text-pink-400 transition-colors"
+              style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}
             >
               About Us
             </button>

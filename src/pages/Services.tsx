@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
-import MobileOverlayNav from '../components/MobileOverlayNav'
 
 export default function Services() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -26,6 +25,7 @@ export default function Services() {
 
   const navLinks = [
     { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services' },
     { name: 'CRM', path: '/crm' },
     { name: 'Finance', path: '/finance' },
     { name: 'About Us', path: '/about' },
@@ -178,21 +178,51 @@ export default function Services() {
               <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
           </div>
-          {/* Mobile Menu Overlay */}
-          <MobileOverlayNav
-            isOpen={mobileMenuOpen}
-            onClose={() => setMobileMenuOpen(false)}
-            onNavigate={(path: string) => { handleNavigation(path); setMobileMenuOpen(false) }}
-            links={[
-              { name: 'Services', path: '/services' },
-              { name: 'CRM', path: '/crm' },
-              { name: 'Finance', path: '/finance' },
-              { name: 'About Us', path: '/about' },
-            ]}
-            cta={{ text: 'Start Now', href: 'https://calendar.monstamediaparramatta.com/calendar', size: 'md', variant: 'primary' }}
-          />
         </div>
       </nav>
+
+      {/* Hardcoded Mobile Overlay Navigation (Home style) */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 z-9999 bg-black/95 transition-opacity duration-300"
+          style={{ top: 0, left: 0, width: '100vw', height: '100vh' }}
+        >
+          <img
+            src="/images/logo.svg"
+            alt="Monsta Media"
+            className="h-12 w-auto"
+            loading="lazy"
+            style={{ position: 'absolute', top: 24, left: 24, zIndex: 2 }}
+          />
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="md:hidden flex flex-col gap-1.5 p-2 z-50"
+            aria-label="Toggle menu"
+            style={{ position: 'absolute', top: 16, right: 16, zIndex: 10, background: 'none', border: 'none' }}
+          >
+            <span className="w-6 h-0.5 bg-white transition-all rotate-45 translate-y-2" />
+            <span className="w-6 h-0.5 bg-white transition-all opacity-0" />
+            <span className="w-6 h-0.5 bg-white transition-all -rotate-45 -translate-y-2" />
+          </button>
+          <div className="flex flex-col items-center justify-center w-full h-full" style={{ minHeight: '100vh', paddingTop: '80px', paddingBottom: '40px' }}>
+            <div className="flex flex-col items-center justify-center grow" style={{ width: '100%', maxWidth: '320px', margin: '0 auto', flex: 1, gap: '36px' }}>
+              <span onClick={() => { handleNavigation('/'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Home</span>
+              <span onClick={() => { handleNavigation('/crm'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>CRM</span>
+              <span onClick={() => { handleNavigation('/finance'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Finance</span>
+              <span onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>About Us</span>
+              <CTAButton
+                text="Start Now"
+                variant="primary"
+                size="md"
+                ripple
+                magnetic
+                onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
+                className="mt-9"
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hero */}
       <section

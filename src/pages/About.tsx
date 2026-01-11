@@ -116,42 +116,36 @@ export default function About() {
         </div>
       </nav>
 
-      {/* Custom Mobile Overlay Navigation (no About Us link, CRM instead) */}
+      {/* Custom Mobile Overlay Navigation */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-40 md:hidden">
-          <style>{`
-            .mobile-overlay-nav-link {
-              color: #fff !important;
-              text-shadow: none !important;
-            }
-            .mobile-overlay-bg {
-              background: #000 !important;
-              opacity: 1 !important;
-            }
-          `}</style>
-          <div className="absolute inset-0 mobile-overlay-bg backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
+          <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
           <nav className="relative z-50 flex flex-col items-center justify-center h-full gap-8">
             <button
               onClick={() => { handleNavigation('/'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium mobile-overlay-nav-link hover:text-pink-400 transition-colors mt-16"
+              className="text-lg font-medium text-white hover:text-pink-400 transition-colors"
+              style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}
             >
               Home
             </button>
             <button
               onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium mobile-overlay-nav-link hover:text-pink-400 transition-colors"
+              className="text-lg font-medium text-white hover:text-pink-400 transition-colors"
+              style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}
             >
               Services
             </button>
             <button
               onClick={() => { handleNavigation('/crm'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium mobile-overlay-nav-link hover:text-pink-400 transition-colors"
+              className="text-lg font-medium text-white hover:text-pink-400 transition-colors"
+              style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}
             >
               CRM
             </button>
             <button
               onClick={() => { handleNavigation('/finance'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium mobile-overlay-nav-link hover:text-pink-400 transition-colors"
+              className="text-lg font-medium text-white hover:text-pink-400 transition-colors"
+              style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}
             >
               Finance
             </button>

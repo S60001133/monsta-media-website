@@ -99,45 +99,46 @@ export default function Finance() {
         </div>
       </nav>
 
-      {/* Custom Mobile Overlay Navigation (no Finance link, CRM instead) */}
+      {/* Hardcoded Mobile Overlay Navigation (Home style) */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 md:hidden">
-          <div className="absolute inset-0 bg-black/95 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-          <nav className="relative z-50 flex flex-col items-center justify-center h-full gap-8">
-            <button
-              onClick={() => { handleNavigation('/'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors mt-16"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-            >
-              Services
-            </button>
-            <button
-              onClick={() => { handleNavigation('/crm'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-            >
-              CRM
-            </button>
-            <button
-              onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }}
-              className="text-2xl font-medium text-white hover:text-pink-400 transition-colors"
-            >
-              About Us
-            </button>
-            <CTAButton
-              text="Start Now"
-              variant="primary"
-              size="md"
-              ripple
-              magnetic
-              onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
-              className="mt-9"
-            />
-          </nav>
+        <div
+          className="fixed inset-0 z-9999 bg-black/95 transition-opacity duration-300"
+          style={{ top: 0, left: 0, width: '100vw', height: '100vh' }}
+        >
+          <img
+            src="/images/logo.svg"
+            alt="Monsta Media"
+            className="h-12 w-auto"
+            loading="lazy"
+            style={{ position: 'absolute', top: 24, left: 24, zIndex: 2 }}
+          />
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            className="md:hidden flex flex-col gap-1.5 p-2 z-50"
+            aria-label="Toggle menu"
+            style={{ position: 'absolute', top: 16, right: 16, zIndex: 10, background: 'none', border: 'none' }}
+          >
+            <span className="w-6 h-0.5 bg-white transition-all rotate-45 translate-y-2" />
+            <span className="w-6 h-0.5 bg-white transition-all opacity-0" />
+            <span className="w-6 h-0.5 bg-white transition-all -rotate-45 -translate-y-2" />
+          </button>
+          <div className="flex flex-col items-center justify-center w-full h-full" style={{ minHeight: '100vh', paddingTop: '80px', paddingBottom: '40px' }}>
+            <div className="flex flex-col items-center justify-center grow" style={{ width: '100%', maxWidth: '320px', margin: '0 auto', flex: 1, gap: '36px' }}>
+              <span onClick={() => { handleNavigation('/'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Home</span>
+              <span onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Services</span>
+              <span onClick={() => { handleNavigation('/crm'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>CRM</span>
+              <span onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>About Us</span>
+              <CTAButton
+                text="Start Now"
+                variant="primary"
+                size="md"
+                ripple
+                magnetic
+                onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
+                className="mt-9"
+              />
+            </div>
+          </div>
         </div>
       )}
 
