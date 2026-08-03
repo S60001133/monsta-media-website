@@ -38,8 +38,8 @@ export default function Starfield({ density = 0.00012, zIndex = -5, fixed = true
         stars.push({
           x: Math.random() * w,
           y: Math.random() * h,
-          r: Math.random() * 1.4 + 0.3,
-          baseAlpha: Math.random() * 0.55 + 0.2,
+          r: Math.random() * 1.8 + 0.6,
+          baseAlpha: Math.random() * 0.55 + 0.45,
           phase: Math.random() * Math.PI * 2,
           speed: Math.random() * 1.6 + 0.4,
         })
@@ -49,12 +49,12 @@ export default function Starfield({ density = 0.00012, zIndex = -5, fixed = true
     const spawnMeteor = () => {
       const fromLeft = Math.random() > 0.5
       meteors.push({
-        x: fromLeft ? -60 : w + 60,
-        y: Math.random() * h * 0.45,
-        len: Math.random() * 220 + 140,
-        speed: Math.random() * 7 + 5,
+        x: fromLeft ? -80 : w + 80,
+        y: Math.random() * h * 0.5,
+        len: Math.random() * 300 + 200,
+        speed: Math.random() * 8 + 6,
         angle: fromLeft ? Math.PI / 5.2 : Math.PI - Math.PI / 5.2,
-        alpha: Math.random() * 0.5 + 0.4,
+        alpha: Math.random() * 0.55 + 0.5,
         color: METEOR_COLORS[Math.floor(Math.random() * METEOR_COLORS.length)],
       })
     }
@@ -62,21 +62,26 @@ export default function Starfield({ density = 0.00012, zIndex = -5, fixed = true
     const draw = (t: number) => {
       ctx.clearRect(0, 0, w, h)
 
-      // Stars — twinkle
+      // Stars — twinkle with glow
       for (const s of stars) {
-        const a = s.baseAlpha * (0.55 + 0.45 * Math.sin(t / 1000 * s.speed + s.phase))
+        const a = s.baseAlpha * (0.6 + 0.4 * Math.sin(t / 1000 * s.speed + s.phase))
         ctx.beginPath()
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(255,255,255,${Math.max(a, 0.05)})`
+        ctx.fillStyle = `rgba(255,255,255,${Math.max(a, 0.15)})`
+        if (s.r > 1.4) {
+          ctx.shadowColor = 'rgba(255,255,255,0.9)'
+          ctx.shadowBlur = 8
+        }
         ctx.fill()
+        ctx.shadowBlur = 0
       }
 
-      // Meteors — spawn every ~2.5–4.5s
-      if (t - lastMeteor > 2600 + Math.random() * 2200) {
+      // Meteors — spawn every ~1.8–3.2s (more frequent, more dramatic)
+      if (t - lastMeteor > 1800 + Math.random() * 1400) {
         spawnMeteor()
         lastMeteor = t
       }
-      meteors = meteors.filter((m) => m.x > -400 && m.x < w + 400 && m.y > -400 && m.y < h + 200)
+      meteors = meteors.filter((m) => m.x > -500 && m.x < w + 500 && m.y > -500 && m.y < h + 300)
       for (const m of meteors) {
         m.x += Math.cos(m.angle) * m.speed
         m.y += Math.sin(m.angle) * m.speed * 0.55
@@ -90,17 +95,17 @@ export default function Starfield({ density = 0.00012, zIndex = -5, fixed = true
         ctx.moveTo(m.x, m.y)
         ctx.lineTo(gx, gy)
         ctx.strokeStyle = grad
-        ctx.lineWidth = 2
+        ctx.lineWidth = 2.6
         ctx.lineCap = 'round'
         ctx.globalAlpha = m.alpha
         ctx.stroke()
         ctx.globalAlpha = 1
         // head glow
         ctx.beginPath()
-        ctx.arc(m.x, m.y, 2.4, 0, Math.PI * 2)
+        ctx.arc(m.x, m.y, 3, 0, Math.PI * 2)
         ctx.fillStyle = m.color
         ctx.shadowColor = m.color
-        ctx.shadowBlur = 12
+        ctx.shadowBlur = 18
         ctx.fill()
         ctx.shadowBlur = 0
       }
@@ -112,12 +117,17 @@ export default function Starfield({ density = 0.00012, zIndex = -5, fixed = true
     window.addEventListener('resize', resize)
     if (!reduceMotion) raf = requestAnimationFrame(draw)
     else {
-      // static stars, no meteors
+      // static stars, no meteors — but brighter so they're still visible
       for (const s of stars) {
         ctx.beginPath()
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(255,255,255,${s.baseAlpha})`
+        ctx.fillStyle = `rgba(255,255,255,${Math.min(s.baseAlpha + 0.25, 1)})`
+        if (s.r > 1.4) {
+          ctx.shadowColor = 'rgba(255,255,255,0.9)'
+          ctx.shadowBlur = 8
+        }
         ctx.fill()
+        ctx.shadowBlur = 0
       }
     }
 
