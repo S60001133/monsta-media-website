@@ -138,14 +138,15 @@ export default function CRM() {
     return (
       <div
         key={idx}
+        className={plan.highlight ? 'neon-border rounded-xl' : ''}
         style={{
           padding: plan.highlight ? '10px 8px' : '6px 4px',
           background: plan.highlight ? 'linear-gradient(135deg, #ff1493 0%, #ff1a8a 100%)' : 'rgba(255,255,255,0.08)',
           borderRadius: '10px',
-          border: '1px solid rgba(255,255,255,0.15)',
+          border: plan.highlight ? '2px solid rgba(255,255,255,0.4)' : '1px solid rgba(255,255,255,0.15)',
           backdropFilter: 'blur(8px)',
           position: 'relative',
-          boxShadow: plan.highlight ? '0 6px 16px rgba(255,20,147,0.18)' : '0 2px 6px rgba(0,0,0,0.10)',
+          boxShadow: plan.highlight ? '0 6px 24px rgba(255,20,147,0.4)' : '0 2px 6px rgba(0,0,0,0.10)',
           width: '100%',
           minHeight: plan.highlight ? '380px' : '260px',
           height: '100%',
@@ -212,7 +213,7 @@ export default function CRM() {
   return (
     <>
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${navBackground ? 'bg-black' : 'bg-transparent'} md:bg-white/80 md:backdrop-blur-xl md:border-b md:border-black/10`} style={{ contentVisibility: 'auto', containIntrinsicSize: '80px 80px' }}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${navBackground ? 'bg-black/85 backdrop-blur-xl shadow-lg shadow-pink-500/10 border-b border-pink-500/20' : 'bg-transparent'}`} style={{ contentVisibility: 'auto', containIntrinsicSize: '80px 80px' }}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
@@ -233,12 +234,14 @@ export default function CRM() {
               {navLinks.map((link) => (
                 <button
                   onClick={() => handleNavigation(link.path)}
-                  className="text-black font-medium relative group transition-colors"
+                  className="text-white/80 font-medium relative group transition-colors"
                   style={{
-                    color: '#000',
+                    color: 'rgba(255,255,255,0.8)',
                     textShadow: 'none',
                     transition: 'all 0.3s ease'
                   }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#ff1493'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
                 >
                   {link.name}
                   <span
@@ -321,74 +324,91 @@ export default function CRM() {
       )}
 
       {/* Hero Section */}
-      <section style={{ backgroundImage: 'linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%)', paddingTop: '140px', paddingBottom: '100px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '800px 800px' }}>
-        <div className="max-w-4xl text-center" style={{ width: '100%' }}>
-          <Reveal variant="blur" amount={0.4}>
-          <h1 className="font-black mb-6" style={{ fontSize: '56px', fontFamily: 'Montserrat', color: '#000000', letterSpacing: '-1px' }}>
-            Lead <span style={{ color: '#ff1493' }}>Monsta</span> CRM
+      <section className="relative overflow-hidden" style={{ paddingTop: '140px', paddingBottom: '100px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '800px 800px' }}>
+        {/* HUD grid floor */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-50" style={{ maskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, black 10%, transparent 75%)', WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, black 10%, transparent 75%)' }}>
+          <div className="hud-grid absolute inset-x-0 top-0" style={{ height: '60%' }} />
+        </div>
+        {/* Brand blobs */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          <div className="animate-blob absolute w-[420px] h-[420px] rounded-full" style={{ top: '-10%', right: '-8%', background: 'radial-gradient(circle, rgba(188,19,254,0.22), transparent 70%)' }} />
+          <div className="animate-blob absolute w-[380px] h-[380px] rounded-full" style={{ bottom: '-20%', left: '-6%', background: 'radial-gradient(circle, rgba(234,4,139,0.2), transparent 70%)', animationDelay: '3s' }} />
+        </div>
+        <div className="max-w-4xl text-center relative z-10" style={{ width: '100%' }}>
+          <Reveal variant="up" amount={0.4}>
+          <h1 className="font-black mb-6" style={{ fontSize: 'clamp(40px, 7vw, 56px)', fontFamily: 'Montserrat', color: '#ffffff', letterSpacing: '-1px' }}>
+            Lead <span className="text-gradient-animated" style={{ display: 'inline-block' }}>Monsta</span> CRM
           </h1>
           </Reveal>
           <Reveal variant="up" delay={0.15} amount={0.3}>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(0,0,0,0.65)', marginBottom: '24px', maxWidth: '600px' }}>
+            <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(255,255,255,0.7)', marginBottom: '24px', maxWidth: '600px' }}>
               Manage, nurture, and convert your leads with enterprise-grade CRM tools. Automate your entire lead funnel with intelligent workflows, AI-powered automation, and real-time analytics.
             </p>
           </div>
           </Reveal>
             <Reveal variant="up" delay={0.28} amount={0.3}>
             <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-              <CTAButton
-                text="Book Your Free Consultation"
-                variant="primary"
-                size="lg"
-                ripple
-                magnetic
-                onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
-                className="mt-4 mx-auto"
-              />
+              <div className="pulse-ring relative inline-block btn-shine" style={{ borderRadius: 14 }}>
+                <CTAButton
+                  text="Book Your Free Consultation"
+                  variant="primary"
+                  size="lg"
+                  ripple
+                  magnetic
+                  onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
+                  className="mt-4 mx-auto"
+                />
+              </div>
             </div>
             </Reveal>
         </div>
       </section>
 
       {/* Key Benefits Section */}
-      <section style={{ backgroundColor: '#f8f9ff', paddingTop: '100px', paddingBottom: '100px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '900px 900px' }}>
+      <section className="relative" style={{ paddingTop: '100px', paddingBottom: '100px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '900px 900px' }}>
+        <div className="neon-divider" style={{ position: 'absolute', top: 0, left: '10%', right: '10%' }} />
         <div className="max-w-6xl" style={{ width: '100%' }}>
           <Reveal variant="up" amount={0.3}>
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <h2 className="font-black mb-4" style={{ fontSize: '40px', fontFamily: 'Montserrat', color: '#023e8aff', letterSpacing: '-0.5px' }}>
+            <div className="hud-label" style={{ marginBottom: '10px' }}>Lead Management Suite</div>
+            <h2 className="font-black mb-4" style={{ fontSize: 'clamp(30px, 5vw, 40px)', fontFamily: 'Montserrat', color: '#ffffff', letterSpacing: '-0.5px' }}>
               Why Choose Our CRM?
             </h2>
-            <p style={{ fontSize: '16px', color: 'rgba(0,0,0,0.6)', maxWidth: '500px', margin: '0 auto' }}>
+            <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', maxWidth: '500px', margin: '0 auto' }}>
               Industry-leading features designed to scale your business
             </p>
           </div>
           </Reveal>
           <Stagger style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }} amount={0.1} gap={0.12}>
             {[
-              { title: 'Lead Dashboard', desc: 'Unified view of all your leads with real-time insights', icon: '📊' },
-              { title: 'Automation', desc: 'Automatically nurture leads through email and SMS workflows', icon: '⚙️' },
-              { title: 'AI Integration', desc: 'AI-powered chatbots and voice agents handle customer interactions', icon: '🤖' },
-              { title: 'Analytics', desc: 'Track conversion rates, ROI, and lead performance metrics', icon: '📈' },
-              { title: 'Integrations', desc: 'Connect with your favorite tools and platforms seamlessly', icon: '🔗' },
-              { title: 'Support', desc: 'Expert support to help you maximize your CRM investment', icon: '💬' }
+              { title: 'Lead Dashboard', desc: 'Unified view of all your leads with real-time insights', icon: 'M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z' },
+              { title: 'Automation', desc: 'Automatically nurture leads through email and SMS workflows', icon: 'M19.14 12.94a7.07 7.07 0 00.05-.94 7.07 7.07 0 00-.05-.94l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.61-.22l-2.39.96a7.2 7.2 0 00-1.62-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.58.24-1.12.55-1.62.94l-2.39-.96a.5.5 0 00-.61.22L2.66 8.78a.5.5 0 00.12.64l2.03 1.58a7.07 7.07 0 000 1.88L2.78 14.46a.5.5 0 00-.12.64l1.92 3.32a.5.5 0 00.61.22l2.39-.96c.5.39 1.04.7 1.62.94l.36 2.54a.5.5 0 00.5.42h3.84a.5.5 0 00.5-.42l.36-2.54c.58-.24 1.12-.55 1.62-.94l2.39.96a.5.5 0 00.61-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1112 8a3.5 3.5 0 010 7.5z' },
+              { title: 'AI Integration', desc: 'AI-powered chatbots and voice agents handle customer interactions', icon: 'M12 2a7 7 0 00-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 002 2h4a2 2 0 002-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 00-7-7zM9 20h6v2H9v-2z' },
+              { title: 'Analytics', desc: 'Track conversion rates, ROI, and lead performance metrics', icon: 'M4 20V10m6 10V4m6 16v-7m6 7H2' },
+              { title: 'Integrations', desc: 'Connect with your favorite tools and platforms seamlessly', icon: 'M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71' },
+              { title: 'Support', desc: 'Expert support to help you maximize your CRM investment', icon: 'M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z' }
             ].map((benefit, idx) => (
               <StaggerItem key={idx}>
-              <div style={{ padding: '40px 32px', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(255, 20, 147, 0.1)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', transition: 'all 0.3s ease', cursor: 'pointer' }}
+              <div className="neon-border-static rounded-2xl" style={{ padding: '40px 32px', backgroundColor: '#0a0a14', borderRadius: '16px', border: '1px solid rgba(255, 20, 147, 0.15)', boxShadow: '0 4px 20px rgba(0,0,0,0.4)', transition: 'all 0.3s ease', cursor: 'pointer' }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.boxShadow = '0 12px 32px rgba(255,20,147,0.15)';
+                  e.currentTarget.style.boxShadow = '0 12px 32px rgba(255,20,147,0.2)';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4)';
                 }}
               >
-                <div style={{ fontSize: '32px', marginBottom: '16px' }}>{benefit.icon}</div>
-                <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '12px', color: '#3a8dbdff', fontFamily: 'Montserrat' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 56, height: 56, margin: '0 auto 16px', borderRadius: 14, background: 'rgba(255,20,147,0.1)', border: '1px solid rgba(255,20,147,0.3)' }}>
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ff1493" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 6px rgba(255,20,147,0.6))' }}>
+                    <path d={benefit.icon} />
+                  </svg>
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '12px', color: '#ffffff', fontFamily: 'Montserrat' }}>
                   {benefit.title}
                 </h3>
-                <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(0,0,0,0.6)' }}>
+                <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(255,255,255,0.65)' }}>
                   {benefit.desc}
                 </p>
               </div>
@@ -495,28 +515,31 @@ export default function CRM() {
       </section>
 
       {/* CTA Section */}
-      <section style={{ backgroundColor: '#f8f9ff', paddingTop: '50px', paddingBottom: '50px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', position: 'relative', overflow: 'hidden', contentVisibility: 'auto', containIntrinsicSize: '640px 640px' }}>
-        <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.08)', zIndex: 1 }}></div>
-        <div style={{ position: 'absolute', bottom: '-30%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.05)', zIndex: 1 }}></div>
+      <section className="relative overflow-hidden" style={{ paddingTop: '50px', paddingBottom: '50px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '640px 640px' }}>
+        <div className="neon-divider" style={{ position: 'absolute', top: 0, left: '10%', right: '10%' }} />
+        <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,20,147,0.14), transparent 70%)', zIndex: 1 }}></div>
+        <div style={{ position: 'absolute', bottom: '-30%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(188,19,254,0.12), transparent 70%)', zIndex: 1 }}></div>
         <div className="max-w-3xl text-center" style={{ width: '100%', position: 'relative', zIndex: 2 }}>
           <Reveal variant="up" amount={0.3}>
-          <h2 className="font-black mb-6" style={{ color: '#023e8aff', fontSize: '48px', fontFamily: 'Montserrat', letterSpacing: '-1px' }}>
+          <h2 className="font-black mb-6" style={{ color: '#ffffff', fontSize: 'clamp(32px, 5vw, 48px)', fontFamily: 'Montserrat', letterSpacing: '-1px' }}>
             Ready to Transform Your Sales?
           </h2>
           </Reveal>
           <Reveal variant="up" delay={0.12} amount={0.3}>
-          <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(0,0,0,0.7)', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
+          <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(255,255,255,0.7)', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
             Join hundreds of businesses already using our CRM to automate their lead management and close more deals.
           </p>
           </Reveal>
-          <CTAButton
-            text="Book Your Free Consultation"
-            variant="primary"
-            size="lg"
-            ripple
-            magnetic
-            onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
-          />
+          <div className="pulse-ring relative inline-block btn-shine" style={{ borderRadius: 14 }}>
+            <CTAButton
+              text="Book Your Free Consultation"
+              variant="primary"
+              size="lg"
+              ripple
+              magnetic
+              onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
+            />
+          </div>
         </div>
       </section>
     </>

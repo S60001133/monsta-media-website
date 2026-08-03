@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { motion, useReducedMotion, useScroll, useSpring } from 'framer-motion'
 import Footer from './Footer'
-import AmbientBackground from './AmbientBackground'
+import HudBackground from './HudBackground'
 
 interface LayoutProps {
   children: ReactNode
@@ -39,8 +39,8 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-dark-bg relative overflow-hidden">
       <ScrollProgress />
-      {/* Ambient brand-colored parallax glows — purely decorative */}
-      <AmbientBackground />
+      {/* Neon HUD backdrop — grid floor + beams + blobs */}
+      <HudBackground />
       <main className="relative z-10">
         {children}
       </main>

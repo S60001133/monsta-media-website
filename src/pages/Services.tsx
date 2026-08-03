@@ -120,9 +120,9 @@ export default function Services() {
   ]
 
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="min-h-screen bg-[#030305] text-white">
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${navBackground ? 'bg-black' : 'bg-transparent'} md:bg-white/80 md:backdrop-blur-xl md:border-b md:border-black/10`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${navBackground ? 'bg-black/85 backdrop-blur-xl shadow-lg shadow-pink-500/10 border-b border-pink-500/20' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex items-center justify-between h-20">
             <button
@@ -142,7 +142,7 @@ export default function Services() {
                 <button
                   key={link.path}
                   onClick={() => handleNavigation(link.path)}
-                  className="text-black/80 font-medium relative group transition-colors"
+                  className="text-white/80 font-medium relative group transition-colors"
                   style={{
                     textShadow: 'none',
                     transition: 'all 0.3s ease',
@@ -151,7 +151,7 @@ export default function Services() {
                     e.currentTarget.style.color = '#ff1493'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.color = 'rgba(0,0,0,0.8)'
+                    e.currentTarget.style.color = 'rgba(255,255,255,0.8)'
                   }}
                 >
                   {link.name}
@@ -233,16 +233,26 @@ export default function Services() {
 
       {/* Hero */}
       <section
-        className="border-b border-black/10"
-        style={{ paddingTop: '100px', paddingBottom: '56px', paddingLeft: '16px', paddingRight: '16px', display: 'flex', justifyContent: 'center' }}
+        className="relative overflow-hidden"
+        style={{ paddingTop: '140px', paddingBottom: '56px', paddingLeft: '16px', paddingRight: '16px', display: 'flex', justifyContent: 'center' }}
       >
-        <div className="max-w-5xl text-center" style={{ width: '100%' }}>
+        {/* HUD grid floor */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-50" style={{ maskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, black 10%, transparent 75%)', WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, black 10%, transparent 75%)' }}>
+          <div className="hud-grid absolute inset-x-0 top-0" style={{ height: '60%' }} />
+        </div>
+        {/* Brand blobs */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          <div className="animate-blob absolute w-[420px] h-[420px] rounded-full" style={{ top: '-10%', right: '-8%', background: 'radial-gradient(circle, rgba(188,19,254,0.22), transparent 70%)' }} />
+          <div className="animate-blob absolute w-[380px] h-[380px] rounded-full" style={{ bottom: '-20%', left: '-6%', background: 'radial-gradient(circle, rgba(234,4,139,0.2), transparent 70%)', animationDelay: '3s' }} />
+        </div>
+
+        <div className="max-w-5xl text-center relative z-10" style={{ width: '100%' }}>
           <Reveal variant="up" amount={0.4}>
-          <p className="text-xs md:text-sm" style={{ color: '#023e8aff', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '12px' }}>
+          <p className="hud-label" style={{ marginBottom: '12px' }}>
             Services engineered to perform
           </p>
           </Reveal>
-          <Reveal variant="blur" delay={0.1} amount={0.4}>
+          <Reveal variant="up" delay={0.1} amount={0.4}>
           <h1
             className="px-4"
             style={{
@@ -252,18 +262,18 @@ export default function Services() {
               marginBottom: '20px',
               fontWeight: 900,
               fontFamily: 'Montserrat',
-              color: '#000000',
+              color: '#ffffff',
               textAlign: 'center',
             }}
           >
             Everything You Need To{' '}
-            <span style={{ color: '#ff1493', textTransform: 'uppercase' }}>
+            <span className="text-gradient-animated" style={{ display: 'inline-block' }}>
               Grow With Conviction
             </span>
           </h1>
           </Reveal>
           <Reveal variant="up" delay={0.2} amount={0.3}>
-          <p style={{ fontSize: '18px', color: 'rgba(0,0,0,0.65)', maxWidth: '760px', margin: '0 auto', lineHeight: '1.7' }}>
+          <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.7)', maxWidth: '760px', margin: '0 auto', lineHeight: '1.7' }}>
             We combine creative, performance, and operational rigour. Each service is built with clear playbooks, live optimisation, and reporting you can trust.
           </p>
           </Reveal>
@@ -271,45 +281,47 @@ export default function Services() {
       </section>
 
       {/* Services */}
-      <section className="py-16" style={{ backgroundColor: '#000000', paddingLeft: '16px', paddingRight: '16px', paddingBottom: '80px', display: 'flex', justifyContent: 'center' }}>
+      <section className="py-16 relative" style={{ paddingLeft: '16px', paddingRight: '16px', paddingBottom: '80px', display: 'flex', justifyContent: 'center' }}>
         <div className="max-w-6xl w-full" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
           {serviceSections.map((service, index) => {
-            const isBlackCard = index % 2 === 0
             const sectionId = service.title.toLowerCase().replace(/\s+/g, '-').replace(/[&]/g, 'and')
             return (
               <Reveal key={service.title} variant="up" delay={index * 0.05} amount={0.15} margin="-40px">
               <div
                 id={sectionId}
-                className="rounded-2xl border hover:border-[#ff1493]/50 transition-all duration-300 flex-col md:flex-row"
+                className="rounded-2xl border transition-all duration-300 flex-col md:flex-row"
                 style={{
-                  backgroundColor: isBlackCard ? '#000000' : '#ffffff',
-                  borderColor: isBlackCard ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-                  boxShadow: '0 10px 30px rgba(0,0,0,0.06)',
+                  backgroundColor: '#0a0a14',
+                  borderColor: 'rgba(255,20,147,0.2)',
+                  boxShadow: '0 10px 40px rgba(0,0,0,0.4)',
                   padding: '24px',
                   display: 'flex',
                   flexDirection: window.innerWidth < 768 ? 'column' : (index % 2 === 0 ? 'row' : 'row-reverse'),
                   alignItems: 'center',
                   gap: '24px',
+                  position: 'relative',
                 }}
               >
+                {/* HUD corner brackets */}
+                <div className="hud-corners" style={{ position: 'absolute', inset: 0, borderRadius: 16 }} />
                 {/* Content Side */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative', zIndex: 1 }}>
                   <div>
-                    <p style={{ color: '#ff1493', fontWeight: 700, fontSize: '13px', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '8px' }}>
+                    <p className="hud-label" style={{ marginBottom: '8px', fontSize: '10px' }}>
                       {service.subtitle}
                     </p>
-                    <h3 style={{ fontSize: '26px', letterSpacing: '-0.03em', fontWeight: 800, color: isBlackCard ? '#ffffff' : '#023e8aff', fontFamily: 'Montserrat', marginBottom: '12px' }}>
+                    <h3 style={{ fontSize: '26px', letterSpacing: '-0.03em', fontWeight: 800, color: '#ffffff', fontFamily: 'Montserrat', marginBottom: '12px' }}>
                       {service.title}
                     </h3>
-                    <p style={{ fontSize: '16px', lineHeight: '26px', color: isBlackCard ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.65)', marginBottom: '16px' }}>
+                    <p style={{ fontSize: '16px', lineHeight: '26px', color: 'rgba(255,255,255,0.78)', marginBottom: '16px' }}>
                       {service.body}
                     </p>
                   </div>
                   <div style={{ marginTop: '8px' }}>
                     {service.bullets.map((item) => (
                       <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '10px' }}>
-                        <span style={{ color: '#ff1493', fontWeight: 800 }}>•</span>
-                        <p style={{ fontSize: '14px', lineHeight: '22px', color: isBlackCard ? 'rgba(255,255,255,0.75)' : '#1f1f1f' }}>{item}</p>
+                        <span style={{ color: '#ff1493', fontWeight: 800, textShadow: '0 0 8px rgba(255,20,147,0.6)' }}>▸</span>
+                        <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgba(255,255,255,0.72)' }}>{item}</p>
                       </div>
                     ))}
                   </div>
@@ -325,6 +337,9 @@ export default function Services() {
                     height: '280px',
                     borderRadius: '12px',
                     overflow: 'hidden',
+                    position: 'relative',
+                    zIndex: 1,
+                    border: '1px solid rgba(255,20,147,0.25)',
                   }}
                 >
                   <img
@@ -350,33 +365,35 @@ export default function Services() {
 
       {/* CTA Section */}
       <section
-        className="border-t border-black/10"
-        style={{ backgroundColor: '#f8f9ff', paddingTop: '64px', paddingBottom: '64px', paddingLeft: '32px', paddingRight: '32px', display: 'flex', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}
+        className="relative overflow-hidden"
+        style={{ borderTop: '1px solid rgba(255,20,147,0.2)', paddingTop: '64px', paddingBottom: '64px', paddingLeft: '32px', paddingRight: '32px', display: 'flex', justifyContent: 'center' }}
       >
-        <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.08)', zIndex: 1 }}></div>
-        <div style={{ position: 'absolute', bottom: '-30%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.05)', zIndex: 1 }}></div>
+        <div className="neon-divider" style={{ position: 'absolute', top: 0, left: '10%', right: '10%' }} />
+        <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,20,147,0.14), transparent 70%)', zIndex: 1 }}></div>
+        <div style={{ position: 'absolute', bottom: '-30%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(188,19,254,0.12), transparent 70%)', zIndex: 1 }}></div>
         <div className="max-w-3xl text-center" style={{ width: '100%', position: 'relative', zIndex: 2 }}>
           <Reveal variant="up" amount={0.3}>
-          <h2 className="font-black mb-6" style={{ color: '#023e8aff', fontSize: '48px', fontFamily: 'Montserrat', letterSpacing: '-1px' }}>
+          <h2 className="font-black mb-6" style={{ color: '#ffffff', fontSize: 'clamp(32px, 5vw, 48px)', fontFamily: 'Montserrat', letterSpacing: '-1px' }}>
             Ready to build, launch, and scale?
           </h2>
           </Reveal>
           <Reveal variant="up" delay={0.12} amount={0.3}>
-          <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(0,0,0,0.7)', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
+          <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(255,255,255,0.7)', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
             Book a discovery call. We will map the quickest path to success.
           </p>
           </Reveal>
-          <CTAButton
-            text="Book a Free Consultation"
-            variant="primary"
-            size="lg"
-            ripple
-            magnetic
-            onClick={() => (window.location.href = 'https://calendar.monstamediaparramatta.com/calendar')}
-          />
+          <div className="pulse-ring relative inline-block btn-shine" style={{ borderRadius: 14 }}>
+            <CTAButton
+              text="Book a Free Consultation"
+              variant="primary"
+              size="lg"
+              ripple
+              magnetic
+              onClick={() => (window.location.href = 'https://calendar.monstamediaparramatta.com/calendar')}
+            />
+          </div>
         </div>
       </section>
     </div>
   )
 }
-

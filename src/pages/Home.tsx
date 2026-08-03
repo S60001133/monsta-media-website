@@ -45,133 +45,67 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-black text-white overflow-hidden" role="main">
-      {/* Subtle animated background */}
-      <div className="fixed inset-0 -z-10" aria-hidden="true">
-        <div className="absolute -bottom-1/4 -left-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl opacity-20" />
-      </div>
-
       {/* Navigation Hint */}
-      <div className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 md:px-8 py-4 md:py-6 transition-colors duration-300 ${navBackground ? 'bg-black shadow-lg' : 'bg-transparent'}`}>
+      <div className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 md:px-8 py-4 md:py-6 transition-colors duration-300 ${navBackground ? 'bg-black/85 backdrop-blur-xl shadow-lg shadow-pink-500/10 border-b border-pink-500/20' : 'bg-transparent'}`}>
         <div className="flex items-center gap-3">
           <img src="/images/logo.svg" alt="Brand Logo" className="h-6 md:h-8 w-auto" loading="eager" />
         </div>
-        
+
         {/* Scrolling Marquee - Hidden on mobile */}
         <div className="hidden md:flex flex-1 mx-8 overflow-hidden" style={{ marginRight: '20px' }}>
-          <div className="inline-flex whitespace-nowrap animate-marquee">
-            <span className="text-sm font-semibold text-pink-400" style={{ marginLeft: '80px', marginRight: '80px' }}>Get Leads While You Sleep</span>
-            <span className="text-sm font-semibold text-pink-400" style={{ marginLeft: '80px', marginRight: '80px' }}>Get Leads While You Sleep</span>
-            <span className="text-sm font-semibold text-pink-400" style={{ marginLeft: '80px', marginRight: '80px' }}>Get Leads While You Sleep</span>
-            <span className="text-sm font-semibold text-pink-400" style={{ marginLeft: '80px', marginRight: '80px' }}>Get Leads While You Sleep</span>
-            <span className="text-sm font-semibold text-pink-400" style={{ marginLeft: '80px', marginRight: '80px' }}>Get Leads While You Sleep</span>
-            <span className="text-sm font-semibold text-pink-400" style={{ marginLeft: '80px', marginRight: '80px' }}>Get Leads While You Sleep</span>
-            <span className="text-sm font-semibold text-pink-400" style={{ marginLeft: '80px', marginRight: '80px' }}>Get Leads While You Sleep</span>
-            <span className="text-sm font-semibold text-pink-400" style={{ marginLeft: '80px', marginRight: '80px' }}>Get Leads While You Sleep</span>
+          <div className="marquee-track">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <span key={i} className="text-sm font-semibold text-pink-400" style={{ marginLeft: '80px', marginRight: '80px' }}>Get Leads While You Sleep</span>
+            ))}
+            {Array.from({ length: 4 }).map((_, i) => (
+              <span key={`b${i}`} className="text-sm font-semibold text-pink-400" style={{ marginLeft: '80px', marginRight: '80px' }}>Get Leads While You Sleep</span>
+            ))}
           </div>
         </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex gap-5 items-center" style={{ paddingRight: '0px' }}>
-          <button 
-            onClick={() => handleNavigation('/services')} 
+          <button
+            onClick={() => handleNavigation('/services')}
             className="text-sm font-medium relative group transition-colors"
-            style={{
-              color: 'rgba(255,255,255,0.8)',
-              textShadow: 'none',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#ff1493';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = 'rgba(255,255,255,0.8)';
-            }}
+            style={{ color: 'rgba(255,255,255,0.8)', transition: 'all 0.3s ease' }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#ff1493'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
           >
             Services
-            <span
-              className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-              style={{ 
-                backgroundColor: '#ff1493',
-                boxShadow: '0 0 8px #ff1493'
-              }}
-            ></span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300" style={{ backgroundColor: '#ff1493', boxShadow: '0 0 8px #ff1493' }}></span>
           </button>
-          
-          <button 
-            onClick={() => handleNavigation('/crm')} 
+          <button
+            onClick={() => handleNavigation('/crm')}
             className="text-sm font-medium relative group transition-colors"
-            style={{
-              color: 'rgba(255,255,255,0.8)',
-              textShadow: 'none',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#ff1493';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = 'rgba(255,255,255,0.8)';
-            }}
+            style={{ color: 'rgba(255,255,255,0.8)', transition: 'all 0.3s ease' }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#ff1493'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
           >
             CRM
-            <span 
-              className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-              style={{ 
-                backgroundColor: '#ff1493',
-                boxShadow: '0 0 8px #ff1493'
-              }}
-            ></span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300" style={{ backgroundColor: '#ff1493', boxShadow: '0 0 8px #ff1493' }}></span>
           </button>
-          
-          <button 
-            onClick={() => handleNavigation('/finance')} 
+          <button
+            onClick={() => handleNavigation('/finance')}
             className="text-sm font-medium relative group transition-colors"
-            style={{
-              color: 'rgba(255,255,255,0.8)',
-              textShadow: 'none',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#ff1493';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = 'rgba(255,255,255,0.8)';
-            }}
+            style={{ color: 'rgba(255,255,255,0.8)', transition: 'all 0.3s ease' }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#ff1493'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
           >
             Finance
-            <span 
-              className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-              style={{ 
-                backgroundColor: '#ff1493',
-                boxShadow: '0 0 8px #ff1493'
-              }}
-            ></span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300" style={{ backgroundColor: '#ff1493', boxShadow: '0 0 8px #ff1493' }}></span>
           </button>
-          
-          <button 
-            onClick={() => handleNavigation('/about')} 
+          <button
+            onClick={() => handleNavigation('/about')}
             className="text-sm font-medium relative group transition-colors"
-            style={{
-              color: 'rgba(255,255,255,0.8)',
-              textShadow: 'none',
-              transition: 'all 0.3s ease'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = '#ff1493';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = 'rgba(255,255,255,0.8)';
-            }}
+            style={{ color: 'rgba(255,255,255,0.8)', transition: 'all 0.3s ease' }}
+            onMouseEnter={(e) => { e.currentTarget.style.color = '#ff1493'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
           >
             About Us
-            <span 
-              className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-              style={{ 
-                backgroundColor: '#ff1493',
-                boxShadow: '0 0 8px #ff1493'
-              }}
-            ></span>
+            <span className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300" style={{ backgroundColor: '#ff1493', boxShadow: '0 0 8px #ff1493' }}></span>
           </button>
-          
+
           <CTAButton
             text="Start Now"
             variant="primary"
@@ -239,7 +173,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* Hero Section */}
+      {/* Hero Section — Neon HUD */}
       <section className="relative min-h-screen flex flex-col items-center justify-between px-4 md:px-6 pt-20 md:pt-20 pb-12 md:pb-16 overflow-hidden" aria-labelledby="hero-heading">
         {/* Hero Background Image with scroll parallax */}
         <motion.div
@@ -248,7 +182,7 @@ export default function Home() {
             backgroundImage: 'url(/images/hero-bg.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            opacity: 0.6,
+            opacity: 0.35,
             y: heroBgY,
             scale: heroBgScale,
             willChange: 'transform',
@@ -256,7 +190,15 @@ export default function Home() {
           role="img"
           aria-label="Digital marketing agency office background"
         />
+        {/* Dark gradient veil for legibility */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-b from-black/70 via-black/40 to-black" aria-hidden="true" />
         <motion.div style={{ position: 'absolute', inset: 0, zIndex: 0, opacity: heroFade }} aria-hidden="true" />
+
+        {/* Hero HUD grid floor */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[1] opacity-60" style={{ maskImage: 'radial-gradient(ellipse 80% 70% at 50% 100%, black 10%, transparent 75%)', WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 100%, black 10%, transparent 75%)' }}>
+          <div className="hud-grid absolute inset-x-0 bottom-0" style={{ height: '55%' }} />
+        </div>
+
         {/* Stronger drifting brand blobs behind hero text (gradient falloff — no CSS blur, cheaper) */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
           <div className="animate-blob absolute w-[480px] h-[480px] rounded-full"
@@ -266,12 +208,26 @@ export default function Home() {
           <div className="animate-blob absolute w-[380px] h-[380px] rounded-full"
             style={{ top: '48%', left: '38%', background: 'radial-gradient(circle, rgba(255,20,147,0.25), transparent 70%)', animationDelay: '6s' }} />
         </div>
+
         <div className="text-center space-y-6 md:space-y-8 max-w-5xl relative z-10 flex-1 flex flex-col justify-center px-4" style={{ paddingTop: '80px' }}>
+          {/* HUD label */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="flex justify-center"
+          >
+            <span className="hud-label inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-pink-500/30 bg-pink-500/5">
+              <span className="w-1.5 h-1.5 rounded-full bg-pink-500 animate-pulse-glow inline-block" />
+              Australian Owned · No Long Contracts · Direct Point of Contact
+            </span>
+          </motion.div>
+
           <motion.h1
             className="font-black tracking-tight leading-tight text-center"
             style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 'clamp(48px, 6vw, 120px)', letterSpacing: '0.2px' }}
-            initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
           >
             <span className="text-gradient-animated">Monsta Media Parramatta</span>
@@ -284,7 +240,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.45 }}
           >
-            If you can afford $1000/month on ad spend <span className="font-bold text-pink-400">for Meta ads</span>.
+            If you can afford $1000/month on ad spend <span className="font-bold text-pink-400 text-glow-blue">for Meta ads</span>.
             <br />
             No agency fees, no hidden costs. Experience our expertise, risk-free.
           </motion.p>
@@ -298,7 +254,7 @@ export default function Home() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.7 }}
           >
             {/* CTA */}
-            <div className="pulse-ring relative inline-block" style={{ borderRadius: 14 }}>
+            <div className="pulse-ring relative inline-block btn-shine" style={{ borderRadius: 14 }}>
               <CTAButton
                 text="Claim Your Free Consultation"
                 variant="primary"
@@ -311,44 +267,33 @@ export default function Home() {
 
             {/* Trust Indicators */}
             <div className="flex justify-center gap-8 text-xs text-white/40">
-              <div>Australian Owned</div>
-              <div>No Long Contracts</div>
-              <div>Direct Point of Contact</div>
+              <div className="flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-pink-500 inline-block" />Australian Owned
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-pink-500 inline-block" />No Long Contracts
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-pink-500 inline-block" />Direct Point of Contact
+              </div>
             </div>
           </motion.div>
         </div>
 
         {/* Marquee Section */}
-        <div className="marquee-row" aria-hidden="true" style={{ position: 'relative', bottom: 'auto', left: 0, width: '100%', height: '80px', padding: '10px 0', boxSizing: 'border-box', background: 'transparent', zIndex: 20, display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+        <div className="marquee-row relative w-full z-20" aria-hidden="true" style={{ height: '80px', padding: '10px 0', boxSizing: 'border-box', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
           <div className="marquee" style={{ display: 'flex', flexWrap: 'nowrap', width: 'max-content' }}>
             <div className="marquee-track" style={{ display: 'inline-flex', alignItems: 'center', whiteSpace: 'nowrap', willChange: 'transform' }}>
-              <span className="marquee-item" style={{ display: 'inline-flex', alignItems: 'center', marginRight: '96px', fontWeight: 800, letterSpacing: '2px', whiteSpace: 'nowrap', fontSize: 'clamp(0.85rem, 2vw, 1.35rem)', background: 'linear-gradient(90deg, #f50091 0%, #ffffff 50%, #f50091 100%)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
-                Digital Marketing with more ROAR!
-              </span>
-              <span className="marquee-item" style={{ display: 'inline-flex', alignItems: 'center', marginRight: '96px', fontWeight: 800, letterSpacing: '2px', whiteSpace: 'nowrap', fontSize: 'clamp(0.85rem, 2vw, 1.35rem)', background: 'linear-gradient(90deg, #f50091 0%, #ffffff 50%, #f50091 100%)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
-                Digital Marketing with more ROAR!
-              </span>
-              <span className="marquee-item" style={{ display: 'inline-flex', alignItems: 'center', marginRight: '96px', fontWeight: 800, letterSpacing: '2px', whiteSpace: 'nowrap', fontSize: 'clamp(0.85rem, 2vw, 1.35rem)', background: 'linear-gradient(90deg, #f50091 0%, #ffffff 50%, #f50091 100%)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
-                Digital Marketing with more ROAR!
-              </span>
-              <span className="marquee-item" style={{ display: 'inline-flex', alignItems: 'center', marginRight: '96px', fontWeight: 800, letterSpacing: '2px', whiteSpace: 'nowrap', fontSize: 'clamp(0.85rem, 2vw, 1.35rem)', background: 'linear-gradient(90deg, #f50091 0%, #ffffff 50%, #f50091 100%)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
-                Digital Marketing with more ROAR!
-              </span>
-            </div>
-
-            <div className="marquee-track marquee-track--clone" style={{ display: 'inline-flex', alignItems: 'center', whiteSpace: 'nowrap', willChange: 'transform' }}>
-              <span className="marquee-item" style={{ display: 'inline-flex', alignItems: 'center', marginRight: '96px', fontWeight: 800, letterSpacing: '2px', whiteSpace: 'nowrap', fontSize: 'clamp(0.85rem, 2vw, 1.35rem)', background: 'linear-gradient(90deg, #f50091 0%, #ffffff 50%, #f50091 100%)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
-                Digital Marketing with more ROAR!
-              </span>
-              <span className="marquee-item" style={{ display: 'inline-flex', alignItems: 'center', marginRight: '96px', fontWeight: 800, letterSpacing: '2px', whiteSpace: 'nowrap', fontSize: 'clamp(0.85rem, 2vw, 1.35rem)', background: 'linear-gradient(90deg, #f50091 0%, #ffffff 50%, #f50091 100%)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
-                Digital Marketing with more ROAR!
-              </span>
-              <span className="marquee-item" style={{ display: 'inline-flex', alignItems: 'center', marginRight: '96px', fontWeight: 800, letterSpacing: '2px', whiteSpace: 'nowrap', fontSize: 'clamp(0.85rem, 2vw, 1.35rem)', background: 'linear-gradient(90deg, #f50091 0%, #ffffff 50%, #f50091 100%)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
-                Digital Marketing with more ROAR!
-              </span>
-              <span className="marquee-item" style={{ display: 'inline-flex', alignItems: 'center', marginRight: '96px', fontWeight: 800, letterSpacing: '2px', whiteSpace: 'nowrap', fontSize: 'clamp(0.85rem, 2vw, 1.35rem)', background: 'linear-gradient(90deg, #f50091 0%, #ffffff 50%, #f50091 100%)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
-                Digital Marketing with more ROAR!
-              </span>
+              {Array.from({ length: 4 }).map((_, i) => (
+                <span key={i} className="marquee-item" style={{ display: 'inline-flex', alignItems: 'center', marginRight: '96px', fontWeight: 800, letterSpacing: '2px', whiteSpace: 'nowrap', fontSize: 'clamp(0.85rem, 2vw, 1.35rem)', background: 'linear-gradient(90deg, #f50091 0%, #ffffff 50%, #f50091 100%)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
+                  Digital Marketing with more ROAR!
+                </span>
+              ))}
+              {Array.from({ length: 4 }).map((_, i) => (
+                <span key={`b${i}`} className="marquee-item" style={{ display: 'inline-flex', alignItems: 'center', marginRight: '96px', fontWeight: 800, letterSpacing: '2px', whiteSpace: 'nowrap', fontSize: 'clamp(0.85rem, 2vw, 1.35rem)', background: 'linear-gradient(90deg, #f50091 0%, #ffffff 50%, #f50091 100%)', backgroundSize: '200% 100%', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
+                  Digital Marketing with more ROAR!
+                </span>
+              ))}
             </div>
           </div>
         </div>
@@ -362,33 +307,11 @@ export default function Home() {
 
       <style>{`
         @keyframes marquee {
-          0% {
-            transform: translateX(0%);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
         }
-        .animate-marquee {
-          animation: marquee 20s linear infinite;
-          display: inline-flex;
-        }
-        .animate-marquee::after {
-          content: attr(data-content);
-        }
-
-        /* Hero section marquee animation */
         .marquee-track {
-          animation: sb-marquee-move 22s linear infinite;
-        }
-        
-        @keyframes sb-marquee-move {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
+          animation: marquee 20s linear infinite;
         }
 
         @media (max-width: 480px) {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
-import Reveal, { Stagger, StaggerItem } from '../components/Reveal'
-
+import Reveal from '../components/Reveal'
+import { Stagger, StaggerItem } from '../components/Reveal'
 
 export default function About() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -22,11 +22,21 @@ export default function About() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // SEO: Update document title
+  useEffect(() => {
+    document.title = 'About Monsta Media Parramatta | Australian Owned Digital Marketing Agency'
+    const metaDesc = document.querySelector('meta[name="description"]')
+    if (metaDesc) {
+      metaDesc.setAttribute('content', 'Monsta Media Parramatta is an Australian-owned and operated digital marketing agency based in Parramatta, Sydney. Brand-owned, brand-operated, everything in-house.')
+    }
+  }, [])
+
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Services', path: '/services' },
     { name: 'CRM', path: '/crm' },
     { name: 'Finance', path: '/finance' },
+    { name: 'About Us', path: '/about' },
   ]
 
   const handleNavigation = (path: string) => {
@@ -44,18 +54,48 @@ export default function About() {
     { front: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb734696063f041aa37.png', back: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb7c3a5998baf01f262.jpeg', alt: 'Certificate 6' },
   ]
 
+  const differentiators = [
+    {
+      icon: 'M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6M9 10h.01M15 10h.01M9 14h.01M15 14h.01',
+      title: 'Brand Owned & Operated',
+      desc: 'We are 100% brand-owned and brand-operated. No outsourcing, no third parties—just our dedicated team delivering excellence.',
+    },
+    {
+      icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4',
+      title: 'Your Data is Protected',
+      desc: 'All services are performed in-house. Your data never leaves our secure environment, ensuring complete privacy and protection.',
+    },
+    {
+      icon: 'M12 2a7 7 0 00-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 002 2h4a2 2 0 002-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 00-7-7zM9 20h6v2H9v-2z',
+      title: 'AI-Powered Automation',
+      desc: 'At the cutting edge of marketing technology, leveraging AI automation to maximize efficiency and deliver superior results.',
+    },
+  ]
+
+  const expertise = [
+    { title: 'E-Commerce Excellence', desc: 'Building high-converting online stores that drive sales and grow your brand presence.' },
+    { title: 'Lead Generation', desc: 'Delivering quality leads that convert into long-term customers and revenue.' },
+    { title: 'Web Traffic Growth', desc: 'Driving targeted traffic to your website through proven strategies and optimization.' },
+    { title: 'Brand Development', desc: 'Creating powerful brand identities that resonate with your audience and stand out.' },
+    { title: 'Organic Social Media', desc: 'Building authentic engagement and community around your brand on social platforms.' },
+    { title: 'AI Automation & Technology', desc: 'Leveraging cutting-edge AI and automation tools to maximize marketing efficiency and results.' },
+  ]
+
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="min-h-screen bg-[#030305] text-white">
       <style>
         {`
           .flip-cube:hover .cube-container {
             transform: rotateX(180deg);
           }
+          .flip-cube .cube-container {
+            box-shadow: 0 0 30px rgba(255,20,147,0.15);
+          }
         `}
       </style>
 
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${navBackground ? 'bg-black' : 'bg-transparent'} md:bg-white/80 md:backdrop-blur-xl md:border-b md:border-black/10`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${navBackground ? 'bg-black/85 backdrop-blur-xl shadow-lg shadow-pink-500/10 border-b border-pink-500/20' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
@@ -77,17 +117,13 @@ export default function About() {
                 <button
                   key={link.path}
                   onClick={() => handleNavigation(link.path)}
-                  className="text-black/80 font-medium relative group transition-colors"
+                  className="text-white/80 font-medium relative group transition-colors"
                   style={{
                     textShadow: 'none',
                     transition: 'all 0.3s ease'
                   }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = '#ff1493';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = 'rgba(0,0,0,0.8)';
-                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#ff1493'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
                 >
                   {link.name}
                   <span
@@ -170,20 +206,30 @@ export default function About() {
       )}
 
       {/* Hero */}
-      <section className="border-b border-black/10" style={{ paddingTop: '120px', paddingBottom: '80px', paddingLeft: '24px', paddingRight: '24px', display: 'flex', justifyContent: 'center' }}>
-        <div className="max-w-6xl text-center" style={{ width: '100%' }}>
-          <Reveal variant="blur" amount={0.4}>
-          <h1 style={{ fontSize: '80px', lineHeight: '88px', letterSpacing: '-0.05em', marginBottom: '32px', fontWeight: 900, fontFamily: 'Montserrat', color: '#000000', textAlign: 'center' }}>
-            About Monsta Media Parramatta
+      <section className="relative overflow-hidden" style={{ paddingTop: '140px', paddingBottom: '80px', paddingLeft: '24px', paddingRight: '24px', display: 'flex', justifyContent: 'center' }}>
+        {/* HUD grid floor */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-50" style={{ maskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, black 10%, transparent 75%)', WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, black 10%, transparent 75%)' }}>
+          <div className="hud-grid absolute inset-x-0 top-0" style={{ height: '60%' }} />
+        </div>
+        {/* Brand blobs */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          <div className="animate-blob absolute w-[460px] h-[460px] rounded-full" style={{ top: '-15%', right: '-10%', background: 'radial-gradient(circle, rgba(188,19,254,0.22), transparent 70%)' }} />
+          <div className="animate-blob absolute w-[400px] h-[400px] rounded-full" style={{ bottom: '-25%', left: '-8%', background: 'radial-gradient(circle, rgba(234,4,139,0.2), transparent 70%)', animationDelay: '3s' }} />
+        </div>
+        <div className="max-w-6xl text-center relative z-10" style={{ width: '100%' }}>
+          <Reveal variant="up" amount={0.4}>
+          <div className="hud-label" style={{ marginBottom: '14px' }}>Who We Are</div>
+          <h1 style={{ fontSize: 'clamp(40px, 7vw, 72px)', lineHeight: '1.1', letterSpacing: '-0.05em', marginBottom: '32px', fontWeight: 900, fontFamily: 'Montserrat', color: '#ffffff', textAlign: 'center' }}>
+            About <span className="text-gradient-animated" style={{ display: 'inline-block' }}>Monsta Media</span> Parramatta
           </h1>
           </Reveal>
           <Reveal variant="up" delay={0.15} amount={0.4}>
-          <p style={{ fontSize: '20px', color: '#ff1493', maxWidth: '900px', margin: '0 auto 32px', lineHeight: '1.6', textAlign: 'center', fontWeight: 700 }}>
+          <p style={{ fontSize: '20px', color: '#ff1493', maxWidth: '900px', margin: '0 auto 32px', lineHeight: '1.6', textAlign: 'center', fontWeight: 700, textShadow: '0 0 20px rgba(255,20,147,0.4)' }}>
             A Digital Agency Focused On Vision, People, Branding & Your ROI
           </p>
           </Reveal>
           <Reveal variant="up" delay={0.28} amount={0.3}>
-          <p style={{ fontSize: '16px', color: 'rgba(0,0,0,0.6)', maxWidth: '800px', margin: '0 auto', lineHeight: '1.8', textAlign: 'center' }}>
+          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.7)', maxWidth: '800px', margin: '0 auto', lineHeight: '1.8', textAlign: 'center' }}>
             Monsta Media Parramatta is an Australian-owned and operated digital marketing agency based in Parramatta, Sydney. We are brand-owned, brand-operated, and proudly keep everything in-house.
           </p>
           </Reveal>
@@ -191,62 +237,46 @@ export default function About() {
       </section>
 
       {/* Key Differentiators */}
-      <section style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '80px', paddingRight: '80px', backgroundColor: '#f9f9f9', display: 'flex', justifyContent: 'center' }}>
+      <section className="relative" style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '80px', paddingRight: '80px', display: 'flex', justifyContent: 'center' }}>
+        <div className="neon-divider" style={{ position: 'absolute', top: 0, left: '10%', right: '10%' }} />
         <div className="max-w-6xl" style={{ width: '100%' }}>
           <Reveal variant="up" amount={0.3}>
-          <h2 style={{ fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '48px', fontWeight: 900, fontFamily: 'Montserrat', color: '#023e8a', textAlign: 'center' }}>
+          <div className="hud-label" style={{ textAlign: 'center', marginBottom: '10px' }}>The Monsta Difference</div>
+          <h2 style={{ fontSize: 'clamp(34px, 5.5vw, 48px)', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '48px', fontWeight: 900, fontFamily: 'Montserrat', color: '#ffffff', textAlign: 'center' }}>
             Why Choose Monsta Media?
           </h2>
           </Reveal>
 
           <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-8" gap={0.14} amount={0.1}>
-            <StaggerItem>
-            <div style={{ padding: '40px', backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', textAlign: 'center' }}>
-              <div style={{ fontSize: '48px', marginBottom: '20px' }}>🏢</div>
-              <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '16px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
-                Brand Owned & Operated
-              </h3>
-              <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(0,0,0,0.6)' }}>
-                We are 100% brand-owned and brand-operated. No outsourcing, no third parties—just our dedicated team delivering excellence.
-              </p>
-            </div>
-            </StaggerItem>
-
-            <StaggerItem>
-            <div style={{ padding: '40px', backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', textAlign: 'center' }}>
-              <div style={{ fontSize: '48px', marginBottom: '20px' }}>🔒</div>
-              <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '16px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
-                Your Data is Protected
-              </h3>
-              <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(0,0,0,0.6)' }}>
-                All services are performed in-house. Your data never leaves our secure environment, ensuring complete privacy and protection.
-              </p>
-            </div>
-            </StaggerItem>
-
-            <StaggerItem>
-            <div style={{ padding: '40px', backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', textAlign: 'center' }}>
-              <div style={{ fontSize: '48px', marginBottom: '20px' }}>🤖</div>
-              <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '16px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
-                AI-Powered Automation
-              </h3>
-              <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(0,0,0,0.6)' }}>
-                At the cutting edge of marketing technology, leveraging AI automation to maximize efficiency and deliver superior results.
-              </p>
-            </div>
-            </StaggerItem>
+            {differentiators.map((d, idx) => (
+              <StaggerItem key={idx}>
+              <div className="neon-border-static rounded-xl" style={{ padding: '40px', backgroundColor: '#0a0a14', borderRadius: '12px', boxShadow: '0 4px 20px rgba(0,0,0,0.4)', textAlign: 'center', height: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 64, height: 64, margin: '0 auto 20px', borderRadius: 16, background: 'rgba(255,20,147,0.1)', border: '1px solid rgba(255,20,147,0.3)' }}>
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff1493" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 6px rgba(255,20,147,0.6))' }}>
+                    <path d={d.icon} />
+                  </svg>
+                </div>
+                <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '16px', color: '#ffffff', fontFamily: 'Montserrat' }}>
+                  {d.title}
+                </h3>
+                <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(255,255,255,0.65)' }}>
+                  {d.desc}
+                </p>
+              </div>
+              </StaggerItem>
+            ))}
           </Stagger>
         </div>
       </section>
 
       {/* What MONSTA Stands For - Flip Cube Gallery */}
-      <section style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '20px', paddingRight: '20px', backgroundColor: '#f9f9f9', display: 'flex', justifyContent: 'center' }}>
+      <section style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '20px', paddingRight: '20px', display: 'flex', justifyContent: 'center' }}>
         <div style={{ width: '100%', maxWidth: '1200px' }}>
           <Reveal variant="up" amount={0.3}>
-          <h2 style={{ fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '48px', fontWeight: 900, fontFamily: 'Montserrat', textAlign: 'center' }}>
-            <span style={{ color: '#023e8a' }}>What Does </span>
-            <span style={{ color: '#ff1493' }}>MONSTA</span>
-            <span style={{ color: '#023e8a' }}> Stand For?</span>
+          <h2 style={{ fontSize: 'clamp(34px, 5.5vw, 48px)', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '48px', fontWeight: 900, fontFamily: 'Montserrat', textAlign: 'center' }}>
+            <span style={{ color: '#ffffff' }}>What Does </span>
+            <span className="text-gradient-animated" style={{ display: 'inline-block' }}>MONSTA</span>
+            <span style={{ color: '#ffffff' }}> Stand For?</span>
           </h2>
           </Reveal>
 
@@ -282,6 +312,9 @@ export default function About() {
                     position: 'relative',
                     transformStyle: 'preserve-3d',
                     transition: 'transform 0.6s cubic-bezier(.5,-0.5,.5,1.5)',
+                    borderRadius: '14px',
+                    boxShadow: '0 0 30px rgba(255,20,147,0.2)',
+                    border: '1px solid rgba(255,20,147,0.3)',
                   }}
                 >
                   <div
@@ -339,18 +372,20 @@ export default function About() {
       </section>
 
       {/* Our Story */}
-      <section style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '80px', paddingRight: '80px', backgroundColor: '#f9f9f9', display: 'flex', justifyContent: 'center' }}>
+      <section className="relative" style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '80px', paddingRight: '80px', display: 'flex', justifyContent: 'center' }}>
+        <div className="neon-divider" style={{ position: 'absolute', top: 0, left: '10%', right: '10%' }} />
         <div className="max-w-4xl" style={{ width: '100%' }}>
           <Reveal variant="up" amount={0.3}>
-          <h2 style={{ fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '32px', fontWeight: 900, fontFamily: 'Montserrat', color: '#023e8a', textAlign: 'center' }}>
+          <div className="hud-label" style={{ textAlign: 'center', marginBottom: '10px' }}>Our Journey</div>
+          <h2 style={{ fontSize: 'clamp(34px, 5.5vw, 48px)', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '32px', fontWeight: 900, fontFamily: 'Montserrat', color: '#ffffff', textAlign: 'center' }}>
             Our Story
           </h2>
           </Reveal>
 
           <Reveal variant="fade" delay={0.1} amount={0.1}>
-          <div style={{ fontSize: '16px', lineHeight: '28px', color: 'rgba(0,0,0,0.7)', marginBottom: '24px', textAlign: 'center' }}>
+          <div style={{ fontSize: '16px', lineHeight: '28px', color: 'rgba(255,255,255,0.75)', marginBottom: '24px', textAlign: 'center' }}>
             <p style={{ marginBottom: '20px' }}>
-              Based in <strong style={{ color: '#ff1493' }}>Parramatta, Sydney</strong>, Monsta Media Parramatta is a proudly <strong style={{ color: '#ff1493' }}>Australian-owned and operated</strong> digital marketing agency helping local and national businesses achieve extraordinary growth and revenue acceleration.
+              Based in <strong style={{ color: '#ff1493', textShadow: '0 0 10px rgba(255,20,147,0.5)' }}>Parramatta, Sydney</strong>, Monsta Media Parramatta is a proudly <strong style={{ color: '#ff1493', textShadow: '0 0 10px rgba(255,20,147,0.5)' }}>Australian-owned and operated</strong> digital marketing agency helping local and national businesses achieve extraordinary growth and revenue acceleration.
             </p>
 
             <p style={{ marginBottom: '20px' }}>
@@ -358,15 +393,15 @@ export default function About() {
             </p>
 
             <p style={{ marginBottom: '20px' }}>
-              What sets us apart is our commitment to being <strong style={{ color: '#ff1493' }}>brand-owned and brand-operated</strong>. We don't outsource. We don't cut corners. Every service is performed by our dedicated in-house team right here in Parramatta, ensuring your data remains secure and your campaigns receive the attention they deserve.
+              What sets us apart is our commitment to being <strong style={{ color: '#ff1493', textShadow: '0 0 10px rgba(255,20,147,0.5)' }}>brand-owned and brand-operated</strong>. We don't outsource. We don't cut corners. Every service is performed by our dedicated in-house team right here in Parramatta, ensuring your data remains secure and your campaigns receive the attention they deserve.
             </p>
 
             <p style={{ marginBottom: '20px' }}>
-              We're at the <strong style={{ color: '#ff1493' }}>cutting edge of marketing technology</strong>, leveraging AI automation and advanced tools to streamline processes, optimize campaigns, and deliver superior results. Our investment in the latest technology means you get more efficiency, better targeting, and higher ROI.
+              We're at the <strong style={{ color: '#ff1493', textShadow: '0 0 10px rgba(255,20,147,0.5)' }}>cutting edge of marketing technology</strong>, leveraging AI automation and advanced tools to streamline processes, optimize campaigns, and deliver superior results. Our investment in the latest technology means you get more efficiency, better targeting, and higher ROI.
             </p>
 
             <p>
-              Our expertise extends beyond digital marketing—we've mastered the <strong style={{ color: '#ff1493' }}>Art of Closing</strong>. The biggest gap in lead generation isn't getting leads; it's closing them. Our award-winning sales methodology ensures that the leads we deliver don't just arrive—they convert into paying customers.
+              Our expertise extends beyond digital marketing—we've mastered the <strong style={{ color: '#ff1493', textShadow: '0 0 10px rgba(255,20,147,0.5)' }}>Art of Closing</strong>. The biggest gap in lead generation isn't getting leads; it's closing them. Our award-winning sales methodology ensures that the leads we deliver don't just arrive—they convert into paying customers.
             </p>
           </div>
           </Reveal>
@@ -377,207 +412,69 @@ export default function About() {
       <section style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '80px', paddingRight: '80px', display: 'flex', justifyContent: 'center' }}>
         <div className="max-w-6xl" style={{ width: '100%' }}>
           <Reveal variant="up" amount={0.3}>
-          <h2 style={{ fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '32px', fontWeight: 900, fontFamily: 'Montserrat', color: '#023e8a', textAlign: 'center' }}>
+          <div className="hud-label" style={{ textAlign: 'center', marginBottom: '10px' }}>What We Do</div>
+          <h2 style={{ fontSize: 'clamp(34px, 5.5vw, 48px)', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '32px', fontWeight: 900, fontFamily: 'Montserrat', color: '#ffffff', textAlign: 'center' }}>
             Our Expertise
           </h2>
           </Reveal>
 
           <Reveal variant="fade" amount={0.1}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div
-              className="group"
-              style={{
-                padding: '32px',
-                backgroundColor: '#f9f9f9',
-                borderRadius: '12px',
-                borderLeft: '4px solid #ff1493',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(255,20,147,0.2)';
-                e.currentTarget.style.backgroundColor = '#ffffff';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.backgroundColor = '#f9f9f9';
-              }}
-            >
-              <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '12px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
-                E-Commerce Excellence
-              </h3>
-              <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(0,0,0,0.6)' }}>
-                Building high-converting online stores that drive sales and grow your brand presence.
-              </p>
-            </div>
-
-            <div
-              className="group"
-              style={{
-                padding: '32px',
-                backgroundColor: '#f9f9f9',
-                borderRadius: '12px',
-                borderLeft: '4px solid #ff1493',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(255,20,147,0.2)';
-                e.currentTarget.style.backgroundColor = '#ffffff';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.backgroundColor = '#f9f9f9';
-              }}
-            >
-              <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '12px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
-                Lead Generation
-              </h3>
-              <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(0,0,0,0.6)' }}>
-                Delivering quality leads that convert into long-term customers and revenue.
-              </p>
-            </div>
-
-            <div
-              className="group"
-              style={{
-                padding: '32px',
-                backgroundColor: '#f9f9f9',
-                borderRadius: '12px',
-                borderLeft: '4px solid #ff1493',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(255,20,147,0.2)';
-                e.currentTarget.style.backgroundColor = '#ffffff';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.backgroundColor = '#f9f9f9';
-              }}
-            >
-              <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '12px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
-                Web Traffic Growth
-              </h3>
-              <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(0,0,0,0.6)' }}>
-                Driving targeted traffic to your website through proven strategies and optimization.
-              </p>
-            </div>
-
-            <div
-              className="group"
-              style={{
-                padding: '32px',
-                backgroundColor: '#f9f9f9',
-                borderRadius: '12px',
-                borderLeft: '4px solid #ff1493',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(255,20,147,0.2)';
-                e.currentTarget.style.backgroundColor = '#ffffff';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.backgroundColor = '#f9f9f9';
-              }}
-            >
-              <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '12px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
-                Brand Development
-              </h3>
-              <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(0,0,0,0.6)' }}>
-                Creating powerful brand identities that resonate with your audience and stand out.
-              </p>
-            </div>
-
-            <div
-              className="group"
-              style={{
-                padding: '32px',
-                backgroundColor: '#f9f9f9',
-                borderRadius: '12px',
-                borderLeft: '4px solid #ff1493',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(255,20,147,0.2)';
-                e.currentTarget.style.backgroundColor = '#ffffff';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.backgroundColor = '#f9f9f9';
-              }}
-            >
-              <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '12px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
-                Organic Social Media
-              </h3>
-              <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(0,0,0,0.6)' }}>
-                Building authentic engagement and community around your brand on social platforms.
-              </p>
-            </div>
-
-            <div
-              className="group"
-              style={{
-                padding: '32px',
-                backgroundColor: '#f9f9f9',
-                borderRadius: '12px',
-                borderLeft: '4px solid #ff1493',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(255,20,147,0.2)';
-                e.currentTarget.style.backgroundColor = '#ffffff';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.backgroundColor = '#f9f9f9';
-              }}
-            >
-              <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '12px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
-                AI Automation & Technology
-              </h3>
-              <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(0,0,0,0.6)' }}>
-                Leveraging cutting-edge AI and automation tools to maximize marketing efficiency and results.
-              </p>
-            </div>
+            {expertise.map((item, idx) => (
+              <div
+                key={idx}
+                className="group neon-border-static"
+                style={{
+                  padding: '32px',
+                  backgroundColor: '#0a0a14',
+                  borderRadius: '12px',
+                  borderLeft: '4px solid #ff1493',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(255,20,147,0.25)';
+                  e.currentTarget.style.backgroundColor = '#12122a';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                  e.currentTarget.style.backgroundColor = '#0a0a14';
+                }}
+              >
+                <h3 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '12px', color: '#ffffff', fontFamily: 'Montserrat' }}>
+                  {item.title}
+                </h3>
+                <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(255,255,255,0.65)' }}>
+                  {item.desc}
+                </p>
+              </div>
+            ))}
           </div>
           </Reveal>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section style={{ backgroundColor: '#f8f9ff', paddingTop: '50px', paddingBottom: '50px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.08)', zIndex: 1 }}></div>
-        <div style={{ position: 'absolute', bottom: '-30%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.05)', zIndex: 1 }}></div>
+      <section className="relative overflow-hidden" style={{ paddingTop: '50px', paddingBottom: '50px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center' }}>
+        <div className="neon-divider" style={{ position: 'absolute', top: 0, left: '10%', right: '10%' }} />
+        <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,20,147,0.14), transparent 70%)', zIndex: 1 }}></div>
+        <div style={{ position: 'absolute', bottom: '-30%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(188,19,254,0.12), transparent 70%)', zIndex: 1 }}></div>
         <div className="max-w-3xl text-center" style={{ width: '100%', position: 'relative', zIndex: 2 }}>
           <Reveal variant="up" amount={0.3}>
-          <h2 className="font-black mb-6" style={{ color: '#023e8aff', fontSize: '48px', fontFamily: 'Montserrat', letterSpacing: '-1px' }}>
+          <h2 className="font-black mb-6" style={{ color: '#ffffff', fontSize: 'clamp(32px, 5vw, 48px)', fontFamily: 'Montserrat', letterSpacing: '-1px' }}>
             Ready to Partner with Monsta?
           </h2>
           </Reveal>
           <Reveal variant="up" delay={0.12} amount={0.3}>
-          <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(0,0,0,0.7)', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
+          <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(255,255,255,0.7)', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
             Let's discuss how we can accelerate your business growth with our proven digital marketing strategies.
           </p>
           </Reveal>
-          <CTAButton text="Book Your Free Consultation" variant="primary" size="lg" ripple magnetic onClick={() => (window.location.href = 'https://calendar.monstamediaparramatta.com/calendar')} />
+          <div className="pulse-ring relative inline-block btn-shine" style={{ borderRadius: 14 }}>
+            <CTAButton text="Book Your Free Consultation" variant="primary" size="lg" ripple magnetic onClick={() => (window.location.href = 'https://calendar.monstamediaparramatta.com/calendar')} />
+          </div>
         </div>
       </section>
     </div>

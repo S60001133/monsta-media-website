@@ -212,7 +212,7 @@ export default function Testimonials() {
 
   const renderTestimonialCard = (testimonial: Testimonial, style?: React.CSSProperties) => (
     <div
-      className="group relative backdrop-blur-sm flex flex-col shadow-2xl"
+      className="group relative backdrop-blur-sm flex flex-col shadow-2xl neon-border-static"
       style={{
         backgroundColor: 'rgb(15 23 42 / 0.8)',
         borderWidth: spacingConfig.centerCard.borderWidth,
@@ -301,10 +301,13 @@ export default function Testimonials() {
     >
       {/* Background */}
       <div className="absolute inset-0 bg-linear-to-b from-black via-slate-950 to-black" />
-      
-      {/* Decorative elements */}
-      <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-[#ff1493]/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl" />
+
+      {/* Decorative gradient blobs (no blur — gradient falloff) */}
+      <div className="absolute top-1/2 left-1/4 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,20,147,0.10), transparent 70%)' }} />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(188,19,254,0.08), transparent 70%)' }} />
+
+      {/* Neon divider */}
+      <div className="neon-divider" style={{ position: 'absolute', top: 0, left: '10%', right: '10%' }} />
 
       <div className="max-w-7xl mx-auto relative z-10" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {/* Section Title */}
