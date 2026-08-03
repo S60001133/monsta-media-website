@@ -3,7 +3,6 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion
 import CTAButton from '../components/CTAButton'
 import Testimonials from '../components/Testimonials'
 import WhyPartner from '../components/WhyPartner'
-import Starfield from '../components/Starfield'
 
 export default function Home() {
   const [navBackground, setNavBackground] = useState(false)
@@ -258,10 +257,6 @@ export default function Home() {
           aria-label="Digital marketing agency office background"
         />
         <motion.div style={{ position: 'absolute', inset: 0, zIndex: 0, opacity: heroFade }} aria-hidden="true" />
-        {/* Starfield + meteors over the hero background */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[1] overflow-hidden">
-          <Starfield density={0.00016} zIndex={1} fixed={false} />
-        </div>
         {/* Stronger drifting brand blobs behind hero text (gradient falloff — no CSS blur, cheaper) */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
           <div className="animate-blob absolute w-[480px] h-[480px] rounded-full"
