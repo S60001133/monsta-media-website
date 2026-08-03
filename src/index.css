@@ -263,6 +263,39 @@ section[id] {
   animation: marquee-slide 22s linear infinite;
 }
 
+/* Nav marquee — must shrink inside flex header (min-width: 0 fix) */
+.nav-marquee-wrap {
+  min-width: 0;
+}
+.nav-marquee-track {
+  animation-duration: 30s;
+}
+
+/* Edge fade masks so marquee text dissolves instead of hard-clipping */
+.marquee-fade {
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+.nav-marquee-wrap {
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+}
+
+/* Mobile marquee sizing */
+@media (max-width: 480px) {
+  .marquee-row {
+    height: 48px !important;
+    padding: 8px 0 !important;
+  }
+  .marquee-item {
+    margin-right: 64px !important;
+    font-size: clamp(0.8rem, 3.5vw, 1rem) !important;
+  }
+  .marquee-icon {
+    width: clamp(14px, 4vw, 22px) !important;
+  }
+}
+
 /* ---------- Shine sweep on buttons ---------- */
 @keyframes shine-sweep {
   0% { transform: translateX(-150%) skewX(-18deg); }

@@ -52,8 +52,8 @@ export default function Home() {
         </div>
 
         {/* Scrolling Marquee - Hidden on mobile */}
-        <div className="hidden md:flex flex-1 mx-8 overflow-hidden" style={{ marginRight: '20px' }}>
-          <div className="marquee-track">
+        <div className="hidden md:flex flex-1 mx-8 overflow-hidden nav-marquee-wrap" style={{ marginRight: '24px', minWidth: 0 }}>
+          <div className="marquee-track nav-marquee-track">
             {Array.from({ length: 4 }).map((_, i) => (
               <span key={i} className="text-sm font-semibold text-pink-400" style={{ marginLeft: '80px', marginRight: '80px' }}>Get Leads While You Sleep</span>
             ))}
@@ -281,7 +281,7 @@ export default function Home() {
         </div>
 
         {/* Marquee Section */}
-        <div className="marquee-row relative w-full z-20" aria-hidden="true" style={{ height: '80px', padding: '10px 0', boxSizing: 'border-box', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+        <div className="marquee-row relative w-full z-20 marquee-fade" aria-hidden="true" style={{ height: '80px', padding: '10px 0', boxSizing: 'border-box', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
           <div className="marquee" style={{ display: 'flex', flexWrap: 'nowrap', width: 'max-content' }}>
             <div className="marquee-track" style={{ display: 'inline-flex', alignItems: 'center', whiteSpace: 'nowrap', willChange: 'transform' }}>
               {Array.from({ length: 4 }).map((_, i) => (
@@ -304,30 +304,6 @@ export default function Home() {
 
       {/* Testimonials Section */}
       <Testimonials />
-
-      <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
-        .marquee-track {
-          animation: marquee 20s linear infinite;
-        }
-
-        @media (max-width: 480px) {
-          .marquee-row {
-            height: 48px !important;
-            padding: 8px 0 !important;
-          }
-          .marquee-item {
-            margin-right: 64px !important;
-            font-size: clamp(0.8rem, 3.5vw, 1rem) !important;
-          }
-          .marquee-icon {
-            width: clamp(14px, 4vw, 22px) !important;
-          }
-        }
-      `}</style>
     </main>
   )
 }
