@@ -126,6 +126,83 @@ body {
   overflow-x: hidden;
 }
 
+/* Smooth scrolling everywhere (was mobile-only) */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Section scroll-margin so anchored nav doesn't hide behind fixed nav */
+section[id] {
+  scroll-margin-top: 90px;
+}
+
+/* ===== Alive-scroll enhancements (added, colors/fonts untouched) ===== */
+
+/* Gradient shimmer for the hero marquee text */
+@keyframes marquee-shimmer {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.marquee-item {
+  animation: marquee-shimmer 4s linear infinite;
+}
+
+/* Slow aurora drift for ambient background blobs */
+@keyframes aurora-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.08); }
+  66% { transform: translate(-20px, 24px) scale(0.94); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+.aurora-blob {
+  animation: aurora-drift 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Hero headline entrance */
+@keyframes hero-rise {
+  0% { opacity: 0; transform: translateY(36px); filter: blur(10px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.hero-rise {
+  animation: hero-rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Scroll progress bar (top of viewport) */
+@keyframes scroll-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.scroll-progress-bar {
+  transform-origin: left;
+  animation: scroll-progress linear both;
+  animation-timeline: scroll();
+}
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-item,
+  .aurora-blob,
+  .hero-rise,
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-glitch {
+    animation: none !important;
+  }
+}
+
 h1,
 h2,
 h3,

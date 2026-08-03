@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
+import Reveal from '../components/Reveal'
 
 export default function Services() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -230,9 +231,12 @@ export default function Services() {
         style={{ paddingTop: '100px', paddingBottom: '56px', paddingLeft: '16px', paddingRight: '16px', display: 'flex', justifyContent: 'center' }}
       >
         <div className="max-w-5xl text-center" style={{ width: '100%' }}>
+          <Reveal variant="up" amount={0.4}>
           <p className="text-xs md:text-sm" style={{ color: '#023e8aff', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '12px' }}>
             Services engineered to perform
           </p>
+          </Reveal>
+          <Reveal variant="blur" delay={0.1} amount={0.4}>
           <h1
             className="px-4"
             style={{
@@ -251,9 +255,12 @@ export default function Services() {
               Grow With Conviction
             </span>
           </h1>
+          </Reveal>
+          <Reveal variant="up" delay={0.2} amount={0.3}>
           <p style={{ fontSize: '18px', color: 'rgba(0,0,0,0.65)', maxWidth: '760px', margin: '0 auto', lineHeight: '1.7' }}>
             We combine creative, performance, and operational rigour. Each service is built with clear playbooks, live optimisation, and reporting you can trust.
           </p>
+          </Reveal>
         </div>
       </section>
 
@@ -264,9 +271,9 @@ export default function Services() {
             const isBlackCard = index % 2 === 0
             const sectionId = service.title.toLowerCase().replace(/\s+/g, '-').replace(/[&]/g, 'and')
             return (
+              <Reveal key={service.title} variant="up" delay={index * 0.05} amount={0.15} margin="-40px">
               <div
                 id={sectionId}
-                key={service.title}
                 className="rounded-2xl border hover:border-[#ff1493]/50 transition-all duration-300 flex-col md:flex-row"
                 style={{
                   backgroundColor: isBlackCard ? '#000000' : '#ffffff',
@@ -322,10 +329,14 @@ export default function Services() {
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover',
+                      transition: 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
                     }}
+                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.06)' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
                   />
                 </div>
               </div>
+              </Reveal>
             )
           })}
         </div>
@@ -339,12 +350,16 @@ export default function Services() {
         <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.08)', zIndex: 1 }}></div>
         <div style={{ position: 'absolute', bottom: '-30%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.05)', zIndex: 1 }}></div>
         <div className="max-w-3xl text-center" style={{ width: '100%', position: 'relative', zIndex: 2 }}>
+          <Reveal variant="up" amount={0.3}>
           <h2 className="font-black mb-6" style={{ color: '#023e8aff', fontSize: '48px', fontFamily: 'Montserrat', letterSpacing: '-1px' }}>
             Ready to build, launch, and scale?
           </h2>
+          </Reveal>
+          <Reveal variant="up" delay={0.12} amount={0.3}>
           <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(0,0,0,0.7)', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
             Book a discovery call. We will map the quickest path to success.
           </p>
+          </Reveal>
           <CTAButton
             text="Book a Free Consultation"
             variant="primary"

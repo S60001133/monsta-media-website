@@ -1,3 +1,5 @@
+import Reveal from './Reveal'
+
 export default function Footer() {
   const year = new Date().getFullYear()
 
@@ -34,6 +36,7 @@ export default function Footer() {
       `}</style>
       <footer className="bg-white border-t border-gray-200 text-black relative z-50" style={{ paddingTop: '20px', paddingBottom: '0px' }}>
         <div className="max-w-7xl mx-auto px-6 md:px-10">
+          <Reveal variant="fade" amount={0.15}>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-12 mb-8 text-center md:text-left">
             {/* Brand */}
             <div className="space-y-2 flex flex-col items-center md:items-start">
@@ -139,6 +142,7 @@ export default function Footer() {
             <div className="block md:hidden h-px w-12 bg-black/20" aria-hidden="true"></div>
             <a href="https://privacy-policy.monstamediaparramatta.com/privacy-policy" target="_blank" rel="noopener noreferrer" className="footer-link cursor-pointer">Privacy Policy</a>
           </div>
+          </Reveal>
         </div>
       </footer>
     </>

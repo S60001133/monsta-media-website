@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import CTAButton from '../components/CTAButton'
 import Testimonials from '../components/Testimonials'
 import WhyPartner from '../components/WhyPartner'
@@ -6,6 +7,13 @@ import WhyPartner from '../components/WhyPartner'
 export default function Home() {
   const [navBackground, setNavBackground] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const reduceMotion = useReducedMotion()
+
+  // Hero parallax — background image drifts up slower than scroll
+  const heroRef = useScroll()
+  const heroBgY = useTransform(heroRef.scrollY, [0, 800], [0, reduceMotion ? 0 : 180])
+  const heroBgScale = useTransform(heroRef.scrollY, [0, 800], [1, reduceMotion ? 1 : 1.12])
+  const heroFade = useTransform(heroRef.scrollY, [0, 500], [1, reduceMotion ? 1 : 0.25])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -227,33 +235,54 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-between px-4 md:px-6 pt-20 md:pt-20 pb-12 md:pb-16 overflow-hidden" aria-labelledby="hero-heading">
-        {/* Hero Background Image */}
-        <div 
+        {/* Hero Background Image with scroll parallax */}
+        <motion.div
           className="absolute inset-0 w-full h-full z-0"
-          style={{ 
+          style={{
             backgroundImage: 'url(/images/hero-bg.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             filter: 'blur(1px)',
             opacity: 0.6,
-            willChange: 'transform'
+            y: heroBgY,
+            scale: heroBgScale,
+            willChange: 'transform',
           }}
           role="img"
           aria-label="Digital marketing agency office background"
         />
+        <motion.div style={{ position: 'absolute', inset: 0, zIndex: 0, opacity: heroFade }} aria-hidden="true" />
         <div className="text-center space-y-6 md:space-y-8 max-w-5xl relative z-10 flex-1 flex flex-col justify-center px-4" style={{ paddingTop: '80px' }}>
-          <h1 className="font-black tracking-tight leading-tight text-center" style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 'clamp(48px, 6vw, 120px)', letterSpacing: '0.2px' }}>
+          <motion.h1
+            className="font-black tracking-tight leading-tight text-center"
+            style={{ fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontSize: 'clamp(48px, 6vw, 120px)', letterSpacing: '0.2px' }}
+            initial={{ opacity: 0, y: 40, filter: 'blur(12px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+          >
             <span className="text-white">Monsta Media Parramatta</span>
-          </h1>
+          </motion.h1>
 
-          <p className="text-lg md:text-xl text-white/80 mx-auto leading-relaxed text-center" style={{ textAlign: 'center' }}>
+          <motion.p
+            className="text-lg md:text-xl text-white/80 mx-auto leading-relaxed text-center"
+            style={{ textAlign: 'center' }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.45 }}
+          >
             If you can afford $1000/month on ad spend <span className="font-bold text-pink-400">for Meta ads</span>.
             <br />
             No agency fees, no hidden costs. Experience our expertise, risk-free.
-          </p>
+          </motion.p>
 
           {/* CTA and Trust Indicators */}
-          <div className="text-center space-y-4 md:space-y-6 relative z-10 px-4" style={{ marginTop: '32px' }}>
+          <motion.div
+            className="text-center space-y-4 md:space-y-6 relative z-10 px-4"
+            style={{ marginTop: '32px' }}
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.7 }}
+          >
             {/* CTA */}
             <div>
               <CTAButton
@@ -272,7 +301,7 @@ export default function Home() {
               <div>No Long Contracts</div>
               <div>Direct Point of Contact</div>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Marquee Section */}

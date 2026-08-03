@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
+import Reveal, { Stagger, StaggerItem } from '../components/Reveal'
 
 
 export default function CRM() {
@@ -316,14 +317,19 @@ export default function CRM() {
       {/* Hero Section */}
       <section style={{ backgroundImage: 'linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%)', paddingTop: '140px', paddingBottom: '100px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '800px 800px' }}>
         <div className="max-w-4xl text-center" style={{ width: '100%' }}>
+          <Reveal variant="blur" amount={0.4}>
           <h1 className="font-black mb-6" style={{ fontSize: '56px', fontFamily: 'Montserrat', color: '#000000', letterSpacing: '-1px' }}>
             Lead <span style={{ color: '#ff1493' }}>Monsta</span> CRM
           </h1>
+          </Reveal>
+          <Reveal variant="up" delay={0.15} amount={0.3}>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(0,0,0,0.65)', marginBottom: '24px', maxWidth: '600px' }}>
               Manage, nurture, and convert your leads with enterprise-grade CRM tools. Automate your entire lead funnel with intelligent workflows, AI-powered automation, and real-time analytics.
             </p>
           </div>
+          </Reveal>
+            <Reveal variant="up" delay={0.28} amount={0.3}>
             <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
               <CTAButton
                 text="Book Your Free Consultation"
@@ -335,12 +341,14 @@ export default function CRM() {
                 className="mt-4 mx-auto"
               />
             </div>
+            </Reveal>
         </div>
       </section>
 
       {/* Key Benefits Section */}
       <section style={{ backgroundColor: '#f8f9ff', paddingTop: '100px', paddingBottom: '100px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '900px 900px' }}>
         <div className="max-w-6xl" style={{ width: '100%' }}>
+          <Reveal variant="up" amount={0.3}>
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
             <h2 className="font-black mb-4" style={{ fontSize: '40px', fontFamily: 'Montserrat', color: '#023e8aff', letterSpacing: '-0.5px' }}>
               Why Choose Our CRM?
@@ -349,7 +357,8 @@ export default function CRM() {
               Industry-leading features designed to scale your business
             </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+          </Reveal>
+          <Stagger style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }} amount={0.1} gap={0.12}>
             {[
               { title: 'Lead Dashboard', desc: 'Unified view of all your leads with real-time insights', icon: '📊' },
               { title: 'Automation', desc: 'Automatically nurture leads through email and SMS workflows', icon: '⚙️' },
@@ -358,7 +367,8 @@ export default function CRM() {
               { title: 'Integrations', desc: 'Connect with your favorite tools and platforms seamlessly', icon: '🔗' },
               { title: 'Support', desc: 'Expert support to help you maximize your CRM investment', icon: '💬' }
             ].map((benefit, idx) => (
-              <div key={idx} style={{ padding: '40px 32px', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(255, 20, 147, 0.1)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', transition: 'all 0.3s ease', cursor: 'pointer' }}
+              <StaggerItem key={idx}>
+              <div style={{ padding: '40px 32px', backgroundColor: '#ffffff', borderRadius: '16px', border: '1px solid rgba(255, 20, 147, 0.1)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)', transition: 'all 0.3s ease', cursor: 'pointer' }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = 'translateY(-8px)';
                   e.currentTarget.style.boxShadow = '0 12px 32px rgba(255,20,147,0.15)';
@@ -376,14 +386,16 @@ export default function CRM() {
                   {benefit.desc}
                 </p>
               </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* Pricing Section */}
       <section style={{ backgroundImage: 'linear-gradient(135deg, #000000 0%, #1a1a1a 100%)', paddingTop: '40px', paddingBottom: '24px', paddingLeft: '20px', paddingRight: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', contentVisibility: 'auto', containIntrinsicSize: '840px 840px' }}>
         <div className="max-w-5xl" style={{ width: '100%', margin: '0 auto' }}>
+          <Reveal variant="up" amount={0.3}>
           <div style={{ textAlign: 'center', marginBottom: '0' }}>
             <h2 className="font-black mb-2" style={{ fontSize: '30px', fontFamily: 'Montserrat', color: '#ffffff', letterSpacing: '-0.3px', marginBottom: 0 }}>
               Simple, Transparent Pricing
@@ -392,6 +404,7 @@ export default function CRM() {
               Choose the perfect plan for your business. Scale anytime, cancel anytime.
             </p>
           </div>
+          </Reveal>
           <div className="md:hidden flex w-full justify-center items-center px-4 mobile-plan-card-container" style={{ marginBottom: '24px', zIndex: 2 }}>
                   {/* Extra top margin for mobile plan card container only on mobile */}
                   <style>{`
@@ -480,12 +493,16 @@ export default function CRM() {
         <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.08)', zIndex: 1 }}></div>
         <div style={{ position: 'absolute', bottom: '-30%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.05)', zIndex: 1 }}></div>
         <div className="max-w-3xl text-center" style={{ width: '100%', position: 'relative', zIndex: 2 }}>
+          <Reveal variant="up" amount={0.3}>
           <h2 className="font-black mb-6" style={{ color: '#023e8aff', fontSize: '48px', fontFamily: 'Montserrat', letterSpacing: '-1px' }}>
             Ready to Transform Your Sales?
           </h2>
+          </Reveal>
+          <Reveal variant="up" delay={0.12} amount={0.3}>
           <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(0,0,0,0.7)', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
             Join hundreds of businesses already using our CRM to automate their lead management and close more deals.
           </p>
+          </Reveal>
           <CTAButton
             text="Book Your Free Consultation"
             variant="primary"

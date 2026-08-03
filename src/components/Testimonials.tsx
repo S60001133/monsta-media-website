@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import CTAButton from './CTAButton'
+import Reveal from './Reveal'
 
 interface Testimonial {
   name: string
@@ -307,6 +308,7 @@ export default function Testimonials() {
 
       <div className="max-w-7xl mx-auto relative z-10" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         {/* Section Title */}
+        <Reveal variant="up" amount={0.4}>
         <div
           className="relative z-30"
           style={{
@@ -344,6 +346,7 @@ export default function Testimonials() {
             Testimonials
           </h2>
         </div>
+        </Reveal>
 
         {/* Mobile Slider */}
         <div className="md:hidden relative z-20 w-full px-6" style={{ marginBottom: '0px', marginTop: spacingConfig.carousel.mt }}>

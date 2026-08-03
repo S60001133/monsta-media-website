@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
+import Reveal, { Stagger, StaggerItem } from '../components/Reveal'
 
 
 export default function About() {
@@ -165,26 +166,35 @@ export default function About() {
       {/* Hero */}
       <section className="border-b border-black/10" style={{ paddingTop: '120px', paddingBottom: '80px', paddingLeft: '24px', paddingRight: '24px', display: 'flex', justifyContent: 'center' }}>
         <div className="max-w-6xl text-center" style={{ width: '100%' }}>
+          <Reveal variant="blur" amount={0.4}>
           <h1 style={{ fontSize: '80px', lineHeight: '88px', letterSpacing: '-0.05em', marginBottom: '32px', fontWeight: 900, fontFamily: 'Montserrat', color: '#000000', textAlign: 'center' }}>
             About Monsta Media Parramatta
           </h1>
+          </Reveal>
+          <Reveal variant="up" delay={0.15} amount={0.4}>
           <p style={{ fontSize: '20px', color: '#ff1493', maxWidth: '900px', margin: '0 auto 32px', lineHeight: '1.6', textAlign: 'center', fontWeight: 700 }}>
             A Digital Agency Focused On Vision, People, Branding & Your ROI
           </p>
+          </Reveal>
+          <Reveal variant="up" delay={0.28} amount={0.3}>
           <p style={{ fontSize: '16px', color: 'rgba(0,0,0,0.6)', maxWidth: '800px', margin: '0 auto', lineHeight: '1.8', textAlign: 'center' }}>
             Monsta Media Parramatta is an Australian-owned and operated digital marketing agency based in Parramatta, Sydney. We are brand-owned, brand-operated, and proudly keep everything in-house.
           </p>
+          </Reveal>
         </div>
       </section>
 
       {/* Key Differentiators */}
       <section style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '80px', paddingRight: '80px', backgroundColor: '#f9f9f9', display: 'flex', justifyContent: 'center' }}>
         <div className="max-w-6xl" style={{ width: '100%' }}>
+          <Reveal variant="up" amount={0.3}>
           <h2 style={{ fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '48px', fontWeight: 900, fontFamily: 'Montserrat', color: '#023e8a', textAlign: 'center' }}>
             Why Choose Monsta Media?
           </h2>
+          </Reveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-8" gap={0.14} amount={0.1}>
+            <StaggerItem>
             <div style={{ padding: '40px', backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', textAlign: 'center' }}>
               <div style={{ fontSize: '48px', marginBottom: '20px' }}>🏢</div>
               <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '16px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
@@ -194,7 +204,9 @@ export default function About() {
                 We are 100% brand-owned and brand-operated. No outsourcing, no third parties—just our dedicated team delivering excellence.
               </p>
             </div>
+            </StaggerItem>
 
+            <StaggerItem>
             <div style={{ padding: '40px', backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', textAlign: 'center' }}>
               <div style={{ fontSize: '48px', marginBottom: '20px' }}>🔒</div>
               <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '16px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
@@ -204,7 +216,9 @@ export default function About() {
                 All services are performed in-house. Your data never leaves our secure environment, ensuring complete privacy and protection.
               </p>
             </div>
+            </StaggerItem>
 
+            <StaggerItem>
             <div style={{ padding: '40px', backgroundColor: '#ffffff', borderRadius: '12px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', textAlign: 'center' }}>
               <div style={{ fontSize: '48px', marginBottom: '20px' }}>🤖</div>
               <h3 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '16px', color: '#3a8dbd', fontFamily: 'Montserrat' }}>
@@ -214,29 +228,37 @@ export default function About() {
                 At the cutting edge of marketing technology, leveraging AI automation to maximize efficiency and deliver superior results.
               </p>
             </div>
-          </div>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
 
       {/* What MONSTA Stands For - Flip Cube Gallery */}
       <section style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '20px', paddingRight: '20px', backgroundColor: '#f9f9f9', display: 'flex', justifyContent: 'center' }}>
         <div style={{ width: '100%', maxWidth: '1200px' }}>
+          <Reveal variant="up" amount={0.3}>
           <h2 style={{ fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '48px', fontWeight: 900, fontFamily: 'Montserrat', textAlign: 'center' }}>
             <span style={{ color: '#023e8a' }}>What Does </span>
             <span style={{ color: '#ff1493' }}>MONSTA</span>
             <span style={{ color: '#023e8a' }}> Stand For?</span>
           </h2>
+          </Reveal>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '40px',
-            justifyItems: 'center',
-            alignItems: 'center',
-          }}>
+          <Stagger
+            className=""
+            gap={0.1}
+            amount={0.1}
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: '40px',
+              justifyItems: 'center',
+              alignItems: 'center',
+            }}
+          >
             {flipCubes.map((cube, idx) => (
+              <StaggerItem key={idx}>
               <div
-                key={idx}
                 className="flip-cube"
                 style={{
                   width: '250px',
@@ -304,18 +326,22 @@ export default function About() {
                   </div>
                 </div>
               </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* Our Story */}
       <section style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '80px', paddingRight: '80px', backgroundColor: '#f9f9f9', display: 'flex', justifyContent: 'center' }}>
         <div className="max-w-4xl" style={{ width: '100%' }}>
+          <Reveal variant="up" amount={0.3}>
           <h2 style={{ fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '32px', fontWeight: 900, fontFamily: 'Montserrat', color: '#023e8a', textAlign: 'center' }}>
             Our Story
           </h2>
+          </Reveal>
 
+          <Reveal variant="fade" delay={0.1} amount={0.1}>
           <div style={{ fontSize: '16px', lineHeight: '28px', color: 'rgba(0,0,0,0.7)', marginBottom: '24px', textAlign: 'center' }}>
             <p style={{ marginBottom: '20px' }}>
               Based in <strong style={{ color: '#ff1493' }}>Parramatta, Sydney</strong>, Monsta Media Parramatta is a proudly <strong style={{ color: '#ff1493' }}>Australian-owned and operated</strong> digital marketing agency helping local and national businesses achieve extraordinary growth and revenue acceleration.
@@ -337,16 +363,20 @@ export default function About() {
               Our expertise extends beyond digital marketing—we've mastered the <strong style={{ color: '#ff1493' }}>Art of Closing</strong>. The biggest gap in lead generation isn't getting leads; it's closing them. Our award-winning sales methodology ensures that the leads we deliver don't just arrive—they convert into paying customers.
             </p>
           </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Services Overview */}
       <section style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '80px', paddingRight: '80px', display: 'flex', justifyContent: 'center' }}>
         <div className="max-w-6xl" style={{ width: '100%' }}>
+          <Reveal variant="up" amount={0.3}>
           <h2 style={{ fontSize: '48px', lineHeight: '56px', letterSpacing: '-0.03em', marginBottom: '32px', fontWeight: 900, fontFamily: 'Montserrat', color: '#023e8a', textAlign: 'center' }}>
             Our Expertise
           </h2>
+          </Reveal>
 
+          <Reveal variant="fade" amount={0.1}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div
               className="group"
@@ -522,6 +552,7 @@ export default function About() {
               </p>
             </div>
           </div>
+          </Reveal>
         </div>
       </section>
 
@@ -530,12 +561,16 @@ export default function About() {
         <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.08)', zIndex: 1 }}></div>
         <div style={{ position: 'absolute', bottom: '-30%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', backgroundColor: 'rgba(255,20,147,0.05)', zIndex: 1 }}></div>
         <div className="max-w-3xl text-center" style={{ width: '100%', position: 'relative', zIndex: 2 }}>
+          <Reveal variant="up" amount={0.3}>
           <h2 className="font-black mb-6" style={{ color: '#023e8aff', fontSize: '48px', fontFamily: 'Montserrat', letterSpacing: '-1px' }}>
             Ready to Partner with Monsta?
           </h2>
+          </Reveal>
+          <Reveal variant="up" delay={0.12} amount={0.3}>
           <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(0,0,0,0.7)', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
             Let's discuss how we can accelerate your business growth with our proven digital marketing strategies.
           </p>
+          </Reveal>
           <CTAButton text="Book Your Free Consultation" variant="primary" size="lg" ripple magnetic onClick={() => (window.location.href = 'https://calendar.monstamediaparramatta.com/calendar')} />
         </div>
       </section>
