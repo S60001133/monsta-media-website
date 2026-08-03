@@ -115,8 +115,12 @@ export default function Starfield({ density = 0.00012, zIndex = -5, fixed = true
 
     resize()
     window.addEventListener('resize', resize)
-    if (!reduceMotion) raf = requestAnimationFrame(draw)
-    else {
+    if (!reduceMotion) {
+      // Draw one frame synchronously so stars are visible immediately
+      // (headless/background tabs may throttle rAF)
+      draw(0)
+      raf = requestAnimationFrame(draw)
+    } else {
       // static stars, no meteors — but brighter so they're still visible
       for (const s of stars) {
         ctx.beginPath()
