@@ -3,6 +3,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion
 import CTAButton from '../components/CTAButton'
 import Testimonials from '../components/Testimonials'
 import WhyPartner from '../components/WhyPartner'
+import Starfield from '../components/Starfield'
 
 export default function Home() {
   const [navBackground, setNavBackground] = useState(false)
@@ -252,6 +253,19 @@ export default function Home() {
           aria-label="Digital marketing agency office background"
         />
         <motion.div style={{ position: 'absolute', inset: 0, zIndex: 0, opacity: heroFade }} aria-hidden="true" />
+        {/* Starfield + meteors over the hero background */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[1] overflow-hidden">
+          <Starfield density={0.00016} zIndex={1} fixed={false} />
+        </div>
+        {/* Stronger drifting brand blobs behind hero text */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+          <div className="animate-blob absolute w-[480px] h-[480px] rounded-full"
+            style={{ top: '10%', left: '-8%', background: 'radial-gradient(circle, rgba(234,4,139,0.35), transparent 70%)', filter: 'blur(70px)' }} />
+          <div className="animate-blob absolute w-[520px] h-[520px] rounded-full"
+            style={{ bottom: '0%', right: '-10%', background: 'radial-gradient(circle, rgba(188,19,254,0.3), transparent 70%)', filter: 'blur(80px)', animationDelay: '3s' }} />
+          <div className="animate-blob absolute w-[380px] h-[380px] rounded-full"
+            style={{ top: '48%', left: '38%', background: 'radial-gradient(circle, rgba(255,20,147,0.25), transparent 70%)', filter: 'blur(60px)', animationDelay: '6s' }} />
+        </div>
         <div className="text-center space-y-6 md:space-y-8 max-w-5xl relative z-10 flex-1 flex flex-col justify-center px-4" style={{ paddingTop: '80px' }}>
           <motion.h1
             className="font-black tracking-tight leading-tight text-center"
@@ -260,7 +274,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
           >
-            <span className="text-white">Monsta Media Parramatta</span>
+            <span className="text-gradient-animated">Monsta Media Parramatta</span>
           </motion.h1>
 
           <motion.p
@@ -284,7 +298,7 @@ export default function Home() {
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.7 }}
           >
             {/* CTA */}
-            <div>
+            <div className="pulse-ring relative inline-block" style={{ borderRadius: 14 }}>
               <CTAButton
                 text="Claim Your Free Consultation"
                 variant="primary"

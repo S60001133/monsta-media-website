@@ -1,5 +1,6 @@
 import { Stagger, StaggerItem } from './Reveal'
 import Reveal from './Reveal'
+import SpotlightCard from './SpotlightCard'
 
 export default function WhyPartner() {
   return (
@@ -138,7 +139,7 @@ export default function WhyPartner() {
         <div className="container">
           <Stagger className="features-row" gap={0.14} amount={0.1}>
             <StaggerItem>
-              <div className="feature-box">
+              <SpotlightCard className="feature-box" glowColor="rgba(255, 20, 147, 0.22)" borderColor="#ea048b" radius={16}>
                 <div className="feature-box-header">
                   <span className="icon">
                     <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/6911793375ec1e386b49e440.svg" alt="AI-Focused Expertise Icon" loading="lazy" />
@@ -146,10 +147,10 @@ export default function WhyPartner() {
                   <h3>AI-Focused Expertise</h3>
                 </div>
                 <p>We live and breathe AI! For Marketing, Research, and Automations. We know what works.</p>
-              </div>
+              </SpotlightCard>
             </StaggerItem>
             <StaggerItem>
-              <div className="feature-box">
+              <SpotlightCard className="feature-box" glowColor="rgba(255, 20, 147, 0.22)" borderColor="#ea048b" radius={16}>
                 <div className="feature-box-header">
                   <span className="icon">
                     <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69117933d1ba950d30ee1248.svg" alt="No-Nonsense Approach Icon" loading="lazy" />
@@ -157,10 +158,10 @@ export default function WhyPartner() {
                   <h3>No-Nonsense Approach</h3>
                 </div>
                 <p>Clear strategies that deliver measurable results. Get more calls. Get more leads. Get more ROI's.</p>
-              </div>
+              </SpotlightCard>
             </StaggerItem>
             <StaggerItem>
-              <div className="feature-box">
+              <SpotlightCard className="feature-box" glowColor="rgba(255, 20, 147, 0.22)" borderColor="#ea048b" radius={16}>
                 <div className="feature-box-header">
                   <span className="icon">
                     <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69117933d4d77957688c4f72.svg" alt="Australian Owned & Operated Icon" loading="lazy" />
@@ -168,10 +169,10 @@ export default function WhyPartner() {
                   <h3>Australian Owned & Operated</h3>
                 </div>
                 <p>Based in Parramatta, Sydney, we understand the Aussie market and are here for locals.</p>
-              </div>
+              </SpotlightCard>
             </StaggerItem>
             <StaggerItem>
-              <div className="feature-box">
+              <SpotlightCard className="feature-box" glowColor="rgba(255, 20, 147, 0.22)" borderColor="#ea048b" radius={16}>
                 <div className="feature-box-header">
                   <span className="icon">
                     <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69117933d4d779de898c4f71.svg" alt="Your Growth Partner Icon" loading="lazy" />
@@ -179,10 +180,10 @@ export default function WhyPartner() {
                   <h3>Your Growth Partner</h3>
                 </div>
                 <p>Committed to your success, acting as an extension of your team.</p>
-              </div>
+              </SpotlightCard>
             </StaggerItem>
             <StaggerItem>
-              <div className="feature-box">
+              <SpotlightCard className="feature-box" glowColor="rgba(255, 20, 147, 0.22)" borderColor="#ea048b" radius={16}>
                 <div className="feature-box-header">
                   <span className="icon">
                     <img src="https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/6911793375ec1e783449e441.svg" alt="Transparent Reporting Icon" loading="lazy" />
@@ -190,7 +191,7 @@ export default function WhyPartner() {
                   <h3>Transparent Reporting</h3>
                 </div>
                 <p>You'll always know how your marketing investment is performing.</p>
-              </div>
+              </SpotlightCard>
             </StaggerItem>
           </Stagger>
         </div>
