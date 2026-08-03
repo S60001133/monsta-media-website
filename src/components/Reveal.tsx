@@ -46,9 +46,11 @@ const buildVariants = (v: NonNullable<RevealProps['variant']>, offset: number, d
     case 'zoom':
       return { hidden: { opacity: 0, scale: 0.88 }, ...base }
     case 'blur':
+      // Note: animating CSS filter is expensive during scroll — use a
+      // fade+rise instead (visually similar, GPU-cheap)
       return {
-        hidden: { opacity: 0, filter: 'blur(12px)', y: dist * 0.4 },
-        visible: { opacity: 1, filter: 'blur(0px)', y: 0, transition: { duration, ease: [0.22, 1, 0.36, 1] as const } },
+        hidden: { opacity: 0, y: dist * 0.4 },
+        visible: { opacity: 1, y: 0, transition: { duration, ease: [0.22, 1, 0.36, 1] as const } },
       }
     case 'fade':
     default:

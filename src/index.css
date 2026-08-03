@@ -139,13 +139,11 @@ section[id] {
 
 /* ===== Alive-scroll enhancements (added, colors/fonts untouched) ===== */
 
-/* Gradient shimmer for the hero marquee text */
-@keyframes marquee-shimmer {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
+/* Gradient text for the hero marquee — static gradient (no per-item animation;
+   the marquee track already animates via transform, which is compositor-only) */
 .marquee-item {
-  animation: marquee-shimmer 4s linear infinite;
+  display: inline-flex;
+  align-items: center;
 }
 
 /* Slow aurora drift for ambient background blobs */

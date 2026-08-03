@@ -8,10 +8,16 @@ export default function Finance() {
   const [navBackground, setNavBackground] = useState(false)
 
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      setNavBackground(window.scrollY > 10 || window.innerWidth < 768)
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        setNavBackground(window.scrollY > 10 || window.innerWidth < 768)
+        ticking = false
+      })
     }
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])

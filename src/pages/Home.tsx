@@ -17,14 +17,20 @@ export default function Home() {
   const heroFade = useTransform(heroRef.scrollY, [0, 500], [1, reduceMotion ? 1 : 0.25])
 
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      // Get the hero section height (viewport height)
-      const heroHeight = window.innerHeight
-      // Set background when scrolled past hero section
-      setNavBackground(window.scrollY > heroHeight * 0.8)
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        // Get the hero section height (viewport height)
+        const heroHeight = window.innerHeight
+        // Set background when scrolled past hero section
+        setNavBackground(window.scrollY > heroHeight * 0.8)
+        ticking = false
+      })
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -243,7 +249,6 @@ export default function Home() {
             backgroundImage: 'url(/images/hero-bg.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            filter: 'blur(1px)',
             opacity: 0.6,
             y: heroBgY,
             scale: heroBgScale,
@@ -257,14 +262,14 @@ export default function Home() {
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[1] overflow-hidden">
           <Starfield density={0.00016} zIndex={1} fixed={false} />
         </div>
-        {/* Stronger drifting brand blobs behind hero text */}
+        {/* Stronger drifting brand blobs behind hero text (gradient falloff — no CSS blur, cheaper) */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
           <div className="animate-blob absolute w-[480px] h-[480px] rounded-full"
-            style={{ top: '10%', left: '-8%', background: 'radial-gradient(circle, rgba(234,4,139,0.35), transparent 70%)', filter: 'blur(70px)' }} />
+            style={{ top: '10%', left: '-8%', background: 'radial-gradient(circle, rgba(234,4,139,0.35), transparent 70%)' }} />
           <div className="animate-blob absolute w-[520px] h-[520px] rounded-full"
-            style={{ bottom: '0%', right: '-10%', background: 'radial-gradient(circle, rgba(188,19,254,0.3), transparent 70%)', filter: 'blur(80px)', animationDelay: '3s' }} />
+            style={{ bottom: '0%', right: '-10%', background: 'radial-gradient(circle, rgba(188,19,254,0.3), transparent 70%)', animationDelay: '3s' }} />
           <div className="animate-blob absolute w-[380px] h-[380px] rounded-full"
-            style={{ top: '48%', left: '38%', background: 'radial-gradient(circle, rgba(255,20,147,0.25), transparent 70%)', filter: 'blur(60px)', animationDelay: '6s' }} />
+            style={{ top: '48%', left: '38%', background: 'radial-gradient(circle, rgba(255,20,147,0.25), transparent 70%)', animationDelay: '6s' }} />
         </div>
         <div className="text-center space-y-6 md:space-y-8 max-w-5xl relative z-10 flex-1 flex flex-col justify-center px-4" style={{ paddingTop: '80px' }}>
           <motion.h1

@@ -12,6 +12,24 @@ type Meteor = { x: number; y: number; len: number; speed: number; angle: number;
 
 const METEOR_COLORS = ['#ff1493', '#ea048b', '#bc13fe', '#ffffff']
 
+/**
+ * Pre-rendered glow sprite (offscreen canvas). Using shadowBlur on every
+ * star/meteor per frame is extremely expensive (Gaussian blur per draw at
+ * 60fps). Instead we bake ONE radial glow once and drawImage it — visually
+ * identical, orders of magnitude cheaper.
+ */
+function makeGlowSprite(radius: number, color: string): HTMLCanvasElement {
+  const c = document.createElement('canvas')
+  c.width = c.height = radius * 2
+  const g = c.getContext('2d')!
+  const grad = g.createRadialGradient(radius, radius, 0, radius, radius, radius)
+  grad.addColorStop(0, color)
+  grad.addColorStop(1, 'rgba(0,0,0,0)')
+  g.fillStyle = grad
+  g.fillRect(0, 0, c.width, c.height)
+  return c
+}
+
 export default function Starfield({ density = 0.00012, zIndex = -5, fixed = true }: { density?: number; zIndex?: number; fixed?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const reduceMotion = useReducedMotion()
@@ -28,6 +46,11 @@ export default function Starfield({ density = 0.00012, zIndex = -5, fixed = true
     let stars: Star[] = []
     let meteors: Meteor[] = []
     let lastMeteor = 0
+
+    // Bake glow sprites once — white for stars, brand color for meteors
+    const whiteGlow = makeGlowSprite(24, 'rgba(255,255,255,0.55)')
+    const colorGlow = makeGlowSprite(28, 'rgba(255,20,147,0.6)')
+    const colorGlowAlt = makeGlowSprite(28, 'rgba(188,19,254,0.6)')
 
     const resize = () => {
       w = canvas.width = window.innerWidth
@@ -62,22 +85,24 @@ export default function Starfield({ density = 0.00012, zIndex = -5, fixed = true
     const draw = (t: number) => {
       ctx.clearRect(0, 0, w, h)
 
-      // Stars — twinkle with glow
+      // Stars — twinkle (sprite glow, no shadowBlur)
       for (const s of stars) {
         const a = s.baseAlpha * (0.6 + 0.4 * Math.sin(t / 1000 * s.speed + s.phase))
+        const alpha = Math.max(a, 0.15)
+        // Glow sprite underneath (baked once — cheap drawImage)
+        ctx.globalAlpha = alpha * 0.5
+        ctx.drawImage(whiteGlow, s.x - 12, s.y - 12, 24, 24)
+        // Core dot
+        ctx.globalAlpha = alpha
         ctx.beginPath()
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(255,255,255,${Math.max(a, 0.15)})`
-        if (s.r > 1.4) {
-          ctx.shadowColor = 'rgba(255,255,255,0.9)'
-          ctx.shadowBlur = 8
-        }
+        ctx.fillStyle = '#ffffff'
         ctx.fill()
-        ctx.shadowBlur = 0
       }
+      ctx.globalAlpha = 1
 
-      // Meteors — spawn every ~1.8–3.2s (more frequent, more dramatic)
-      if (t - lastMeteor > 1800 + Math.random() * 1400) {
+      // Meteors — spawn every ~2.5–4s
+      if (t - lastMeteor > 2500 + Math.random() * 1500) {
         spawnMeteor()
         lastMeteor = t
       }
@@ -99,15 +124,16 @@ export default function Starfield({ density = 0.00012, zIndex = -5, fixed = true
         ctx.lineCap = 'round'
         ctx.globalAlpha = m.alpha
         ctx.stroke()
-        ctx.globalAlpha = 1
-        // head glow
+        // head glow — sprite, no shadowBlur
+        const glow = m.color === '#bc13fe' ? colorGlowAlt : colorGlow
+        ctx.globalAlpha = m.alpha * 0.7
+        ctx.drawImage(glow, m.x - 14, m.y - 14, 28, 28)
+        ctx.globalAlpha = m.alpha
         ctx.beginPath()
-        ctx.arc(m.x, m.y, 3, 0, Math.PI * 2)
+        ctx.arc(m.x, m.y, 2.6, 0, Math.PI * 2)
         ctx.fillStyle = m.color
-        ctx.shadowColor = m.color
-        ctx.shadowBlur = 18
         ctx.fill()
-        ctx.shadowBlur = 0
+        ctx.globalAlpha = 1
       }
 
       raf = requestAnimationFrame(draw)
@@ -123,16 +149,15 @@ export default function Starfield({ density = 0.00012, zIndex = -5, fixed = true
     } else {
       // static stars, no meteors — but brighter so they're still visible
       for (const s of stars) {
+        ctx.globalAlpha = Math.min(s.baseAlpha + 0.25, 1) * 0.5
+        ctx.drawImage(whiteGlow, s.x - 12, s.y - 12, 24, 24)
+        ctx.globalAlpha = Math.min(s.baseAlpha + 0.25, 1)
         ctx.beginPath()
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(255,255,255,${Math.min(s.baseAlpha + 0.25, 1)})`
-        if (s.r > 1.4) {
-          ctx.shadowColor = 'rgba(255,255,255,0.9)'
-          ctx.shadowBlur = 8
-        }
+        ctx.fillStyle = '#ffffff'
         ctx.fill()
-        ctx.shadowBlur = 0
       }
+      ctx.globalAlpha = 1
     }
 
     return () => {

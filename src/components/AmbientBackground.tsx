@@ -17,8 +17,6 @@ const BLURBS = [
   { size: 520, color: 'rgba(234, 4, 139, 0.16)', top: '8%', left: '-10%', dur: 18, delay: 0 },
   { size: 640, color: 'rgba(255, 20, 147, 0.13)', top: '32%', left: '72%', dur: 22, delay: 2 },
   { size: 480, color: 'rgba(188, 19, 254, 0.12)', top: '62%', left: '-6%', dur: 20, delay: 4 },
-  { size: 560, color: 'rgba(234, 4, 139, 0.10)', top: '84%', left: '60%', dur: 24, delay: 1 },
-  { size: 400, color: 'rgba(255, 20, 147, 0.10)', top: '110%', left: '20%', dur: 19, delay: 3 },
 ]
 
 export default function AmbientBackground({ zIndex = -10 }: { zIndex?: number }) {
@@ -48,7 +46,6 @@ export default function AmbientBackground({ zIndex = -10 }: { zIndex?: number })
               left: b.left,
               borderRadius: '50%',
               background: `radial-gradient(circle, ${b.color}, transparent 70%)`,
-              filter: 'blur(60px)',
             }}
           />
         ))}
@@ -81,11 +78,10 @@ export default function AmbientBackground({ zIndex = -10 }: { zIndex?: number })
             left: b.left,
             borderRadius: '50%',
             background: `radial-gradient(circle, ${b.color}, transparent 70%)`,
-            filter: 'blur(60px)',
             y: ys[i % ys.length],
             opacity,
           }}
-          animate={{ scale: [1, 1.15, 1], x: [0, i % 2 === 0 ? 24 : -24, 0] }}
+          animate={{ scale: [1, 1.12, 1], x: [0, i % 2 === 0 ? 20 : -20, 0] }}
           transition={{ duration: b.dur, repeat: Infinity, ease: 'easeInOut', delay: b.delay }}
         />
       ))}
