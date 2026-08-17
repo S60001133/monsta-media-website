@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback } from 'react'
-import { useReducedMotion } from 'framer-motion'
+import { useReducedMotionConfig } from 'framer-motion'
 import type { ReactNode, CSSProperties } from 'react'
 
 /**
@@ -14,7 +14,7 @@ export default function TiltCard({
   maxTilt = 8,
   scale = 1.02,
   spotlight = true,
-  glowColor = 'rgba(255, 20, 147, 0.18)',
+  glowColor = 'rgba(233, 23, 140, 0.18)',
   radius = 16,
 }: {
   children: ReactNode
@@ -29,7 +29,7 @@ export default function TiltCard({
   const ref = useRef<HTMLDivElement>(null)
   const [transform, setTransform] = useState('')
   const [glow, setGlow] = useState({ x: -500, y: -500, on: false })
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionConfig()
 
   const onMove = useCallback(
     (e: React.MouseEvent) => {

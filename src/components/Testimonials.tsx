@@ -1,6 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import CTAButton from './CTAButton'
-import Reveal from './Reveal'
 
 interface Testimonial {
   name: string
@@ -66,93 +64,17 @@ const testimonials: Testimonial[] = [
   }
 ]
 
-// ===== SPACING & MARGIN CONFIGURATION =====
-const spacingConfig = {
-  // Section Container
-  section: {
-    px: '24px',      // px-6
-    pt: '5px',      // Reduced from 80px
-    pb: '20px',      // Reduced from 64px - less bottom padding
-    my: '40px',      // my-10
-  },
-
-  // Heading Container
-  heading: {
-    mb: '20px',      // Reduced from 48px
-    py: '0px',       // Reduced from 8px - no padding
-    fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
-  },
-
-  // Carousel Container
-  carousel: {
-    mb: '64px',      // mb-16
-    mt: '20px',      // Reduced from 120px - less space between heading and carousel
-    gapBetweenCards: '24px', // gap-6
-    perspective: '1200px',
-  },
-
-  // Navigation Arrows
-  arrows: {
-    width: '32px',   // Smaller from w-16
-    height: '32px',  // Smaller from h-16
-    borderWidth: '2px',
-    iconSize: '20px', // Icon size
-  },
-
-  // LEFT & RIGHT CARDS (Side Cards)
-  sideCard: {
-    width: '256px',  // Reduced from 288px
-    height: '280px', // Reduced from 320px
-    padding: '20px', // Reduced from 24px
-    borderRadius: '16px', // rounded-2xl
-    scale: 0.75,
-    opacity: 0.4,
-    textSize: '13px', // Smaller from text-xs
-    textSizeAuthor: '12px', // Smaller
-    textSizeStars: '16px', // Star size in px
-    lineClamp: 6,
-    
-    // Inner Spacing
-    textBottomMargin: '24px', // Reduced from 32px
-    topBorder: '10px',        // Reduced from 12px
-    starSpacing: '6px',       // Reduced from 8px
-    starGap: '4px',           // gap-1
-  },
-
-  // CENTER CARD (Main Focus)
-  centerCard: {
-    width: '336px',  // Reduced from 384px
-    height: '380px', // Reduced from 420px
-    padding: '28px', // Reduced from 32px
-    borderRadius: '24px', // rounded-3xl
-    scale: 1.1,
-    borderWidth: '2px',
-    
-    // Inner Spacing
-    textSize: '14px', // Smaller from text-base
-    textSizeAuthor: '14px', // Smaller
-    textSizeStars: '22px', // Star size in px
-    textBottomMargin: '15px', // Reduced from 32px
-    topBorder: '14px',        // Reduced from 16px
-    starSpacing: '14px',      // Reduced from 16px
-    starGap: '4px',           // gap-1
-  },
-
-  // Navigation Text
-  navText: {
-    fontSize: 'text-xs',
-    mb: '32px',      // mb-8
-  },
-}
-
+/**
+ * Testimonials — light editorial carousel.
+ * Desktop: 3 visible cards with prev/next. Mobile: swipeable snap row.
+ * No glow, no glass — cream surface, hairline borders, serif quotes.
+ */
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  // Removed unused mobileIndex state
   const visibleCount = 3
   const touchStartX = useRef<number | null>(null)
-  const touchEndX = useRef<number | null>(null)
 
-  const getVisibleTestimonials = () => {
+  const getVisible = () => {
     const visible = []
     for (let i = 0; i < visibleCount; i++) {
       const index = (currentIndex + i) % testimonials.length
@@ -174,7 +96,6 @@ export default function Testimonials() {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length)
     }, 30000)
-
     return () => clearInterval(interval)
   }, [])
 
@@ -184,522 +105,180 @@ export default function Testimonials() {
       if (e.key === 'ArrowLeft') handlePrev()
       if (e.key === 'ArrowRight') handleNext()
     }
-
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
   }, [])
 
-  // Removed handleMobilePrev and handleMobileNext since mobileIndex state is gone
-
-  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
-    touchStartX.current = event.touches[0]?.clientX ?? null
-    touchEndX.current = null
-  }
-
-  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
-    touchEndX.current = event.touches[0]?.clientX ?? null
-  }
-
-  const handleTouchEnd = () => {
-    if (touchStartX.current === null || touchEndX.current === null) return
-    // Swipe navigation variables removed (no longer used)
-
-    // Mobile swipe navigation handlers removed (no longer needed)
-
-    touchStartX.current = null
-    touchEndX.current = null
-  }
-
-  const renderTestimonialCard = (testimonial: Testimonial, style?: React.CSSProperties) => (
+  const renderCard = (t: Testimonial, dimmed: boolean) => (
     <div
-      className="group relative backdrop-blur-sm flex flex-col shadow-2xl neon-border-static"
+      className="flex flex-col"
       style={{
-        backgroundColor: 'rgb(15 23 42 / 0.8)',
-        borderWidth: spacingConfig.centerCard.borderWidth,
-        borderColor: 'rgb(255 20 147 / 0.5)',
-        height: spacingConfig.centerCard.height,
-        padding: spacingConfig.centerCard.padding,
-        borderRadius: spacingConfig.centerCard.borderRadius,
-        boxShadow: '0 25px 50px -12px rgb(255 20 147 / 0.2)',
-        ...style,
+        background: 'var(--surface)',
+        border: '1px solid var(--hairline)',
+        borderRadius: '16px',
+        padding: '32px 28px',
+        height: '100%',
+        minHeight: 280,
+        transition: 'opacity 0.4s ease',
+        opacity: dimmed ? 0.55 : 1,
+        boxShadow: '0 2px 12px rgba(28,24,18,0.04)',
       }}
     >
-      {/* Testimonial Text */}
-      <p
-        className="text-gray-200 leading-relaxed font-light"
-        style={{
-          fontSize: spacingConfig.centerCard.textSize,
-          marginBottom: spacingConfig.centerCard.textBottomMargin,
-          textAlign: 'center',
-        }}
-      >
-        {testimonial.text}
+      {/* Quote mark */}
+      <span aria-hidden="true" style={{ fontFamily: 'var(--font-display)', fontSize: 44, lineHeight: 1, color: 'var(--color-brand-pink)', marginBottom: 12 }}>
+        &ldquo;
+      </span>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: 15, lineHeight: 1.6, color: 'var(--ink)', marginBottom: 24 }}>
+        {t.text}
       </p>
-
-      <div
-        style={{
-          marginTop: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: spacingConfig.centerCard.starSpacing,
-        }}
-      >
-        {/* Author - Bottom */}
-        <div
-          className="border-t text-center"
-          style={{
-            borderColor: 'rgb(255 20 147 / 0.3)',
-            paddingTop: spacingConfig.centerCard.topBorder,
-          }}
-        >
-          <h4
-            className="text-white font-bold"
-            style={{ fontSize: spacingConfig.centerCard.textSizeAuthor }}
-          >
-            {testimonial.name}
-          </h4>
-        </div>
-
+      <div style={{ marginTop: 'auto' }}>
+        <h4 style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 15, color: 'var(--ink)', margin: 0 }}>
+          {t.name}
+        </h4>
         {/* Star Rating */}
-        <div
-          className="flex justify-center"
-          style={{ gap: spacingConfig.centerCard.starGap }}
-        >
-          {Array.from({ length: testimonial.rating || 5 }).map((_, i) => (
+        <div style={{ display: 'flex', gap: 3, marginTop: 8 }}>
+          {Array.from({ length: t.rating || 5 }).map((_, i) => (
             <svg
               key={i}
-              className="text-yellow-400 fill-current"
-              style={{
-                width: spacingConfig.centerCard.textSizeStars,
-                height: spacingConfig.centerCard.textSizeStars,
-              }}
+              style={{ width: 15, height: 15, color: 'var(--color-brand-pink)' }}
               viewBox="0 0 24 24"
+              fill="currentColor"
             >
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
             </svg>
           ))}
         </div>
       </div>
-
-      {/* Glow Effect */}
-      <div
-        className="absolute inset-0 rounded-3xl opacity-0 pointer-events-none"
-        style={{ borderRadius: spacingConfig.centerCard.borderRadius }}
-      />
     </div>
   )
 
   return (
-    <section 
-      className="relative bg-black" 
+    <section
       style={{
-        padding: `${spacingConfig.section.pt} ${spacingConfig.section.px} calc(${spacingConfig.section.pb} + 80px)`,
-        margin: `${spacingConfig.section.my} 0`,
+        background: 'var(--paper)',
+        padding: '96px 24px 120px',
         display: 'flex',
         justifyContent: 'center',
       }}
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-linear-to-b from-black via-slate-950 to-black" />
-
-      {/* Decorative gradient blobs (no blur — gradient falloff) */}
-      <div className="absolute top-1/2 left-1/4 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(255,20,147,0.10), transparent 70%)' }} />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full" style={{ background: 'radial-gradient(circle, rgba(188,19,254,0.08), transparent 70%)' }} />
-
-      {/* Neon divider */}
-      <div className="neon-divider" style={{ position: 'absolute', top: 0, left: '10%', right: '10%' }} />
-
-      <div className="max-w-7xl mx-auto relative z-10" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className="section-wrap" style={{ width: '100%' }}>
         {/* Section Title */}
-        <Reveal variant="up" amount={0.4}>
-        <div
-          className="relative z-30"
-          style={{
-            marginBottom: spacingConfig.heading.mb,
-            paddingTop: spacingConfig.heading.py,
-            paddingBottom: spacingConfig.heading.py,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-          }}
-        >
-          <img
-            src="/images/testimonials-icon.png"
-            alt="Testimonials"
-            loading="lazy"
-            style={{
-              width: '300px',
-              height: '150px',
-              marginBottom: '16px',
-              display: 'block',
-            }}
-          />
-          <h2
-            style={{
-              fontSize: spacingConfig.heading.fontSize,
-              fontFamily: 'Montserrat',
-              fontWeight: 900,
-              color: '#ffffff',
-              letterSpacing: '0.01rem',
-              margin: 0,
-            }}
-          >
+        <div style={{ textAlign: 'center', marginBottom: 56 }}>
+          <div className="eyebrow" style={{ marginBottom: 14 }}>Client Love</div>
+          <h2 className="h2-xl">
             Testimonials
           </h2>
         </div>
-        </Reveal>
-
-        {/* Mobile Slider */}
-        <div className="md:hidden relative z-20 w-full px-6" style={{ marginBottom: '0px', marginTop: spacingConfig.carousel.mt }}>
-          <div
-            className="relative w-full"
-            style={{ margin: '0 auto', maxWidth: '100vw' }}
-          >
-            {/* Overlay navigation arrows */}
-            <button
-              onClick={() => {
-                const container = document.getElementById('testimonial-scroll-container');
-                if (container) {
-                  container.scrollBy({ left: -window.innerWidth * 0.92, behavior: 'smooth' });
-                }
-              }}
-              aria-label="Previous testimonial"
-              className="absolute left-2 top-1/2 -translate-y-1/2 text-white w-8 h-8 flex items-center justify-center bg-black/60 rounded-full z-30"
-              style={{ textShadow: '0 0 12px rgba(255,255,255,0.8)', minWidth: 32, minHeight: 32 }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-              </svg>
-            </button>
-            <div
-              id="testimonial-scroll-container"
-              className="flex overflow-x-auto w-full hide-scrollbar"
-              style={{ WebkitOverflowScrolling: 'touch', scrollSnapType: 'x mandatory', gap: 0, justifyContent: 'center' }}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-            >
-              {testimonials.map((testimonial) => (
-                <div
-                  key={testimonial.name}
-                  style={{
-                    minWidth: '92vw',
-                    maxWidth: '92vw',
-                    boxSizing: 'border-box',
-                    padding: '0',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    scrollSnapAlign: 'center',
-                  }}
-                >
-                  <div style={{ width: '100%', maxWidth: 400, margin: '0 auto' }}>
-                    {renderTestimonialCard(testimonial)}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={() => {
-                const container = document.getElementById('testimonial-scroll-container');
-                if (container) {
-                  container.scrollBy({ left: window.innerWidth * 0.92, behavior: 'smooth' });
-                }
-              }}
-              aria-label="Next testimonial"
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-white w-8 h-8 flex items-center justify-center bg-black/60 rounded-full z-30"
-              style={{ textShadow: '0 0 12px rgba(255,255,255,0.8)', minWidth: 32, minHeight: 32 }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-              </svg>
-            </button>
-          </div>
-        </div>
 
         {/* Desktop Carousel */}
-        <div 
-          className="hidden md:flex relative z-20" 
-          style={{ 
-            marginBottom: spacingConfig.carousel.mb,
-            marginTop: spacingConfig.carousel.mt,
-            justifyContent: 'center',
-            width: '100%',
-          }}
-        >
-          {/* Left Navigation Arrow */}
+        <div className="hidden md:flex relative" style={{ justifyContent: 'center', alignItems: 'stretch' }}>
+          {/* Prev */}
           <button
             onClick={handlePrev}
-            className="absolute top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer z-30 transition-all duration-300"
+            aria-label="Previous testimonials"
+            className="absolute flex items-center justify-center"
             style={{
-              left: '-40px',
-              width: spacingConfig.arrows.width,
-              height: spacingConfig.arrows.height,
-              border: '2px solid white',
-              borderRadius: '8px',
-              backgroundColor: 'transparent',
-              color: 'white',
+              left: '-56px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              border: '1px solid var(--hairline-strong)',
+              background: 'var(--surface)',
+              color: 'var(--ink)',
+              fontSize: 18,
+              transition: 'border-color 0.25s ease, color 0.25s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.border = '2px solid #ff1493';
-              e.currentTarget.style.backgroundColor = '#ff1493';
+              e.currentTarget.style.borderColor = 'var(--color-brand-pink)'
+              e.currentTarget.style.color = 'var(--color-brand-pink)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.border = '2px solid white';
-              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.borderColor = 'var(--hairline-strong)'
+              e.currentTarget.style.color = 'var(--ink)'
             }}
-            aria-label="Previous testimonials"
           >
-            <svg className="fill-current" style={{ width: spacingConfig.arrows.iconSize, height: spacingConfig.arrows.iconSize }} viewBox="0 0 24 24">
-              <path d="M15 4l-8 8 8 8" fill="currentColor" />
-            </svg>
+            ←
           </button>
 
-          <div 
-            className="flex justify-center items-center"
-            style={{
-              gap: spacingConfig.carousel.gapBetweenCards,
-              perspective: spacingConfig.carousel.perspective,
-            }}
-          >
-            {/* Left Card */}
-            <div 
-              className="shrink-0 transition-all duration-700 ease-out"
-              style={{
-                width: spacingConfig.sideCard.width,
-                opacity: spacingConfig.sideCard.opacity,
-                transform: `scale(${spacingConfig.sideCard.scale})`,
-              }}
-            >
-              <div 
-                className="group relative border hover:border-[#ff1493]/40 transition-all duration-500 backdrop-blur-sm flex flex-col"
-                style={{
-                  backgroundColor: 'rgb(15 23 42 / 0.4)',
-                  borderColor: 'rgb(55 65 81 / 0.5)',
-                  height: spacingConfig.sideCard.height,
-                  padding: spacingConfig.sideCard.padding,
-                  borderRadius: spacingConfig.sideCard.borderRadius,
-                }}
-              >
-                {/* Testimonial Text */}
-                <p 
-                  className="text-gray-300 leading-relaxed font-light"
-                  style={{
-                    fontSize: spacingConfig.sideCard.textSize,
-                    marginBottom: spacingConfig.sideCard.textBottomMargin,
-                    display: '-webkit-box',
-                    WebkitLineClamp: spacingConfig.sideCard.lineClamp,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                    textAlign: 'center',
-                  }}
-                >
-                  {getVisibleTestimonials()[0]?.text}
-                </p>
-
-                <div 
-                  style={{
-                    marginTop: 'auto',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: spacingConfig.sideCard.starSpacing,
-                  }}
-                >
-                  {/* Author - Bottom */}
-                  <div 
-                    className="border-t border-gray-700/50 text-center"
-                    style={{ paddingTop: spacingConfig.sideCard.topBorder }}
-                  >
-                    <h4 
-                      className="text-white font-semibold"
-                      style={{ fontSize: spacingConfig.sideCard.textSizeAuthor }}
-                    >
-                      {getVisibleTestimonials()[0]?.name}
-                    </h4>
-                  </div>
-
-                  {/* Star Rating */}
-                  <div 
-                    className="flex justify-center"
-                    style={{ gap: spacingConfig.sideCard.starGap }}
-                  >
-                    {Array.from({ length: getVisibleTestimonials()[0]?.rating || 5 }).map((_, i) => (
-                      <svg 
-                        key={i} 
-                        className="text-yellow-400 fill-current" 
-                        style={{
-                          width: spacingConfig.sideCard.textSizeStars,
-                          height: spacingConfig.sideCard.textSizeStars,
-                        }}
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                      </svg>
-                    ))}
-                  </div>
-                </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, maxWidth: 1080 }}>
+            {getVisible().map((t, i) => (
+              <div key={`${t.name}-${i}`} style={{ display: 'flex' }}>
+                {renderCard(t, i === 1 ? false : i === 0 ? false : false)}
               </div>
-            </div>
-
-            {/* Center Card - Main Focus */}
-            <div
-              className="shrink-0 transition-all duration-700 ease-out z-20"
-              key={`center-${currentIndex}`}
-              style={{
-                width: spacingConfig.centerCard.width,
-                transformOrigin: 'center center',
-                transform: `scale(${spacingConfig.centerCard.scale})`,
-              }}
-            >
-              {renderTestimonialCard(getVisibleTestimonials()[1])}
-            </div>
-
-            {/* Right Card */}
-            <div 
-              className="shrink-0 transition-all duration-700 ease-out"
-              style={{
-                width: spacingConfig.sideCard.width,
-                opacity: spacingConfig.sideCard.opacity,
-                transform: `scale(${spacingConfig.sideCard.scale})`,
-              }}
-            >
-              <div 
-                className="group relative border hover:border-[#ff1493]/40 transition-all duration-500 backdrop-blur-sm flex flex-col"
-                style={{
-                  backgroundColor: 'rgb(15 23 42 / 0.4)',
-                  borderColor: 'rgb(55 65 81 / 0.5)',
-                  height: spacingConfig.sideCard.height,
-                  padding: spacingConfig.sideCard.padding,
-                  borderRadius: spacingConfig.sideCard.borderRadius,
-                }}
-              >
-                {/* Testimonial Text */}
-                <p 
-                  className="text-gray-300 leading-relaxed font-light"
-                  style={{
-                    fontSize: spacingConfig.sideCard.textSize,
-                    marginBottom: spacingConfig.sideCard.textBottomMargin,
-                    display: '-webkit-box',
-                    WebkitLineClamp: spacingConfig.sideCard.lineClamp,
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                    textAlign: 'center',
-                  }}
-                >
-                  {getVisibleTestimonials()[2]?.text}
-                </p>
-
-                <div 
-                  style={{
-                    marginTop: 'auto',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: spacingConfig.sideCard.starSpacing,
-                  }}
-                >
-                  {/* Author - Bottom */}
-                  <div 
-                    className="border-t border-gray-700/50 text-center"
-                    style={{ paddingTop: spacingConfig.sideCard.topBorder }}
-                  >
-                    <h4 
-                      className="text-white font-semibold"
-                      style={{ fontSize: spacingConfig.sideCard.textSizeAuthor }}
-                    >
-                      {getVisibleTestimonials()[2]?.name}
-                    </h4>
-                  </div>
-
-                  {/* Star Rating */}
-                  <div 
-                    className="flex justify-center"
-                    style={{ gap: spacingConfig.sideCard.starGap }}
-                  >
-                    {Array.from({ length: getVisibleTestimonials()[2]?.rating || 5 }).map((_, i) => (
-                      <svg 
-                        key={i} 
-                        className="text-yellow-400 fill-current" 
-                        style={{
-                          width: spacingConfig.sideCard.textSizeStars,
-                          height: spacingConfig.sideCard.textSizeStars,
-                        }}
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                      </svg>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
 
-          {/* Right Navigation Arrow */}
+          {/* Next */}
           <button
             onClick={handleNext}
-            className="absolute top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer z-30 transition-all duration-300"
+            aria-label="Next testimonials"
+            className="absolute flex items-center justify-center"
             style={{
-              right: '-40px',
-              width: spacingConfig.arrows.width,
-              height: spacingConfig.arrows.height,
-              border: '2px solid white',
-              borderRadius: '8px',
-              backgroundColor: 'transparent',
-              color: 'white',
+              right: '-56px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: 40,
+              height: 40,
+              borderRadius: '50%',
+              border: '1px solid var(--hairline-strong)',
+              background: 'var(--surface)',
+              color: 'var(--ink)',
+              fontSize: 18,
+              transition: 'border-color 0.25s ease, color 0.25s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.border = '2px solid #ff1493';
-              e.currentTarget.style.backgroundColor = '#ff1493';
+              e.currentTarget.style.borderColor = 'var(--color-brand-pink)'
+              e.currentTarget.style.color = 'var(--color-brand-pink)'
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.border = '2px solid white';
-              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.borderColor = 'var(--hairline-strong)'
+              e.currentTarget.style.color = 'var(--ink)'
             }}
-            aria-label="Next testimonials"
           >
-            <svg className="fill-current" style={{ width: spacingConfig.arrows.iconSize, height: spacingConfig.arrows.iconSize }} viewBox="0 0 24 24">
-              <path d="M9 4l8 8-8 8" fill="currentColor" />
-            </svg>
+            →
           </button>
         </div>
 
-
-        {/* Desktop Carousel Close */}
+        {/* Mobile Slider */}
+        <div className="md:hidden relative w-full">
+          <button
+            onClick={handlePrev}
+            aria-label="Previous testimonial"
+            className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center"
+            style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--hairline-strong)', background: 'var(--surface)', color: 'var(--ink)', fontSize: 18, zIndex: 5 }}
+          >
+            ←
+          </button>
+          <div
+            className="flex overflow-x-auto"
+            style={{ WebkitOverflowScrolling: 'touch', scrollSnapType: 'x mandatory', gap: 16, padding: '0 48px', scrollbarWidth: 'none' }}
+            onTouchStart={(e) => { touchStartX.current = e.touches[0]?.clientX ?? null }}
+            onTouchEnd={(e) => {
+              if (touchStartX.current === null) return
+              const dx = (e.changedTouches[0]?.clientX ?? 0) - touchStartX.current
+              if (dx > 48) handlePrev()
+              else if (dx < -48) handleNext()
+              touchStartX.current = null
+            }}
+          >
+            {testimonials.map((t) => (
+              <div key={t.name} style={{ minWidth: '80vw', maxWidth: '80vw', scrollSnapAlign: 'center', display: 'flex' }}>
+                {renderCard(t, false)}
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={handleNext}
+            aria-label="Next testimonial"
+            className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center"
+            style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid var(--hairline-strong)', background: 'var(--surface)', color: 'var(--ink)', fontSize: 18, zIndex: 5 }}
+          >
+            →
+          </button>
         </div>
-
-      {/* Hide scrollbar for mobile carousel */}
-      <style>{`
-        .hide-scrollbar {
-          scrollbar-width: none; /* Firefox */
-          -ms-overflow-style: none; /* IE 10+ */
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none; /* Chrome/Safari/Webkit */
-        }
-      `}</style>
-
-      {/* CTA Section - pinned to bottom */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
-          display: 'flex',
-          justifyContent: 'center',
-          padding: '4px 0 2px 0', // Reduced padding
-          pointerEvents: 'auto',
-          zIndex: 30,
-        }}
-      >
-        <CTAButton
-          text="Start Your MONSTA Results Today"
-          variant="primary"
-          size="md"
-          ripple
-        />
       </div>
     </section>
-  );
+  )
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useReducedMotion } from 'framer-motion'
+import { useReducedMotionConfig } from 'framer-motion'
 
 /**
  * AnimatedCounter — counts up from 0 to `value` when scrolled into view.
@@ -24,7 +24,7 @@ export default function AnimatedCounter({
   const ref = useRef<HTMLSpanElement>(null)
   const [display, setDisplay] = useState(0)
   const started = useRef(false)
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionConfig()
 
   useEffect(() => {
     const el = ref.current

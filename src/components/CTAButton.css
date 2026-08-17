@@ -2,7 +2,22 @@
     position: relative;
     display: inline-block;
     perspective: 1000px;
-} /* <-- Added missing closing brace */
+    /* Heartbeat pulse — on the WRAPPER so it never fights the button's
+       hover tilt / magnetic transform. Compositor-only (scale). */
+    animation: cta-heartbeat 2.2s ease-in-out infinite;
+    transform-origin: center;
+    will-change: transform;
+}
+
+/* Double-beat heartbeat (lub-dub) */
+@keyframes cta-heartbeat {
+    0%   { transform: scale(1); }
+    12%  { transform: scale(1.07); }
+    24%  { transform: scale(1); }
+    36%  { transform: scale(1.04); }
+    55%  { transform: scale(1); }
+    100% { transform: scale(1); }
+}
 /* Particles removed per request */
 
 /* Button styles */
@@ -11,6 +26,8 @@
     padding: 0.55rem 1.2rem;
     font-size: 0.95rem;
     font-weight: 700;
+    /* Borderless pill — a border reads as a "container" around the
+       button on the dark background. Unified style for every CTA. */
     border: none;
     border-radius: 9999px;
     cursor: pointer;
@@ -29,18 +46,15 @@
 }
 
 .cta-button--primary {
-    background: linear-gradient(135deg, #ff1493, #ea048b);
+    background: linear-gradient(135deg, #E9178C, #E9178C);
     color: #fff;
-    box-shadow: 0 10px 25px rgba(255, 20, 147, 0.35), 0 0 20px rgba(255, 20, 147, 0.45);
+    box-shadow: 0 10px 25px rgba(233, 23, 140, 0.35), 0 0 20px rgba(233, 23, 140, 0.45);
 }
 
 .cta-button--secondary {
-    background: rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(255, 20, 147, 0.6);
+    background: rgba(20, 12, 32, 0.6);
     color: #ffb3d9;
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 6px 18px rgba(255, 20, 147, 0.25), 0 0 12px rgba(255, 20, 147, 0.35);
+    box-shadow: 0 6px 18px rgba(233, 23, 140, 0.25), 0 0 12px rgba(233, 23, 140, 0.35);
 }
 
 /* Hover state */
@@ -50,7 +64,7 @@
 }
 
 .cta-button--primary.hovered {
-    background: linear-gradient(135deg, #ff3ab5, #ff1493);
+    background: linear-gradient(135deg, #ff3ab5, #E9178C);
     color: #fff;
 }
 
@@ -59,19 +73,21 @@
     .cta-button {
         padding: 0.42rem 0.9rem;
         font-size: 0.82rem;
-        animation-duration: 2.2s; /* gentler heartbeat */
+    }
+    .cta-button-wrapper {
+        animation-duration: 2.8s; /* gentler heartbeat on mobile */
     }
     .cta-button--xs { padding: 0.28rem 0.65rem; font-size: 0.75rem; }
     .cta-button--sm { padding: 0.36rem 0.8rem; font-size: 0.8rem; }
 
     /* Soften transforms on mobile */
     .cta-button.hovered {
-        transform: translateY(-6px) scale(1.03) rotateX(calc(var(--ny) * -4deg)) rotateY(calc(var(--nx) * 4deg));
+        transform: translateY(-6px) scale(1.03);
     }
     .cta-button.magnetic:hover {
-        transform: translateY(-5px) translateX(calc((var(--mx) - 50%) * 0.02)) scale(1.03) rotateX(calc(var(--ny) * -3deg)) rotateY(calc(var(--nx) * 3deg));
+        transform: translateY(-5px) translateX(calc((var(--mx) - 50%) * 0.02)) scale(1.03);
     }
-    .button-trail { filter: blur(8px); width: 44px; height: 44px; }
+    .button-trail { width: 44px; height: 44px; }
 }
 
 /* Button text */
@@ -124,6 +140,13 @@
     transform: translateY(-4px) scale(1.02);
 }
 
+/* Focus — clean brand ring instead of the browser's default outline
+   (the default focus box reads as a stray "container" around the button) */
+.cta-button:focus-visible {
+    outline: 2px solid #E9178C;
+    outline-offset: 3px;
+}
+
 /* Magnetic hover subtle translation based on cursor position */
 .cta-button.magnetic:hover {
     transform: translateY(-6px) translateX(calc((var(--mx) - 50%) * 0.04)) scale(1.04);
@@ -136,7 +159,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 2px;
-    background: conic-gradient(from 0deg, rgba(255,20,147,0.0) 0deg, rgba(255,20,147,0.8) 90deg, rgba(255,20,147,0.0) 180deg, rgba(255,20,147,0.8) 270deg, rgba(255,20,147,0.0) 360deg);
+    background: conic-gradient(from 0deg, rgba(233,23,140,0.0) 0deg, rgba(233,23,140,0.8) 90deg, rgba(233,23,140,0.0) 180deg, rgba(233,23,140,0.8) 270deg, rgba(233,23,140,0.0) 360deg);
         -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
             mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
         -webkit-mask-composite: xor;
@@ -182,8 +205,7 @@
     width: 60px; height: 60px;
     left: var(--mx); top: var(--my);
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(255,20,147,0.35) 0%, rgba(255,20,147,0.0) 70%);
-    filter: blur(10px);
+    background: radial-gradient(circle, rgba(233,23,140,0.35) 0%, rgba(233,23,140,0.0) 70%);
     opacity: 0;
     pointer-events: none;
 }
@@ -193,9 +215,9 @@
     transition: left 0.08s linear, top 0.08s linear, opacity 0.2s ease;
 }
 
-/* Stronger tilt on magnetic */
+/* Magnetic hover: cursor-follow translate, no tilt */
 .cta-button.magnetic:hover {
-    transform: translateY(-6px) translateX(calc((var(--mx) - 50%) * 0.04)) scale(1.05) rotateX(calc(var(--ny) * -6deg)) rotateY(calc(var(--nx) * 6deg));
+    transform: translateY(-6px) translateX(calc((var(--mx) - 50%) * 0.04)) scale(1.05);
 }
 
 /* Ripple effect */
@@ -226,17 +248,10 @@
     }
 }
 
-/* Accessibility: respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-    .particle,
-    .cta-button,
-    .cta-button.hovered,
-    .button-glow,
-    .ripple {
-        animation: none !important;
-        transition: none !important;
-    }
-}
+/* NOTE: the reduced-motion kill block that lived here was REMOVED.
+   Brand requirement: CTAs render their full designed animation
+   (heartbeat, glow, sheen, edge) in every browser — see main.tsx
+   <MotionConfig reducedMotion="never"> and the note in index.css. */
 
 /* Size variants */
 .cta-button--sm {

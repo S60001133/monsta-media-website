@@ -1,88 +1,84 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import CTAButton from '../components/CTAButton'
-import Reveal, { Stagger, StaggerItem } from '../components/Reveal'
+import { scrollToTop } from '../lib/scroll'
 
+const PINK = '#E9178C'
+
+// MMCRM app — login page. Update this when the CRM gets its production domain.
+const CRM_LOGIN_URL = 'http://localhost:3000/login'
 
 export default function CRM() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [navBackground, setNavBackground] = useState(false)
-
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Services', path: '/services' },
-    { name: 'Finance', path: '/finance' },
-    { name: 'About Us', path: '/about' },
-  ]
-
-  useEffect(() => {
-    let ticking = false
-    const handleScroll = () => {
-      if (ticking) return
-      ticking = true
-      requestAnimationFrame(() => {
-        setNavBackground(window.scrollY > 10 || window.innerWidth < 768)
-        ticking = false
-      })
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const handleNavigation = (path: string) => {
-    window.history.pushState({}, '', path)
-    window.dispatchEvent(new PopStateEvent('popstate'))
-    setMobileMenuOpen(false)
-  }
-
   const pricingPlans = [
     {
-      name: 'Basic',
-      price: '$97',
+      name: 'Starter',
+      price: '$49',
       period: '/month',
-      description: 'Expert lead management and funnel optimization',
+      description: 'Perfect for solo operators and freelancers',
       features: [
-        'Unified lead dashboard',
-        'Lead scoring and segmentation',
-        'Automated follow-up sequences',
-        'Email and SMS templates',
-        'Basic reporting and analytics',
-        'Expert lead funnel management',
-        'Up to 500 contacts'
+        'Up to 500 CRM contacts',
+        '1 AI chatbot widget',
+        'Email campaigns (1,000/mo)',
+        'SMS messaging (100/mo)',
+        'Booking calendar',
+        'Form builder',
+        'Basic automations',
+        'Standard support'
       ],
       highlight: false
     },
     {
-      name: 'Professional',
-      price: '$297',
+      name: 'Pro',
+      price: '$99',
       period: '/month',
-      description: 'Advanced automation with email and SMS campaigns',
+      description: 'Built for growing teams and agencies',
       features: [
-        'Everything in Basic',
-        'Automated email campaigns',
-        'SMS marketing and workflows',
-        'Advanced segmentation',
-        'Lead scoring automation',
-        'Multi-step automation workflows',
-        'Up to 5,000 contacts',
+        'Up to 5,000 CRM contacts',
+        '3 AI chatbot widgets',
+        'Email campaigns (10,000/mo)',
+        'SMS messaging (1,000/mo)',
+        'Funnel builder (3 funnels)',
+        'Social media scheduler',
+        'AI voice agent (100 min/mo)',
+        'Advanced automations',
         'Priority support'
       ],
-      highlight: true
+      highlight: false
     },
     {
       name: 'Enterprise',
-      price: '$497',
+      price: '$299',
       period: '/month',
-      description: 'Complete AI-powered suite for total automation',
+      description: 'For serious agencies scaling their operation',
       features: [
-        'Everything in Professional',
-        'AI-powered chatbots',
-        'AI voice agents',
-        'Advanced analytics and reporting',
-        'Custom integrations',
-        'Unlimited contacts',
-        'Dedicated account manager',
-        'Custom automation workflows',
+        'Unlimited CRM contacts',
+        '10 AI chatbot widgets',
+        'Email campaigns (100,000/mo)',
+        'SMS messaging (10,000/mo)',
+        'Funnel builder + custom domains',
+        'AI voice agent (500 min/mo)',
+        'Call tracking & recording',
+        'White-label options',
+        'API access & webhooks',
+        'Dedicated account manager'
+      ],
+      highlight: false
+    },
+    {
+      name: 'Agency',
+      price: '$499',
+      period: '/month',
+      description: 'Resell to your own clients with full white-label',
+      features: [
+        'Unlimited contacts & chatbots',
+        'Email campaigns (500,000/mo)',
+        'SMS messaging (50,000/mo)',
+        'Unlimited funnels & social platforms',
+        'AI voice agent (2,000 min/mo)',
+        'Full white-label (custom domain)',
+        'Agency reseller portal',
+        'Manage unlimited sub-accounts',
+        'API access & webhooks',
+        'Dedicated onboarding + manager'
       ],
       highlight: false
     }
@@ -128,259 +124,151 @@ export default function CRM() {
     touchEndX.current = null
   }
 
+  const openEnquiries = () => {
+    window.history.pushState({}, '', '/enquiries')
+    window.dispatchEvent(new PopStateEvent('popstate'))
+    scrollToTop()
+  }
+
   const renderPlanCard = (plan: typeof pricingPlans[number], idx: number) => {
-    // White text for all cards, but keep accent for highlight
-    const accentColor = plan.highlight ? '#fff' : '#ff1493';
-    const priceColor = plan.highlight ? '#fff' : '#fff';
-    const periodColor = plan.highlight ? '#fff' : '#ffb6d5';
-    const descColor = plan.highlight ? '#fff' : '#fff';
-    const featureColor = plan.highlight ? '#fff' : '#fff';
     return (
       <div
         key={idx}
-        className={plan.highlight ? 'neon-border rounded-xl' : ''}
+        className={plan.highlight ? 'plan-card plan-card--highlight' : 'plan-card'}
         style={{
-          padding: plan.highlight ? '10px 8px' : '6px 4px',
-          background: plan.highlight ? 'linear-gradient(135deg, #ff1493 0%, #ff1a8a 100%)' : 'rgba(255,255,255,0.08)',
-          borderRadius: '10px',
-          border: plan.highlight ? '2px solid rgba(255,255,255,0.4)' : '1px solid rgba(255,255,255,0.15)',
-          backdropFilter: 'blur(8px)',
+          padding: plan.highlight ? '40px 26px' : '28px 22px',
+          background: plan.highlight ? 'var(--ink)' : 'var(--surface)',
+          borderRadius: '16px',
+          border: plan.highlight ? '1px solid rgba(233,23,140,0.6)' : '1px solid var(--hairline)',
           position: 'relative',
-          boxShadow: plan.highlight ? '0 6px 24px rgba(255,20,147,0.4)' : '0 2px 6px rgba(0,0,0,0.10)',
+          boxShadow: plan.highlight ? '0 20px 48px rgba(28,24,18,0.18)' : '0 2px 8px rgba(28,24,18,0.04)',
           width: '100%',
-          minHeight: plan.highlight ? '380px' : '260px',
           height: '100%',
-          maxWidth: plan.highlight ? '300px' : '220px',
-          marginLeft: plan.highlight ? '-3px' : '0',
-          marginRight: plan.highlight ? '-3px' : '0',
-          marginTop: '4px',
-          zIndex: plan.highlight ? 2 : 1,
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-4px)'
+          e.currentTarget.style.boxShadow = plan.highlight ? '0 24px 56px rgba(28,24,18,0.24)' : '0 12px 28px rgba(28,24,18,0.10)'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)'
+          e.currentTarget.style.boxShadow = plan.highlight ? '0 20px 48px rgba(28,24,18,0.18)' : '0 2px 8px rgba(28,24,18,0.04)'
         }}
       >
         {plan.highlight && (
           <div
             style={{
               position: 'absolute',
-              top: '-14px',
+              top: '-13px',
               left: '50%',
               transform: 'translateX(-50%)',
-              background: '#fff',
-              color: '#ff1493',
-              fontWeight: 800,
-              fontSize: '10px',
-              padding: '2px 10px',
+              background: PINK,
+              color: '#fff',
+              fontWeight: 600,
+              fontSize: '11px',
+              padding: '4px 14px',
               borderRadius: '9999px',
-              boxShadow: '0 1px 6px rgba(255,20,147,0.08)',
               letterSpacing: '0.04em',
               zIndex: 10,
-              border: 'none',
               textTransform: 'uppercase',
             }}
-            className="most-popular-badge"
           >
             Most Popular
           </div>
         )}
-              {/* Remove mobile override for Most Popular badge top position */}
         <div>
-          <h3 style={{ fontSize: '15px', fontWeight: 700, marginBottom: '7px', color: accentColor, fontFamily: 'Montserrat' }}>{plan.name}</h3>
-          {plan.price && <div style={{ fontSize: '20px', fontWeight: 800, color: priceColor, marginBottom: 4 }}>{plan.price}<span style={{ fontSize: '11px', fontWeight: 400, color: periodColor }}>{plan.period}</span></div>}
-          <div style={{ color: descColor, fontSize: '11px', marginBottom: 8 }}>{plan.description}</div>
-          <ul style={{ color: featureColor, fontSize: '11px', marginBottom: 8, paddingLeft: 14 }}>
+          <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '6px', color: plan.highlight ? '#fff' : 'var(--ink)' }}>{plan.name}</h3>
+          <div style={{ fontSize: '28px', fontWeight: 600, color: plan.highlight ? '#fff' : 'var(--ink)', fontFamily: 'var(--font-display)', marginBottom: 6 }}>
+            {plan.price}<span style={{ fontSize: '13px', fontWeight: 400, color: plan.highlight ? 'rgba(255,255,255,0.6)' : 'var(--ink-3)' }}>{plan.period}</span>
+          </div>
+          <div style={{ color: plan.highlight ? 'rgba(255,255,255,0.7)' : 'var(--ink-2)', fontSize: '12.5px', marginBottom: 14, lineHeight: 1.5 }}>{plan.description}</div>
+          <ul style={{ color: plan.highlight ? 'rgba(255,255,255,0.82)' : 'var(--ink-2)', fontSize: '12.5px', marginBottom: 10, paddingLeft: 16, lineHeight: 1.55 }}>
             {plan.features.map((feature, i) => (
-              <li key={i} style={{ marginBottom: 3, listStyle: 'disc' }}>{feature}</li>
+              <li key={i} style={{ marginBottom: 5, listStyle: 'disc' }}>{feature}</li>
             ))}
           </ul>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
           <CTAButton
-            text="Start Now"
+            text="Start Free Trial"
             variant={plan.highlight ? "primary" : "secondary"}
             size="sm"
-            ripple
-            magnetic
-            onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
+            onClick={openEnquiries}
           />
         </div>
       </div>
     );
   }
 
-  // ...existing code...
   return (
-    <>
-      {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${navBackground ? 'bg-black/85 backdrop-blur-xl shadow-lg shadow-pink-500/10 border-b border-pink-500/20' : 'bg-transparent'}`} style={{ contentVisibility: 'auto', containIntrinsicSize: '80px 80px' }}>
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <button
-              onClick={() => handleNavigation('/')}
-              className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-            >
-              <img
-                src="/images/logo.svg"
-                alt="Monsta Media"
-                className="h-10 w-auto"
-                loading="lazy"
-              />
-            </button>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <button
-                  onClick={() => handleNavigation(link.path)}
-                  className="text-white/80 font-medium relative group transition-colors"
-                  style={{
-                    color: 'rgba(255,255,255,0.8)',
-                    textShadow: 'none',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.color = '#ff1493'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(255,255,255,0.8)'; }}
-                >
-                  {link.name}
-                  <span
-                    className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-                    style={{
-                      backgroundColor: '#ff1493',
-                      boxShadow: '0 0 8px #ff1493'
-                    }}
-                  ></span>
-                </button>
-              ))}
-              <CTAButton
-                text="Book a Call"
-                variant="primary"
-                size="xs"
-                ripple
-                magnetic
-                onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
-              />
-            </div>
-
-            {/* Mobile Menu Button (mimics Home) */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex flex-col gap-1.5 p-2 z-50"
-              aria-label="Toggle menu"
-            >
-              <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-              <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`} />
-              <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hardcoded Mobile Overlay Navigation (sibling to nav) - Home style */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-9999 bg-black/95 transition-opacity duration-300"
-          style={{ top: 0, left: 0, width: '100vw', height: '100vh' }}
-        >
-          {/* Logo top left */}
-          <img
-            src="/images/logo.svg"
-            alt="Monsta Media"
-            className="h-12 w-auto"
-            loading="lazy"
-            style={{ position: 'absolute', top: 24, left: 24, zIndex: 2 }}
-          />
-          {/* Hamburger/X toggle button top right, same as nav */}
-          <button
-            onClick={() => setMobileMenuOpen(false)}
-            className="md:hidden flex flex-col gap-1.5 p-2 z-50"
-            aria-label="Toggle menu"
-            style={{ position: 'absolute', top: 16, right: 16, zIndex: 10, background: 'none', border: 'none' }}
-          >
-            <span className={`w-6 h-0.5 bg-white transition-all rotate-45 translate-y-2`} />
-            <span className={`w-6 h-0.5 bg-white transition-all opacity-0`} />
-            <span className={`w-6 h-0.5 bg-white transition-all -rotate-45 -translate-y-2`} />
-          </button>
-          {/* Evenly spaced nav links and CTA */}
-          <div className="flex flex-col items-center justify-center w-full h-full" style={{ minHeight: '100vh', paddingTop: '80px', paddingBottom: '40px' }}>
-            <div className="flex flex-col items-center justify-center grow" style={{ width: '100%', maxWidth: '320px', margin: '0 auto', flex: 1, gap: '36px' }}>
-              <span onClick={() => { handleNavigation('/'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Home</span>
-              <span onClick={() => { handleNavigation('/services'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Services</span>
-              <span onClick={() => { handleNavigation('/finance'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Finance</span>
-              <span onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>About Us</span>
-              <CTAButton
-                text="Start Now"
-                variant="primary"
-                size="md"
-                ripple
-                magnetic
-                onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
-                className="mt-9"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Hero Section */}
-      <section className="relative overflow-hidden" style={{ paddingTop: '140px', paddingBottom: '100px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '800px 800px' }}>
-        {/* HUD grid floor */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-50" style={{ maskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, black 10%, transparent 75%)', WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, black 10%, transparent 75%)' }}>
-          <div className="hud-grid absolute inset-x-0 top-0" style={{ height: '60%' }} />
-        </div>
-        {/* Brand blobs */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-          <div className="animate-blob absolute w-[420px] h-[420px] rounded-full" style={{ top: '-10%', right: '-8%', background: 'radial-gradient(circle, rgba(188,19,254,0.22), transparent 70%)' }} />
-          <div className="animate-blob absolute w-[380px] h-[380px] rounded-full" style={{ bottom: '-20%', left: '-6%', background: 'radial-gradient(circle, rgba(234,4,139,0.2), transparent 70%)', animationDelay: '3s' }} />
-        </div>
+    <div style={{ background: 'var(--paper)', color: 'var(--ink)', minHeight: '100vh' }}>
+      {/* Hero Section — fills exactly one viewport (no scroll needed to pass it) */}
+      <section
+        className="relative flex items-center"
+        style={{ minHeight: '100vh', paddingTop: '96px', paddingBottom: '32px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
         <div className="max-w-4xl text-center relative z-10" style={{ width: '100%' }}>
-          <Reveal variant="up" amount={0.4}>
-          <h1 className="font-black mb-6" style={{ fontSize: 'clamp(40px, 7vw, 56px)', fontFamily: 'Montserrat', color: '#ffffff', letterSpacing: '-1px' }}>
-            Lead <span className="text-gradient-animated" style={{ display: 'inline-block' }}>Monsta</span> CRM
+          <h1 className="display-xl mb-4" style={{ fontSize: 'clamp(38px, 6vw, 64px)' }}>
+            Lead <span className="display-accent">Monsta</span> CRM
           </h1>
-          </Reveal>
-          <Reveal variant="up" delay={0.15} amount={0.3}>
           <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(255,255,255,0.7)', marginBottom: '24px', maxWidth: '600px' }}>
+            <p className="body-copy" style={{ fontSize: '17px', lineHeight: '26px', marginBottom: '24px', maxWidth: '600px' }}>
               Manage, nurture, and convert your leads with enterprise-grade CRM tools. Automate your entire lead funnel with intelligent workflows, AI-powered automation, and real-time analytics.
             </p>
           </div>
-          </Reveal>
-            <Reveal variant="up" delay={0.28} amount={0.3}>
-            <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-              <div className="pulse-ring relative inline-block btn-shine" style={{ borderRadius: 14 }}>
-                <CTAButton
-                  text="Book Your Free Consultation"
-                  variant="primary"
-                  size="lg"
-                  ripple
-                  magnetic
-                  onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
-                  className="mt-4 mx-auto"
-                />
-              </div>
-            </div>
-            </Reveal>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', width: '100%', flexWrap: 'wrap' }}>
+            <CTAButton
+              text="Start Your Free Trial"
+              variant="primary"
+              size="lg"
+              onClick={openEnquiries}
+            />
+            <a
+              href={CRM_LOGIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-outline btn-lg"
+              style={{ padding: '16px 34px', fontSize: 16, display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}
+            >
+              Log In
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.7 }}>
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                <polyline points="15 3 21 3 21 9" />
+                <line x1="10" y1="14" x2="21" y2="3" />
+              </svg>
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* Key Benefits Section */}
-      <section className="relative" style={{ paddingTop: '100px', paddingBottom: '100px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '900px 900px' }}>
-        <div className="neon-divider" style={{ position: 'absolute', top: 0, left: '10%', right: '10%' }} />
+      {/* Key Benefits Section — white band */}
+      <section
+        className="relative"
+        style={{
+          paddingTop: '96px', paddingBottom: '104px', paddingLeft: '40px', paddingRight: '40px',
+          display: 'flex', justifyContent: 'center',
+          background: '#FFFFFF',
+          color: '#1C1812',
+          ...({
+            '--ink': '#1C1812',
+            '--ink-2': 'rgba(28, 24, 18, 0.68)',
+            '--ink-3': 'rgba(28, 24, 18, 0.5)',
+            '--hairline': 'rgba(28, 24, 18, 0.12)',
+            '--hairline-strong': 'rgba(28, 24, 18, 0.25)',
+            '--surface': '#F7F7F7',
+          } as React.CSSProperties),
+        }}
+      >
         <div className="max-w-6xl" style={{ width: '100%' }}>
-          <Reveal variant="up" amount={0.3}>
-          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-            <div className="hud-label" style={{ marginBottom: '10px' }}>Lead Management Suite</div>
-            <h2 className="font-black mb-4" style={{ fontSize: 'clamp(30px, 5vw, 40px)', fontFamily: 'Montserrat', color: '#ffffff', letterSpacing: '-0.5px' }}>
-              Why Choose Our CRM?
-            </h2>
-            <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', maxWidth: '500px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <h2 className="h2-xl mb-4" style={{ color: 'var(--color-brand-pink)' }}>
               Industry-leading features designed to scale your business
-            </p>
+            </h2>
           </div>
-          </Reveal>
-          <Stagger style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }} amount={0.1} gap={0.12}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
             {[
               { title: 'Lead Dashboard', desc: 'Unified view of all your leads with real-time insights', icon: 'M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z' },
               { title: 'Automation', desc: 'Automatically nurture leads through email and SMS workflows', icon: 'M19.14 12.94a7.07 7.07 0 00.05-.94 7.07 7.07 0 00-.05-.94l2.03-1.58a.5.5 0 00.12-.64l-1.92-3.32a.5.5 0 00-.61-.22l-2.39.96a7.2 7.2 0 00-1.62-.94l-.36-2.54a.5.5 0 00-.5-.42h-3.84a.5.5 0 00-.5.42l-.36 2.54c-.58.24-1.12.55-1.62.94l-2.39-.96a.5.5 0 00-.61.22L2.66 8.78a.5.5 0 00.12.64l2.03 1.58a7.07 7.07 0 000 1.88L2.78 14.46a.5.5 0 00-.12.64l1.92 3.32a.5.5 0 00.61.22l2.39-.96c.5.39 1.04.7 1.62.94l.36 2.54a.5.5 0 00.5.42h3.84a.5.5 0 00.5-.42l.36-2.54c.58-.24 1.12-.55 1.62-.94l2.39.96a.5.5 0 00.61-.22l1.92-3.32a.5.5 0 00-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1112 8a3.5 3.5 0 010 7.5z' },
@@ -389,57 +277,57 @@ export default function CRM() {
               { title: 'Integrations', desc: 'Connect with your favorite tools and platforms seamlessly', icon: 'M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71' },
               { title: 'Support', desc: 'Expert support to help you maximize your CRM investment', icon: 'M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z' }
             ].map((benefit, idx) => (
-              <StaggerItem key={idx}>
-              <div className="neon-border-static rounded-2xl" style={{ padding: '40px 32px', backgroundColor: '#0a0a14', borderRadius: '16px', border: '1px solid rgba(255, 20, 147, 0.15)', boxShadow: '0 4px 20px rgba(0,0,0,0.4)', transition: 'all 0.3s ease', cursor: 'pointer' }}
+              <div
+                key={idx}
+                style={{
+                  padding: '32px 26px',
+                  background: 'var(--surface)',
+                  borderRadius: '14px',
+                  border: '1px solid var(--hairline)',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer',
+                  position: 'relative',
+                }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.boxShadow = '0 12px 32px rgba(255,20,147,0.2)';
+                  e.currentTarget.style.borderColor = 'rgba(233,23,140,0.5)'
+                  e.currentTarget.style.transform = 'translateY(-4px)'
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.4)';
+                  e.currentTarget.style.borderColor = 'var(--hairline)'
+                  e.currentTarget.style.transform = 'translateY(0)'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 56, height: 56, margin: '0 auto 16px', borderRadius: 14, background: 'rgba(255,20,147,0.1)', border: '1px solid rgba(255,20,147,0.3)' }}>
-                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ff1493" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 6px rgba(255,20,147,0.6))' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 50, height: 50, margin: '0 auto 16px', borderRadius: '50%', background: 'rgba(233,23,140,0.07)', border: '1px solid rgba(233,23,140,0.25)' }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={PINK} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d={benefit.icon} />
                   </svg>
                 </div>
-                <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '12px', color: '#ffffff', fontFamily: 'Montserrat' }}>
+                <h3 className="display" style={{ fontSize: '19px', marginBottom: '10px', textAlign: 'center' }}>
                   {benefit.title}
                 </h3>
-                <p style={{ fontSize: '15px', lineHeight: '24px', color: 'rgba(255,255,255,0.65)' }}>
+                <p className="body-copy" style={{ fontSize: '15px', lineHeight: '24px', textAlign: 'center' }}>
                   {benefit.desc}
                 </p>
               </div>
-              </StaggerItem>
             ))}
-          </Stagger>
+          </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section style={{ backgroundImage: 'linear-gradient(135deg, #000000 0%, #1a1a1a 100%)', paddingTop: '40px', paddingBottom: '24px', paddingLeft: '20px', paddingRight: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', contentVisibility: 'auto', containIntrinsicSize: '840px 840px' }}>
-        <div className="max-w-5xl" style={{ width: '100%', margin: '0 auto' }}>
-          <Reveal variant="up" amount={0.3}>
-          <div style={{ textAlign: 'center', marginBottom: '0' }}>
-            <h2 className="font-black mb-2" style={{ fontSize: '30px', fontFamily: 'Montserrat', color: '#ffffff', letterSpacing: '-0.3px', marginBottom: 0 }}>
+      {/* Pricing Section — black band */}
+      <section style={{ background: 'var(--paper)', paddingTop: '96px', paddingBottom: '96px', paddingLeft: '20px', paddingRight: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="max-w-6xl" style={{ width: '100%', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+            <h2 className="h2-xl" style={{ marginBottom: 8, color: 'var(--color-brand-pink)' }}>
               Simple, Transparent Pricing
             </h2>
-            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', maxWidth: '500px', margin: '0 auto 0 auto', marginBottom: 0 }}>
-              Choose the perfect plan for your business. Scale anytime, cancel anytime.
+            <p className="body-copy" style={{ maxWidth: '500px', margin: '0 auto' }}>
+              Every plan starts with a 1-month free trial. No credit card required. Scale anytime, cancel anytime.
             </p>
           </div>
-          </Reveal>
+
+          {/* Mobile Slider */}
           <div className="md:hidden flex w-full justify-center items-center px-4 mobile-plan-card-container" style={{ marginBottom: '24px', zIndex: 2 }}>
-                  {/* Extra top margin for mobile plan card container only on mobile */}
-                  <style>{`
-                    @media (max-width: 768px) {
-                      .mobile-plan-card-container {
-                        margin-top: 38px !important;
-                      }
-                    }
-                  `}</style>
             <div
               className="flex transition-transform duration-300 w-full max-w-[420px]"
               style={{ overflow: 'visible', transform: `translateX(-${currentPlanIndex * 100}%)` }}
@@ -465,8 +353,8 @@ export default function CRM() {
               <button
                 onClick={() => goToPlan(currentPlanIndex - 1)}
                 aria-label="Previous plan"
-                className="text-white w-8 h-8 flex items-center justify-center"
-                style={{ pointerEvents: 'auto', textShadow: '0 0 12px rgba(255,255,255,0.8)' }}
+                className="w-8 h-8 flex items-center justify-center"
+                style={{ pointerEvents: 'auto', color: 'var(--ink)' }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -475,8 +363,8 @@ export default function CRM() {
               <button
                 onClick={() => goToPlan(currentPlanIndex + 1)}
                 aria-label="Next plan"
-                className="text-white w-8 h-8 flex items-center justify-center"
-                style={{ pointerEvents: 'auto', textShadow: '0 0 12px rgba(255,255,255,0.8)' }}
+                className="w-8 h-8 flex items-center justify-center"
+                style={{ pointerEvents: 'auto', color: 'var(--ink)' }}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
@@ -485,63 +373,44 @@ export default function CRM() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-            <div className="hidden md:flex" style={{ gap: '32px', marginBottom: '24px', flexWrap: 'nowrap', alignItems: 'center', justifyContent: 'center', marginTop: '-180px' }}>
-              {pricingPlans.map((plan, idx) => (
-                <div
-                  key={plan.name}
-                  style={{
-                    flex: plan.highlight ? '0 1 440px' : '0 1 340px',
-                    zIndex: plan.highlight ? 2 : 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'end',
-                    alignItems: 'stretch',
-                    marginTop: plan.highlight ? '0' : '0',
-                    marginBottom: plan.highlight ? '0' : '0',
-                    position: 'relative',
-                    minHeight: plan.highlight ? '600px' : '520px',
-                    height: '100%',
-                    maxWidth: plan.highlight ? '440px' : '340px',
-                  }}
-                >
-                  {renderPlanCard(plan, idx)}
-                </div>
-              ))}
-            </div>
-            {/* No extra CTA below cards; each card has its own CTA */}
+          {/* Desktop plans */}
+          <div className="hidden md:flex" style={{ gap: '20px', alignItems: 'stretch', justifyContent: 'center' }}>
+            {pricingPlans.map((plan, idx) => (
+              <div
+                key={plan.name}
+                style={{
+                  flex: '1 1 0',
+                  maxWidth: '300px',
+                  minWidth: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  zIndex: plan.highlight ? 2 : 1,
+                }}
+              >
+                {renderPlanCard(plan, idx)}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative overflow-hidden" style={{ paddingTop: '50px', paddingBottom: '50px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', contentVisibility: 'auto', containIntrinsicSize: '640px 640px' }}>
-        <div className="neon-divider" style={{ position: 'absolute', top: 0, left: '10%', right: '10%' }} />
-        <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,20,147,0.14), transparent 70%)', zIndex: 1 }}></div>
-        <div style={{ position: 'absolute', bottom: '-30%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(188,19,254,0.12), transparent 70%)', zIndex: 1 }}></div>
+      {/* CTA Section — black band */}
+      <section className="relative" style={{ paddingTop: '80px', paddingBottom: '96px', paddingLeft: '40px', paddingRight: '40px', display: 'flex', justifyContent: 'center', background: 'var(--paper)' }}>
         <div className="max-w-3xl text-center" style={{ width: '100%', position: 'relative', zIndex: 2 }}>
-          <Reveal variant="up" amount={0.3}>
-          <h2 className="font-black mb-6" style={{ color: '#ffffff', fontSize: 'clamp(32px, 5vw, 48px)', fontFamily: 'Montserrat', letterSpacing: '-1px' }}>
+          <h2 className="h2-xl" style={{ marginBottom: '20px', color: 'var(--color-brand-pink)' }}>
             Ready to Transform Your Sales?
           </h2>
-          </Reveal>
-          <Reveal variant="up" delay={0.12} amount={0.3}>
-          <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(255,255,255,0.7)', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
+          <p className="body-copy" style={{ fontSize: '18px', lineHeight: '28px', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
             Join hundreds of businesses already using our CRM to automate their lead management and close more deals.
           </p>
-          </Reveal>
-          <div className="pulse-ring relative inline-block btn-shine" style={{ borderRadius: 14 }}>
-            <CTAButton
-              text="Book Your Free Consultation"
-              variant="primary"
-              size="lg"
-              ripple
-              magnetic
-              onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
-            />
-          </div>
+          <CTAButton
+            text="Start Your Free Trial"
+            variant="primary"
+            size="lg"
+            onClick={openEnquiries}
+          />
         </div>
       </section>
-    </>
+    </div>
   );
 }

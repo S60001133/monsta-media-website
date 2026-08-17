@@ -1,4 +1,4 @@
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { motion, useReducedMotionConfig, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 
 /**
@@ -6,17 +6,17 @@ import { useRef } from 'react'
  *  - perspective grid floor that scrolls (transform-only, GPU cheap)
  *  - 3 sweeping light beams (transform-only)
  *  - drifting brand blobs (gradient falloff, no CSS blur)
- * Colors: exact brand tokens (pink #ea048b, neon #ff1493, purple #bc13fe)
+ * Colors: exact brand tokens (pink #E9178C, neon #E9178C, purple #bc13fe)
  */
 
 const BLURBS = [
   { size: 520, color: 'rgba(234, 4, 139, 0.14)', top: '8%', left: '-10%', dur: 18, delay: 0 },
-  { size: 640, color: 'rgba(255, 20, 147, 0.11)', top: '32%', left: '72%', dur: 22, delay: 2 },
+  { size: 640, color: 'rgba(233, 23, 140, 0.11)', top: '32%', left: '72%', dur: 22, delay: 2 },
   { size: 480, color: 'rgba(188, 19, 254, 0.10)', top: '62%', left: '-6%', dur: 20, delay: 4 },
 ]
 
 export default function HudBackground({ zIndex = -10 }: { zIndex?: number }) {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionConfig()
   const ref = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
@@ -30,12 +30,13 @@ export default function HudBackground({ zIndex = -10 }: { zIndex?: number }) {
 
   return (
     <div ref={ref} aria-hidden="true" style={{ position: 'fixed', inset: 0, zIndex, pointerEvents: 'none', overflow: 'hidden' }}>
-      {/* Perspective grid floor */}
+      {/* Perspective grid floor — extends 48px below the viewport so the
+          transform-only grid-move loop never reveals a blank edge */}
       <motion.div
         className="hud-grid hud-grid-fade"
         style={{
           position: 'absolute',
-          inset: '-20% 0 0 0',
+          inset: '-20% 0 -48px 0',
           y: gridY,
           opacity,
         }}
@@ -78,7 +79,7 @@ export default function HudBackground({ zIndex = -10 }: { zIndex?: number }) {
           left: 0,
           right: 0,
           height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(255,20,147,0.6), transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(233,23,140,0.6), transparent)',
         }}
       />
     </div>

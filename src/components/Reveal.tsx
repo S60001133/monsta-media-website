@@ -1,4 +1,4 @@
-import { motion, useReducedMotion, type Variants } from 'framer-motion'
+import { motion, useReducedMotionConfig, type Variants } from 'framer-motion'
 import type { ReactNode } from 'react'
 
 /**
@@ -70,7 +70,7 @@ export default function Reveal({
   className,
   style,
 }: RevealProps) {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionConfig()
 
   // Reduced motion: pure fade, no movement, no blur
   const v: Variants = reduceMotion
@@ -111,7 +111,7 @@ export function Stagger({ children, className, delay = 0, gap = 0.12, once = tru
   amount?: number
   style?: React.CSSProperties
 }) {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionConfig()
   if (reduceMotion) {
     return <div className={className} style={style}>{children}</div>
   }
@@ -140,7 +140,7 @@ export function StaggerItem({ children, className, variant = 'up', offset = 40, 
   duration?: number
   style?: React.CSSProperties
 }) {
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionConfig()
   if (reduceMotion) {
     return <div className={className} style={style}>{children}</div>
   }

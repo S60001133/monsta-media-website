@@ -1,47 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
-import Reveal from '../components/Reveal'
+import { scrollToTop } from '../lib/scroll'
 
 export default function Services() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [navBackground, setNavBackground] = useState(false)
-
-  useEffect(() => {
-    let ticking = false
-    const handleScroll = () => {
-      if (ticking) return
-      ticking = true
-      requestAnimationFrame(() => {
-        setNavBackground(window.scrollY > 10 || window.innerWidth < 768)
-        ticking = false
-      })
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   // SEO: Update document title
   useEffect(() => {
-    document.title = 'Affordable Marketing Services | No Agency Fees | AI Automation | Monsta Media Australia'
+    document.title = 'Affordable Marketing Services | Transparent Pricing | AI Automation | Monsta Media Australia'
     const metaDesc = document.querySelector('meta[name="description"]')
     if (metaDesc) {
-      metaDesc.setAttribute('content', 'Budget-friendly marketing services with ZERO agency fees. Affordable AI automation, high-ROI Meta ads, cost-effective SEO & CRM. Pay for results, not retainers. Sydney, NSW & Australia.')
+      metaDesc.setAttribute('content', 'Budget-friendly marketing services with transparent pricing. Affordable AI automation, high-ROI Meta ads, cost-effective SEO & CRM. Australian owned & operated, all services done in-house. Sydney, NSW & Australia.')
     }
   }, [])
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Services', path: '/services' },
-    { name: 'CRM', path: '/crm' },
-    { name: 'Finance', path: '/finance' },
-    { name: 'About Us', path: '/about' },
-  ]
-
-  const handleNavigation = (path: string) => {
-    window.history.pushState({}, '', path)
+  const openEnquiries = () => {
+    window.history.pushState({}, '', '/enquiries')
     window.dispatchEvent(new PopStateEvent('popstate'))
-    setMobileMenuOpen(false)
+    scrollToTop()
   }
 
   const serviceSections = [
@@ -120,278 +94,141 @@ export default function Services() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#030305] text-white">
-      {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${navBackground ? 'bg-black/85 backdrop-blur-xl shadow-lg shadow-pink-500/10 border-b border-pink-500/20' : 'bg-transparent'}`}>
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="flex items-center justify-between h-20">
-            <button
-              onClick={() => handleNavigation('/')}
-              className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-            >
-              <img
-                src="/images/logo.svg"
-                alt="Monsta Media"
-                className="h-10 w-auto"
-                loading="eager"
-              />
-            </button>
-
-            <div className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <button
-                  key={link.path}
-                  onClick={() => handleNavigation(link.path)}
-                  className="text-white/80 font-medium relative group transition-colors"
-                  style={{
-                    textShadow: 'none',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = '#ff1493'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = 'rgba(255,255,255,0.8)'
-                  }}
-                >
-                  {link.name}
-                  <span
-                    className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-                    style={{
-                      backgroundColor: '#ff1493',
-                      boxShadow: '0 0 8px #ff1493',
-                    }}
-                  ></span>
-                </button>
-              ))}
-              <CTAButton
-                text="Book a Call"
-                variant="primary"
-                size="xs"
-                ripple
-                magnetic
-                onClick={() => (window.location.href = 'https://calendar.monstamediaparramatta.com/calendar')}
-              />
-            </div>
-
-            {/* Mobile Menu Button (mimics Home) */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden flex flex-col gap-1.5 p-2 z-50"
-              aria-label="Toggle menu"
-            >
-              <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-              <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? 'opacity-0' : ''}`} />
-              <span className={`w-6 h-0.5 bg-white transition-all ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hardcoded Mobile Overlay Navigation (Home style) */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 z-9999 bg-black/95 transition-opacity duration-300"
-          style={{ top: 0, left: 0, width: '100vw', height: '100vh' }}
-        >
-          <img
-            src="/images/logo.svg"
-            alt="Monsta Media"
-            className="h-12 w-auto"
-            loading="lazy"
-            style={{ position: 'absolute', top: 24, left: 24, zIndex: 2 }}
-          />
-          <button
-            onClick={() => setMobileMenuOpen(false)}
-            className="md:hidden flex flex-col gap-1.5 p-2 z-50"
-            aria-label="Toggle menu"
-            style={{ position: 'absolute', top: 16, right: 16, zIndex: 10, background: 'none', border: 'none' }}
-          >
-            <span className="w-6 h-0.5 bg-white transition-all rotate-45 translate-y-2" />
-            <span className="w-6 h-0.5 bg-white transition-all opacity-0" />
-            <span className="w-6 h-0.5 bg-white transition-all -rotate-45 -translate-y-2" />
-          </button>
-          <div className="flex flex-col items-center justify-center w-full h-full" style={{ minHeight: '100vh', paddingTop: '80px', paddingBottom: '40px' }}>
-            <div className="flex flex-col items-center justify-center grow" style={{ width: '100%', maxWidth: '320px', margin: '0 auto', flex: 1, gap: '36px' }}>
-              <span onClick={() => { handleNavigation('/'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Home</span>
-              <span onClick={() => { handleNavigation('/crm'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>CRM</span>
-              <span onClick={() => { handleNavigation('/finance'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>Finance</span>
-              <span onClick={() => { handleNavigation('/about'); setMobileMenuOpen(false); }} className="text-white text-lg font-medium tracking-wide cursor-pointer" style={{ fontFamily: 'Montserrat', letterSpacing: '0.01em' }}>About Us</span>
-              <CTAButton
-                text="Start Now"
-                variant="primary"
-                size="md"
-                ripple
-                magnetic
-                onClick={() => window.location.href = 'https://calendar.monstamediaparramatta.com/calendar'}
-                className="mt-9"
-              />
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Hero */}
+    <div className="min-h-screen" style={{ background: 'var(--paper)', color: 'var(--ink)' }}>
+      {/* Hero — fills exactly one viewport (no scroll needed to pass it) */}
       <section
-        className="relative overflow-hidden"
-        style={{ paddingTop: '140px', paddingBottom: '56px', paddingLeft: '16px', paddingRight: '16px', display: 'flex', justifyContent: 'center' }}
+        className="relative flex items-center"
+        style={{ minHeight: '100vh', paddingTop: '110px', paddingBottom: '40px', paddingLeft: '16px', paddingRight: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
-        {/* HUD grid floor */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-50" style={{ maskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, black 10%, transparent 75%)', WebkitMaskImage: 'radial-gradient(ellipse 80% 70% at 50% 0%, black 10%, transparent 75%)' }}>
-          <div className="hud-grid absolute inset-x-0 top-0" style={{ height: '60%' }} />
-        </div>
-        {/* Brand blobs */}
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-          <div className="animate-blob absolute w-[420px] h-[420px] rounded-full" style={{ top: '-10%', right: '-8%', background: 'radial-gradient(circle, rgba(188,19,254,0.22), transparent 70%)' }} />
-          <div className="animate-blob absolute w-[380px] h-[380px] rounded-full" style={{ bottom: '-20%', left: '-6%', background: 'radial-gradient(circle, rgba(234,4,139,0.2), transparent 70%)', animationDelay: '3s' }} />
-        </div>
-
         <div className="max-w-5xl text-center relative z-10" style={{ width: '100%' }}>
-          <Reveal variant="up" amount={0.4}>
-          <p className="hud-label" style={{ marginBottom: '12px' }}>
+          <p className="eyebrow" style={{ marginBottom: '12px' }}>
             Services engineered to perform
           </p>
-          </Reveal>
-          <Reveal variant="up" delay={0.1} amount={0.4}>
           <h1
-            className="px-4"
+            className="display-xl px-4"
             style={{
-              fontSize: 'clamp(36px, 8vw, 72px)',
-              lineHeight: '1.1',
-              letterSpacing: '-0.05em',
+              fontSize: 'clamp(38px, 6.5vw, 76px)',
               marginBottom: '20px',
-              fontWeight: 900,
-              fontFamily: 'Montserrat',
-              color: '#ffffff',
-              textAlign: 'center',
             }}
           >
             Everything You Need To{' '}
-            <span className="text-gradient-animated" style={{ display: 'inline-block' }}>
+            <span className="display-accent" style={{ display: 'inline-block' }}>
               Grow With Conviction
             </span>
           </h1>
-          </Reveal>
-          <Reveal variant="up" delay={0.2} amount={0.3}>
-          <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.7)', maxWidth: '760px', margin: '0 auto', lineHeight: '1.7' }}>
+          <p className="body-copy" style={{ fontSize: '18px', maxWidth: '760px', margin: '0 auto', lineHeight: '1.7' }}>
             We combine creative, performance, and operational rigour. Each service is built with clear playbooks, live optimisation, and reporting you can trust.
           </p>
-          </Reveal>
         </div>
       </section>
 
       {/* Services */}
-      <section className="py-16 relative" style={{ paddingLeft: '16px', paddingRight: '16px', paddingBottom: '80px', display: 'flex', justifyContent: 'center' }}>
-        <div className="max-w-6xl w-full" style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-          {serviceSections.map((service, index) => {
-            const sectionId = service.title.toLowerCase().replace(/\s+/g, '-').replace(/[&]/g, 'and')
-            return (
-              <Reveal key={service.title} variant="up" delay={index * 0.05} amount={0.15} margin="-40px">
-              <div
-                id={sectionId}
-                className="rounded-2xl border transition-all duration-300 flex-col md:flex-row"
-                style={{
-                  backgroundColor: '#0a0a14',
-                  borderColor: 'rgba(255,20,147,0.2)',
-                  boxShadow: '0 10px 40px rgba(0,0,0,0.4)',
-                  padding: '24px',
-                  display: 'flex',
-                  flexDirection: window.innerWidth < 768 ? 'column' : (index % 2 === 0 ? 'row' : 'row-reverse'),
-                  alignItems: 'center',
-                  gap: '24px',
-                  position: 'relative',
-                }}
-              >
-                {/* HUD corner brackets */}
-                <div className="hud-corners" style={{ position: 'absolute', inset: 0, borderRadius: 16 }} />
-                {/* Content Side */}
-                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative', zIndex: 1 }}>
-                  <div>
-                    <p className="hud-label" style={{ marginBottom: '8px', fontSize: '10px' }}>
-                      {service.subtitle}
-                    </p>
-                    <h3 style={{ fontSize: '26px', letterSpacing: '-0.03em', fontWeight: 800, color: '#ffffff', fontFamily: 'Montserrat', marginBottom: '12px' }}>
-                      {service.title}
-                    </h3>
-                    <p style={{ fontSize: '16px', lineHeight: '26px', color: 'rgba(255,255,255,0.78)', marginBottom: '16px' }}>
-                      {service.body}
-                    </p>
+      <section className="relative" style={{ background: 'var(--paper-2)' }}>
+        {serviceSections.map((service, index) => {
+          const sectionId = service.title.toLowerCase().replace(/\s+/g, '-').replace(/[&]/g, 'and')
+          const reverse = index % 2 === 1
+          const white = index % 2 === 0
+          return (
+            <div
+              key={service.title}
+              id={sectionId}
+              className="hairline-t"
+              style={{
+                width: '100%',
+                background: white ? '#FFFFFF' : 'var(--paper)',
+                color: white ? '#1C1812' : 'var(--ink)',
+                // flip the dark-theme tokens to dark-on-white for white bands
+                ...(white
+                  ? {
+                      '--ink': '#1C1812',
+                      '--ink-2': 'rgba(28, 24, 18, 0.68)',
+                      '--ink-3': 'rgba(28, 24, 18, 0.5)',
+                      '--hairline': 'rgba(28, 24, 18, 0.12)',
+                      '--hairline-strong': 'rgba(28, 24, 18, 0.25)',
+                      '--surface': '#F7F7F7',
+                    }
+                  : {}) as React.CSSProperties,
+              }}
+            >
+              <div className="max-w-6xl w-full mx-auto" style={{ padding: '48px 8px' }}>
+                {/* Top row: content + image */}
+                <div className="flex flex-col md:flex-row md:items-start items-center" style={{ gap: '32px' }}>
+                  {/* Content Side */}
+                  <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '16px', position: 'relative', zIndex: 1, width: '100%' }}>
+                    <div>
+                      <p className="eyebrow-ink" style={{ marginBottom: '8px' }}>
+                        {service.subtitle}
+                      </p>
+                      <h3 className="display" style={{ fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', marginBottom: '14px', color: 'var(--color-brand-pink)' }}>
+                        {service.title}
+                      </h3>
+                      <p className="body-copy" style={{ fontSize: '16px', lineHeight: '26px', marginBottom: '18px', maxWidth: '820px' }}>
+                        {service.body}
+                      </p>
+                    </div>
                   </div>
-                  <div style={{ marginTop: '8px' }}>
-                    {service.bullets.map((item) => (
-                      <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '10px' }}>
-                        <span style={{ color: '#ff1493', fontWeight: 800, textShadow: '0 0 8px rgba(255,20,147,0.6)' }}>▸</span>
-                        <p style={{ fontSize: '14px', lineHeight: '22px', color: 'rgba(255,255,255,0.72)' }}>{item}</p>
-                      </div>
-                    ))}
+
+                  {/* Image Side */}
+                  <div
+                    className={`w-full md:w-[30%] md:max-w-[420px] md:shrink-0 ${reverse ? 'md:order-first' : ''}`}
+                    style={{
+                      height: '220px',
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                      position: 'relative',
+                      border: '1px solid var(--hairline)',
+                      background: 'var(--surface)',
+                    }}
+                  >
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      loading="lazy"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        transition: 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.04)' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
+                    />
                   </div>
                 </div>
 
-                {/* Image Side */}
-                <div
-                  className="w-full md:w-auto"
-                  style={{
-                    flex: '0 0 auto',
-                    maxWidth: '320px',
-                    width: '100%',
-                    height: '280px',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    position: 'relative',
-                    zIndex: 1,
-                    border: '1px solid rgba(255,20,147,0.25)',
-                  }}
-                >
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    loading="lazy"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                      transition: 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.06)' }}
-                    onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)' }}
-                  />
+                {/* Bottom row: bullets spanning full width */}
+                <div style={{ marginTop: '28px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '10px 24px' }}>
+                  {service.bullets.map((item) => (
+                    <div key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+                      <span style={{ color: 'var(--color-brand-pink)', fontWeight: 700, lineHeight: '22px' }}>▸</span>
+                      <p style={{ fontSize: '14px', lineHeight: '22px', color: 'var(--ink-2)' }}>{item}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
-              </Reveal>
-            )
-          })}
-        </div>
+            </div>
+          )
+        })}
       </section>
 
       {/* CTA Section */}
       <section
         className="relative overflow-hidden"
-        style={{ borderTop: '1px solid rgba(255,20,147,0.2)', paddingTop: '64px', paddingBottom: '64px', paddingLeft: '32px', paddingRight: '32px', display: 'flex', justifyContent: 'center' }}
+        style={{ paddingTop: '80px', paddingBottom: '80px', paddingLeft: '32px', paddingRight: '32px', display: 'flex', justifyContent: 'center' }}
       >
-        <div className="neon-divider" style={{ position: 'absolute', top: 0, left: '10%', right: '10%' }} />
-        <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,20,147,0.14), transparent 70%)', zIndex: 1 }}></div>
-        <div style={{ position: 'absolute', bottom: '-30%', left: '-5%', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(188,19,254,0.12), transparent 70%)', zIndex: 1 }}></div>
         <div className="max-w-3xl text-center" style={{ width: '100%', position: 'relative', zIndex: 2 }}>
-          <Reveal variant="up" amount={0.3}>
-          <h2 className="font-black mb-6" style={{ color: '#ffffff', fontSize: 'clamp(32px, 5vw, 48px)', fontFamily: 'Montserrat', letterSpacing: '-1px' }}>
+          <h2 className="h2-xl" style={{ marginBottom: '16px', color: 'var(--color-brand-pink)' }}>
             Ready to build, launch, and scale?
           </h2>
-          </Reveal>
-          <Reveal variant="up" delay={0.12} amount={0.3}>
-          <p style={{ fontSize: '18px', lineHeight: '28px', color: 'rgba(255,255,255,0.7)', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
+          <p className="body-copy" style={{ fontSize: '18px', lineHeight: '28px', marginBottom: '40px', maxWidth: '500px', margin: '0 auto 40px' }}>
             Book a discovery call. We will map the quickest path to success.
           </p>
-          </Reveal>
-          <div className="pulse-ring relative inline-block btn-shine" style={{ borderRadius: 14 }}>
-            <CTAButton
-              text="Book a Free Consultation"
-              variant="primary"
-              size="lg"
-              ripple
-              magnetic
-              onClick={() => (window.location.href = 'https://calendar.monstamediaparramatta.com/calendar')}
-            />
-          </div>
+          <CTAButton
+            text="Book a Free Consultation"
+            variant="primary"
+            size="lg"
+            onClick={openEnquiries}
+          />
         </div>
       </section>
     </div>

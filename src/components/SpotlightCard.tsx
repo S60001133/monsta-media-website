@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback } from 'react'
-import { useReducedMotion } from 'framer-motion'
+import { useReducedMotionConfig } from 'framer-motion'
 import type { ReactNode, CSSProperties } from 'react'
 
 /**
@@ -13,8 +13,8 @@ export default function SpotlightCard({
   children,
   className = '',
   style,
-  glowColor = 'rgba(255, 20, 147, 0.28)',
-  borderColor = '#ff1493',
+  glowColor = 'rgba(233, 23, 140, 0.28)',
+  borderColor = '#E9178C',
   radius = 16,
   spotlightSize = 340,
 }: {
@@ -29,7 +29,7 @@ export default function SpotlightCard({
   const ref = useRef<HTMLDivElement>(null)
   const [pos, setPos] = useState({ x: -500, y: -500 })
   const [hover, setHover] = useState(false)
-  const reduceMotion = useReducedMotion()
+  const reduceMotion = useReducedMotionConfig()
 
   const onMove = useCallback(
     (e: React.MouseEvent) => {
