@@ -4,8 +4,8 @@ import { scrollToTop } from '../lib/scroll'
 
 const PINK = '#E9178C'
 
-// MMCRM app — login page. Update this when the CRM gets its production domain.
-const CRM_LOGIN_URL = 'http://localhost:3000/login'
+// MMCRM app — login page. Live production domain (Vercel).
+const CRM_LOGIN_URL = 'https://crm.monstamediaparramatta.com/login'
 
 export default function CRM() {
   const pricingPlans = [
