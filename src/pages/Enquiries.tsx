@@ -134,9 +134,9 @@ export default function Enquiries() {
           {sent ? (
             <div style={{ padding: '48px 32px', textAlign: 'center', border: '1px solid var(--hairline-strong)', borderRadius: 16, background: 'var(--surface)' }}>
               <div style={{ fontSize: 42, marginBottom: 16 }}>🦍</div>
-              <h2 className="display" style={{ fontSize: 30, marginBottom: 12 }}>Enquiry Sent!</h2>
+              <h2 className="display" style={{ fontSize: 30, marginBottom: 12 }}>Thanks for Your Enquiry!</h2>
               <p className="body-copy" style={{ fontSize: 15, lineHeight: 1.7, maxWidth: '440px', margin: '0 auto' }}>
-                Thanks for reaching out. Monsta Media will get back to you within one business day.
+                Someone from the Monsta Media Parramatta team will get back to you ASAP.
               </p>
             </div>
           ) : (
