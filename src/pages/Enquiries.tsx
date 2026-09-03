@@ -88,6 +88,14 @@ export default function Enquiries() {
       })
       const json = await res.json()
       if (json.success === 'true' || json.success === true) {
+        // Lead conversion event — picked up by GTM (GA4 generate_lead + Meta Pixel Lead)
+        const w = window as unknown as { dataLayer?: object[] }
+        w.dataLayer = w.dataLayer || []
+        w.dataLayer.push({
+          event: 'generate_lead',
+          lead_source: source || 'Website',
+          lead_service: data.service,
+        })
         setSent(true)
       } else {
         setError('Something went wrong sending your enquiry. Please try again, or email us directly.')
