@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { setSeo } from '../lib/seo'
 
 const PINK = '#E9178C'
 
@@ -10,11 +11,11 @@ const PINK = '#E9178C'
 export default function Privacy() {
   // SEO: Update document title + meta description
   useEffect(() => {
-    document.title = 'Privacy Policy | Monsta Media Parramatta'
-    const metaDesc = document.querySelector('meta[name="description"]')
-    if (metaDesc) {
-      metaDesc.setAttribute('content', 'Privacy Policy for Monsta Media Parramatta — how we collect, use, and protect your personal information, in line with the Australian Privacy Principles (APP).')
-    }
+    setSeo({
+      title: 'Privacy Policy | Monsta Media Parramatta',
+      description: 'Privacy Policy for Monsta Media Parramatta — how we collect, use, and protect your personal information, in line with the Australian Privacy Principles (APP).',
+      path: '/privacy',
+    })
   }, [])
 
   const sections: { title: string; body: string[] }[] = [

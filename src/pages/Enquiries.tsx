@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { setSeo } from '../lib/seo'
 
 /**
  * Monsta Media — Enquiries page.
@@ -50,11 +51,11 @@ export default function Enquiries() {
 
   // SEO + read the ?source= CTA context
   useEffect(() => {
-    document.title = 'Enquiries | Monsta Media Parramatta'
-    const metaDesc = document.querySelector('meta[name="description"]')
-    if (metaDesc) {
-      metaDesc.setAttribute('content', 'Send Monsta Media an enquiry. Tell us what you need — more customers, a better website, or smarter automation — and we will reply within one business day.')
-    }
+    setSeo({
+      title: 'Contact Monsta Media | Free Business Digital Audit — No Obligation',
+      description: 'Send Monsta Media an enquiry. Tell us what you need — more customers, a better website, or smarter automation — and we will reply within one business day.',
+      path: '/enquiries',
+    })
     const params = new URLSearchParams(window.location.search)
     const s = params.get('source')
     if (s) setSource(s)

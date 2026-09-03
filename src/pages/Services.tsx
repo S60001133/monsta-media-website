@@ -1,15 +1,17 @@
 import { useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
 import { scrollToTop } from '../lib/scroll'
+import { setSeo } from '../lib/seo'
 
 export default function Services() {
-  // SEO: Update document title
+  // SEO: unique title + description + OG + Twitter + canonical
   useEffect(() => {
-    document.title = 'Affordable Marketing Services | Transparent Pricing | AI Automation | Monsta Media Australia'
-    const metaDesc = document.querySelector('meta[name="description"]')
-    if (metaDesc) {
-      metaDesc.setAttribute('content', 'Budget-friendly marketing services with transparent pricing. Affordable AI automation, high-ROI Meta ads, cost-effective SEO & CRM. Australian owned & operated, all services done in-house. Sydney, NSW & Australia.')
-    }
+    setSeo({
+      title: 'Digital Marketing Services Parramatta | Meta Ads, SEO & AI Automation | Monsta Media',
+      description: 'Budget-friendly marketing services with transparent pricing. High-ROI Meta ads, cost-effective SEO, web design, CRM & AI automation — all done in-house by our Australian-owned team.',
+      path: '/services',
+      image: '/images/SEO.jpeg',
+    })
   }, [])
 
   const openEnquiries = () => {

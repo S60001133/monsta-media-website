@@ -1,17 +1,18 @@
 import { useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
 import { scrollToTop } from '../lib/scroll'
+import { setSeo } from '../lib/seo'
 
 const PINK = '#E9178C'
 
 export default function Finance() {
-  // SEO: Update document title
+  // SEO: unique title + description + OG + Twitter + canonical
   useEffect(() => {
-    document.title = 'Flexible Marketing Finance | No Upfront Costs | Monsta Media Australia'
-    const metaDesc = document.querySelector('meta[name="description"]')
-    if (metaDesc) {
-      metaDesc.setAttribute('content', 'Flexible marketing finance solutions with no upfront costs. Fast approval, transparent pricing, and Australian-owned support. Grow your business without financial stress.')
-    }
+    setSeo({
+      title: 'Marketing Finance & Payment Plans | No Upfront Costs | Monsta Media',
+      description: 'Flexible marketing finance solutions with no upfront costs. Fast approval, transparent pricing, and Australian-owned support. Grow your business without financial stress.',
+      path: '/finance',
+    })
   }, [])
 
   const openEnquiries = () => {

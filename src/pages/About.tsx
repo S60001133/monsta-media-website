@@ -1,17 +1,18 @@
 import { useEffect } from 'react'
 import CTAButton from '../components/CTAButton'
 import { scrollToTop } from '../lib/scroll'
+import { setSeo } from '../lib/seo'
 
 const PINK = '#E9178C'
 
 export default function About() {
-  // SEO: Update document title
+  // SEO: unique title + description + OG + Twitter + canonical
   useEffect(() => {
-    document.title = 'About Monsta Media Parramatta | Australian Owned Digital Marketing Agency'
-    const metaDesc = document.querySelector('meta[name="description"]')
-    if (metaDesc) {
-      metaDesc.setAttribute('content', 'Monsta Media Parramatta is an Australian-owned and operated digital marketing agency based in Parramatta, Sydney. Brand-owned, brand-operated, everything in-house.')
-    }
+    setSeo({
+      title: 'About Monsta Media Parramatta | Australian-Owned Marketing Agency',
+      description: 'Monsta Media Parramatta is an Australian-owned and operated digital marketing agency based in Sydney. Everything done in-house — Meta ads, SEO, web design, CRM & AI automation.',
+      path: '/about',
+    })
   }, [])
 
   const openEnquiries = () => {

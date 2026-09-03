@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import CTAButton from '../components/CTAButton'
 import { scrollToTop } from '../lib/scroll'
+import { setSeo } from '../lib/seo'
 
 const PINK = '#E9178C'
 
@@ -8,6 +9,16 @@ const PINK = '#E9178C'
 const CRM_LOGIN_URL = 'https://crm.monstamediaparramatta.com/login'
 
 export default function CRM() {
+  // SEO: unique title + description + OG + Twitter + canonical
+  useEffect(() => {
+    setSeo({
+      title: 'Lead Monsta CRM | Affordable CRM Software for Small Business | Monsta Media',
+      description: 'Lead Monsta CRM — affordable lead management for small business. AI chatbots, email & SMS automation, booking calendar. Plans from $49/mo with a 1-month free trial.',
+      path: '/crm',
+      image: '/images/CRM.webp',
+    })
+  }, [])
+
   const pricingPlans = [
     {
       name: 'Starter',

@@ -2,11 +2,16 @@ import { useEffect } from 'react'
 import Testimonials from '../components/Testimonials'
 import MascotStage from '../components/MascotStage'
 import { scrollToTop, scrollToHash } from '../lib/scroll'
+import { setSeo } from '../lib/seo'
 
 export default function Home() {
-  // SEO: Update document title
+  // SEO: unique title + description + OG + Twitter + canonical for the home route
   useEffect(() => {
-    document.title = 'AI Marketing Agency Australia | Transparent Pricing | High ROI Meta Ads | Monsta Media'
+    setSeo({
+      title: 'AI Marketing Agency Parramatta | Meta Ads, SEO & Web Design | Monsta Media',
+      description: 'Australian-owned AI marketing agency. High-ROAS Meta ads, SEO, web design & AI automation. Transparent pricing, no long-term contracts. Based in Parramatta, serving all of Australia.',
+      path: '/',
+    })
   }, [])
 
   const go = (path: string) => {
