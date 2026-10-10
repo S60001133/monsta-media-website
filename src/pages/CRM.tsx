@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import CTAButton from '../components/CTAButton'
-import { scrollToTop } from '../lib/scroll'
 import { setSeo } from '../lib/seo'
 
 const PINK = '#E9178C'
 
 // MMCRM app — login page. Live production domain (Vercel).
 const CRM_LOGIN_URL = 'https://crm.monstamediaparramatta.com/login'
+const CRM_REGISTER_URL = 'https://crm.monstamediaparramatta.com/register'
 
 export default function CRM() {
   // SEO: unique title + description + OG + Twitter + canonical
@@ -135,10 +135,9 @@ export default function CRM() {
     touchEndX.current = null
   }
 
-  const openEnquiries = () => {
-    window.history.pushState({}, '', '/enquiries')
-    window.dispatchEvent(new PopStateEvent('popstate'))
-    scrollToTop()
+  const openRegister = () => {
+    // CRM sign-up (not the enquiry form) — opens the CRM app's register page in a new tab
+    window.open(CRM_REGISTER_URL, '_blank', 'noopener,noreferrer')
   }
 
   const renderPlanCard = (plan: typeof pricingPlans[number], idx: number) => {
@@ -207,7 +206,7 @@ export default function CRM() {
             text="Start Free Trial"
             variant={plan.highlight ? "primary" : "secondary"}
             size="sm"
-            onClick={openEnquiries}
+            onClick={openRegister}
           />
         </div>
       </div>
@@ -235,7 +234,7 @@ export default function CRM() {
               text="Start Your Free Trial"
               variant="primary"
               size="lg"
-              onClick={openEnquiries}
+              onClick={openRegister}
             />
             <a
               href={CRM_LOGIN_URL}
@@ -418,7 +417,7 @@ export default function CRM() {
             text="Start Your Free Trial"
             variant="primary"
             size="lg"
-            onClick={openEnquiries}
+            onClick={openRegister}
           />
         </div>
       </section>
