@@ -374,9 +374,14 @@ export default function MascotStage({
               ))}
             </div>
           </motion.div>
+        </motion.div>
 
-          {/* Panel 4 — get connected CTA (right) */}
-          <motion.div style={{ ...cta, ...panelBase, top: isMobile ? 'auto' : '28%', right: isMobile ? 16 : 40, left: isMobile ? 16 : 'auto' }}>
+        {/* Panel 4 — get connected CTA (right). Sits OUTSIDE the fade wrapper so its
+            z-index competes directly in the stage stacking context: it must render
+            ON TOP of the speech bubble (z 6). Inside the wrapper it would be trapped
+            in a child stacking context as soon as the wrapper's opacity drops below
+            1 during the end-fade (progress > 0.93), letting the bubble win again. */}
+        <motion.div style={{ ...cta, ...panelBase, zIndex: 8, top: isMobile ? 'auto' : '28%', right: isMobile ? 16 : 40, left: isMobile ? 16 : 'auto' }}>
             <h3 className="display" style={{ fontSize: isMobile ? 28 : 38, marginBottom: 22 }}>Let's Talk About <span className="display-accent">Your Business.</span></h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {CONNECT_PATHS.map((p) => (
@@ -403,7 +408,6 @@ export default function MascotStage({
               ))}
             </div>
           </motion.div>
-        </motion.div>
 
         {/* ---------- progress dots (which panel you're on) ---------- */}
         <div style={{ position: 'absolute', right: 18, top: '50%', transform: 'translateY(-50%)', display: 'flex', flexDirection: 'column', gap: 10, zIndex: 6 }}>
