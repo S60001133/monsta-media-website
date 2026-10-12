@@ -21,11 +21,12 @@ export default function CRM() {
 
   const pricingPlans = [
     {
-      name: 'Starter',
+      name: 'Solopreneur',
       price: '$49',
-      period: '/month',
-      description: 'Perfect for solo operators and freelancers',
+      period: '/month AUD',
+      description: 'Perfect for solo entrepreneurs and freelancers',
       features: [
+        '3 workspaces',
         'Up to 500 CRM contacts',
         '1 AI chatbot widget',
         'Email campaigns (1,000/mo)',
@@ -38,30 +39,13 @@ export default function CRM() {
       highlight: false
     },
     {
-      name: 'Pro',
-      price: '$99',
-      period: '/month',
-      description: 'Built for growing teams and agencies',
-      features: [
-        'Up to 5,000 CRM contacts',
-        '3 AI chatbot widgets',
-        'Email campaigns (10,000/mo)',
-        'SMS messaging (1,000/mo)',
-        'Funnel builder (3 funnels)',
-        'Social media scheduler',
-        'AI voice agent (100 min/mo)',
-        'Advanced automations',
-        'Priority support'
-      ],
-      highlight: false
-    },
-    {
       name: 'Enterprise',
-      price: '$299',
-      period: '/month',
-      description: 'For serious agencies scaling their operation',
+      price: '$149',
+      period: '/month AUD',
+      description: 'Built for growing teams and organisations',
       features: [
-        'Unlimited CRM contacts',
+        '8 workspaces',
+        'Up to 100,000 CRM contacts',
         '10 AI chatbot widgets',
         'Email campaigns (100,000/mo)',
         'SMS messaging (10,000/mo)',
@@ -72,15 +56,17 @@ export default function CRM() {
         'API access & webhooks',
         'Dedicated account manager'
       ],
-      highlight: false
+      highlight: true
     },
     {
       name: 'Agency',
-      price: '$499',
-      period: '/month',
+      price: '$297',
+      period: '/month AUD',
       description: 'Resell to your own clients with full white-label',
       features: [
-        'Unlimited contacts & chatbots',
+        'Unlimited workspaces',
+        'Unlimited CRM contacts',
+        'Unlimited AI chatbot widgets',
         'Email campaigns (500,000/mo)',
         'SMS messaging (50,000/mo)',
         'Unlimited funnels & social platforms',
@@ -95,7 +81,7 @@ export default function CRM() {
     }
   ]
 
-  const [currentPlanIndex, setCurrentPlanIndex] = useState(1) // Start with Professional (Most Popular)
+  const [currentPlanIndex, setCurrentPlanIndex] = useState(1) // Start with Enterprise (Most Popular)
   const touchStartX = useRef<number | null>(null)
   const touchEndX = useRef<number | null>(null)
 
