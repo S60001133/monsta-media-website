@@ -22,12 +22,12 @@ export default function About() {
   }
 
   const flipCubes = [
-    { front: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb7ab91c234b2421bbe.png', back: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb71e31ec06851f668d.jpeg', alt: 'Certificate 1' },
-    { front: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb77bdc533e62818800.png', back: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb7ab91c241a6421bbf.jpeg', alt: 'Certificate 2' },
-    { front: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb71e31ecf99b1f668e.png', back: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb7ab91c2448c421bba.jpeg', alt: 'Certificate 3' },
-    { front: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb73469607c1f41aa45.png', back: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb7c3a599bbbd01f261.jpeg', alt: 'Certificate 4' },
-    { front: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb7ab91c21047421bb9.png', back: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb7521c84abf1ea8d8f.jpeg', alt: 'Certificate 5' },
-    { front: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb734696063f041aa37.png', back: 'https://storage.googleapis.com/msgsndr/YN0FzeCcwo9zWABV3800/media/69035fb7c3a5998baf01f262.jpeg', alt: 'Certificate 6' },
+    { front: '/images/certificate-1-front.png', back: '/images/certificate-1-back.jpeg', alt: 'Certificate 1' },
+    { front: '/images/certificate-2-front.png', back: '/images/certificate-2-back.jpeg', alt: 'Certificate 2' },
+    { front: '/images/certificate-3-front.png', back: '/images/certificate-3-back.jpeg', alt: 'Certificate 3' },
+    { front: '/images/certificate-4-front.png', back: '/images/certificate-4-back.jpeg', alt: 'Certificate 4' },
+    { front: '/images/certificate-5-front.png', back: '/images/certificate-5-back.jpeg', alt: 'Certificate 5' },
+    { front: '/images/certificate-6-front.png', back: '/images/certificate-6-back.jpeg', alt: 'Certificate 6' },
   ]
 
   const differentiators = [

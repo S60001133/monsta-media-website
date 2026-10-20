@@ -49,7 +49,7 @@ export default function Privacy() {
     {
       title: 'Cookies and Tracking Technologies',
       body: [
-        'Our website uses cookies and similar technologies to improve your experience, understand how visitors use the site, and deliver relevant advertising. These include Google Analytics, the Meta (Facebook/Instagram) Pixel, our LeadConnector chat widget, and our AI voice assistant (Vapi).',
+        'Our website uses cookies and similar technologies to improve your experience, understand how visitors use the site, and deliver relevant advertising. These include Google Analytics, the Meta (Facebook/Instagram) Pixel, our Botpress chat widget, and our AI voice assistant (Vapi).',
         'You can control cookies through your browser settings — most browsers let you block or delete cookies. Please note that disabling cookies may affect how our website functions for you.',
         'Advertising platforms such as Meta and Google use their own cookies and tracking, governed by their respective privacy policies. You can manage ad preferences through the tools those platforms provide.',
       ],

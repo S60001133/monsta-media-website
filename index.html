@@ -256,21 +256,21 @@
   }
   </script>
 
+  <!-- Botpress Webchat v5 — head embed (deferred so it never blocks first paint) -->
+  <link rel="preconnect" href="https://cdn.botpress.cloud" />
+  <link rel="preconnect" href="https://files.bpcontent.cloud" />
+  <link rel="dns-prefetch" href="https://cdn.botpress.cloud" />
+  <link rel="dns-prefetch" href="https://files.bpcontent.cloud" />
+  <script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js" defer></script>
+  <script src="https://files.bpcontent.cloud/2026/10/19/22/20261019224648-XDHY3KNO.js" defer></script>
+  <!-- End Botpress Webchat -->
+
 </head>
 
 <body style="background-color: #0B0B0F; margin: 0;">
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
-  <!-- LeadConnector Widget (Deferred) -->
-  <script>
-    window.addEventListener('load', function() {
-      var script = document.createElement('script');
-      script.src = 'https://beta.leadconnectorhq.com/loader.js';
-      script.setAttribute('data-resources-url', 'https://beta.leadconnectorhq.com/chat-widget/loader.js');
-      script.setAttribute('data-widget-id', '6683aa35dd58562a86bbef3d');
-      document.body.appendChild(script);
-    });
-  </script>
+  <!-- LeadConnector (GHL) chat widget removed 2026-10-20 — subscription cancelled. Botpress Webchat v5 (in <head>) is the site's chat. -->
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNSXF6Z3"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

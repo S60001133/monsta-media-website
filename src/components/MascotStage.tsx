@@ -110,7 +110,10 @@ export default function MascotStage({
   )
 
   // ---- panels (each owns a scroll window) ----
-  const intro = usePanel(scrollYProgress, [0.02, 0.1, 0.2, 0.28], 110)
+  // Mobile: the intro headline must already be on screen at scroll 0. It used to fade in
+  // only after the first ~10% of a 500vh track, which on a phone read as a blank hero
+  // (just a gorilla floating in empty space). Negative start = fully visible at rest.
+  const intro = usePanel(scrollYProgress, isMobile ? [-0.05, 0, 0.2, 0.28] : [0.02, 0.1, 0.2, 0.28], 110)
   const services = usePanel(scrollYProgress, [0.3, 0.38, 0.48, 0.56], -110)
   const why = usePanel(scrollYProgress, [0.58, 0.66, 0.76, 0.84], 110)
   const cta = usePanel(scrollYProgress, [0.86, 0.92, 0.97, 1.0], -110)
@@ -170,14 +173,31 @@ export default function MascotStage({
   // left-side panels sit higher for a staggered composition; right-side stay centred
   const leftPanelBase: React.CSSProperties = { ...panelBase, top: isMobile ? 'auto' : '38%' }
 
+  // ---- mobile hero stack: bubble + mascot + intro headline, pinned under the navbar ----
+  // Desktop keeps the mascot dead-centre with the panels orbiting it. On a phone that
+  // centring left ~240px of empty screen between the navbar and the gorilla, so the whole
+  // mascot block anchors to the top instead and the headline follows directly beneath it.
+  const MASCOT_PX = isMobile ? 260 : 340
+  // Navbar is 64px tall. On mobile the bubble is decoupled from the mascot box: it holds a
+  // fixed slot 12px under the navbar (76px) and the gorilla sits directly below it, clear of
+  // his head. Coupling them (bubble at box-top −14) meant the gap under the navbar grew to
+  // 67px+ and long TALK_LINES buried the top third of his head.
+  // Bubble width 280 keeps the longest line at 81px tall (was 120px at 190px wide).
+  const MASCOT_TOP_PX = isMobile ? 160 : 0
+  const BUBBLE_TOP_PX = isMobile ? 76 - MASCOT_TOP_PX : -14 // relative to the mascot box
+  const BUBBLE_W = isMobile ? 280 : 250
+  const MASCOT_BOX_TOP: string | number = isMobile ? MASCOT_TOP_PX : '50%'
+  const MASCOT_BOX_TRANSFORM = isMobile ? 'translateX(-50%)' : 'translate(-50%, -50%)'
+  const INTRO_TOP_PX = MASCOT_TOP_PX + MASCOT_PX + 26
+
   return (
     <section ref={ref} style={{ position: 'relative', height: '500vh' }} aria-label="Monsta Media — scroll experience">
       {/* sticky stage: content orbits the (fixed, background) mascot */}
       <div
+        className="mm-stage"
         style={{
           position: 'sticky',
           top: 0,
-          height: '100vh',
           overflow: 'hidden',
         }}
       >
@@ -186,7 +206,7 @@ export default function MascotStage({
           style={{
             position: 'absolute',
             left: '50%',
-            top: '50%',
+            top: isMobile ? MASCOT_TOP_PX + MASCOT_PX / 2 : '50%',
             width: isMobile ? 420 : 640,
             height: isMobile ? 420 : 640,
             transform: 'translate(-50%, -50%)',
@@ -201,10 +221,10 @@ export default function MascotStage({
           style={{
             position: 'absolute',
             left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: isMobile ? 240 : 340,
-            height: isMobile ? 240 : 340,
+            top: MASCOT_BOX_TOP,
+            transform: MASCOT_BOX_TRANSFORM,
+            width: MASCOT_PX,
+            height: MASCOT_PX,
             zIndex: 1,
             pointerEvents: 'none',
           }}
@@ -237,7 +257,7 @@ export default function MascotStage({
                   alt="Monsta Media mascot"
                   draggable={false}
                   style={{
-                    width: isMobile ? 240 : 340,
+                    width: MASCOT_PX,
                     height: 'auto',
                     display: 'block',
                     filter: 'drop-shadow(0 30px 34px rgba(0,0,0,0.55))',
@@ -254,26 +274,25 @@ export default function MascotStage({
           style={{
             position: 'absolute',
             left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: isMobile ? 240 : 340,
-            height: isMobile ? 240 : 340,
+            top: MASCOT_BOX_TOP,
+            transform: MASCOT_BOX_TRANSFORM,
+            width: MASCOT_PX,
+            height: MASCOT_PX,
             zIndex: 6,
             pointerEvents: 'none',
           }}
         >
-          {/* speech bubble — above his head */}
+          {/* speech bubble — above his head.
+              The centring transform lives on this wrapper, not on the motion.div:
+              framer-motion writes style.transform for the y/scale entrance, which wiped
+              translateX(-50%) and pushed the bubble off-centre (right up against the
+              screen edge on mobile). */}
+          <div style={{ position: 'absolute', top: BUBBLE_TOP_PX, left: '50%', transform: 'translateX(-50%)', zIndex: 6, width: BUBBLE_W }}>
               <motion.div
                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{ duration: 0.5, ease, delay: 0.3 }}
                 style={{
-                  position: 'absolute',
-                  top: -14,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  zIndex: 6,
-                  width: isMobile ? 190 : 250,
                   background: 'var(--surface)',
                   border: '1px solid var(--hairline-strong)',
                   borderRadius: 14,
@@ -317,12 +336,23 @@ export default function MascotStage({
                   </div>
                 </div>
               </motion.div>
+          </div>
         </div>
 
         {/* ---------- CONTENT PANELS — orbit around the mascot ---------- */}
         <motion.div style={{ opacity: stageOpacity }}>
-          {/* Panel 1 — intro (left, higher) — heading only */}
-          <motion.div style={{ ...intro, ...leftPanelBase, left: isMobile ? 16 : 40, right: isMobile ? 16 : 'auto' }}>
+          {/* Panel 1 — intro (left, higher) — heading only.
+              Mobile: top-anchored directly under the mascot stack (was bottom-anchored
+              and invisible at scroll 0, which is what made the phone hero look empty). */}
+          <motion.div
+            style={{
+              ...intro,
+              ...leftPanelBase,
+              ...(isMobile ? { top: INTRO_TOP_PX, bottom: 'auto' } : {}),
+              left: isMobile ? 16 : 40,
+              right: isMobile ? 16 : 'auto',
+            }}
+          >
             <h2 className="display" style={{ fontSize: isMobile ? 'clamp(30px, 8vw, 44px)' : 'clamp(40px, 4.6vw, 64px)' }}>
               We Build Brands That <span className="display-accent">Pay For Themselves.</span>
             </h2>
