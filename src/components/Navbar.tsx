@@ -20,7 +20,7 @@ const NAV_LINKS = [
 ]
 
 export default function Navbar({ alwaysSolid = false }: NavbarProps) {
-  const [solid, setSolid] = useState(alwaysSolid || window.scrollY > 40 || window.innerWidth < 768)
+  const [solid, setSolid] = useState(alwaysSolid || window.scrollY > 40 || window.innerWidth < 1024)
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function Navbar({ alwaysSolid = false }: NavbarProps) {
       if (ticking) return
       ticking = true
       requestAnimationFrame(() => {
-        setSolid(alwaysSolid || window.scrollY > 40 || window.innerWidth < 768)
+        setSolid(alwaysSolid || window.scrollY > 40 || window.innerWidth < 1024)
         ticking = false
       })
     }
@@ -64,8 +64,15 @@ export default function Navbar({ alwaysSolid = false }: NavbarProps) {
           boxShadow: solid ? '0 1px 12px rgba(28,24,18,0.06)' : 'none',
         }}
       >
-        <div className="max-w-[1200px] mx-auto px-4 md:px-6">
-          <div className="flex items-center h-16 md:h-[72px] gap-4 md:gap-8">
+        <div
+        className="max-w-[1200px] mx-auto"
+        style={{
+          // Fluid side gutters. Kept inline (not `px-4 md:px-6`) because these values are
+          // load-bearing for the hamburger's corner alignment at every width.
+          padding: '0 clamp(16px, 2vw, 24px)',
+        }}
+      >
+        <div className="flex items-center h-16 md:h-[72px] gap-4 md:gap-8">
             {/* Logo */}
             <button
               onClick={() => go('/')}
@@ -80,8 +87,13 @@ export default function Navbar({ alwaysSolid = false }: NavbarProps) {
               />
             </button>
 
-            {/* Desktop nav — editorial uppercase */}
-            <nav className="hidden md:flex items-center gap-7 lg:gap-8 ml-auto shrink-0">
+            {/* Desktop nav — editorial uppercase, pinned right by marginLeft:auto.
+                Breakpoint is lg (1024), not md (768): at 768–1023 the links + Start Now
+                button don't fit the bar and the CTA was pushed ~47px off-screen. */}
+            <nav
+              className="hidden lg:flex items-center gap-7 lg:gap-8 shrink-0"
+              style={{ marginLeft: 'auto' }}
+            >
               {NAV_LINKS.map((link) => (
                 <button
                   key={link.path}
@@ -115,11 +127,21 @@ export default function Navbar({ alwaysSolid = false }: NavbarProps) {
               </button>
             </nav>
 
-            {/* Mobile hamburger */}
+            {/* Mobile hamburger — pinned to the top-right corner on every screen. */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden flex flex-col gap-1.5 p-2 ml-auto z-[60]"
+              className="lg:hidden flex flex-col gap-1.5 z-[60]"
+              style={{
+                marginLeft: 'auto',
+                marginRight: 0,
+                flexShrink: 0,
+                padding: 10,
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+              }}
               aria-label="Toggle menu"
+              aria-expanded={mobileOpen}
             >
               <span className={`w-6 h-[2px] bg-[var(--ink)] transition-all ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`} />
               <span className={`w-6 h-[2px] bg-[var(--ink)] transition-all ${mobileOpen ? 'opacity-0' : ''}`} />
@@ -131,8 +153,30 @@ export default function Navbar({ alwaysSolid = false }: NavbarProps) {
 
       {/* Mobile overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-[55] md:hidden">
+        <div className="fixed inset-0 z-[55] lg:hidden">
           <div className="absolute inset-0" style={{ background: 'var(--paper)' }} onClick={() => setMobileOpen(false)} />
+
+          {/* Close (X) — sits exactly where the hamburger is, so opening the menu reads as
+              the burger turning into an X. It has to live INSIDE this overlay: the header is
+              z-50 and the overlay z-55, so the hamburger's own z-60 is trapped inside the
+              header's stacking context and gets painted under the menu (verified with
+              elementFromPoint). Positioned by the .mm-nav-close class in index.css so its
+              height tracks the navbar's (64px / 72px) and the X lands where the burger was. */}
+          <button
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close menu"
+            className="mm-nav-close"
+          >
+            <span
+              aria-hidden="true"
+              style={{ position: 'absolute', width: 24, height: 2, borderRadius: 2, background: 'var(--ink)', transform: 'rotate(45deg)' }}
+            />
+            <span
+              aria-hidden="true"
+              style={{ position: 'absolute', width: 24, height: 2, borderRadius: 2, background: 'var(--ink)', transform: 'rotate(-45deg)' }}
+            />
+          </button>
+
           <nav className="relative z-10 flex flex-col items-center justify-center h-full gap-8 px-6">
             <img src="/images/logo.svg" alt="Monsta Media" className="h-12 w-auto mb-4" loading="lazy" />
             <button

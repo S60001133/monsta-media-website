@@ -7,7 +7,10 @@
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
-@import "tailwindcss/preflight";
+/* NOTE: do NOT re-add `@import "tailwindcss/preflight";` here. `@import "tailwindcss"`
+   below already pulls preflight INSIDE @layer base. Importing the file separately injects
+   it UNLAYERED, and unlayered rules beat every @layer — which silently disabled all
+   Tailwind margin/padding utilities site-wide (see the @layer base note further down). */
 @import "tailwindcss";
 
 /* Pointer cursor for all links and clickable elements */
@@ -39,10 +42,22 @@ a, button, [role="button"], .cursor-pointer, .group:hover, .group:focus, .text-l
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ⚠️ CASCADE-LAYER NOTE — this reset MUST stay inside `@layer base`.
+   Tailwind v4 emits its utilities inside `@layer utilities`, and unlayered rules beat every
+   layer regardless of specificity. When this rule sat outside a layer it silently killed
+   ALL Tailwind margin/padding utilities (p-*, px-*, m-*, mx-auto, ml-auto, mt-*, …) across
+   the whole site: the mobile hamburger ignored `ml-auto` and floated mid-navbar, the header
+   and footer `mx-auto` never centred on wide screens, and `mb-4` gaps under headings
+   vanished. Utilities that don't touch margin/padding (gap-*, max-w-*, display, flex-*)
+   always worked, which is why it went unnoticed for so long.
+   Layered, it loses to utilities (as intended) but still beats the browser defaults.
+   Custom `.mm-*` classes in this file stay UNLAYERED on purpose, so they win over utilities. */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 }
 
 body {
@@ -281,6 +296,29 @@ section[id] {
 .marquee-fade {
   -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
   mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+/* Mobile menu close (X). Height = the navbar's own height at that breakpoint (64px under
+   768, 72px at 768+), with the icon flex-centred, so the X lands exactly where the
+   hamburger was and opening the menu reads as the burger turning into an X. Unlayered on
+   purpose so nothing in @layer utilities can override it. */
+.mm-nav-close {
+  position: absolute;
+  top: 0;
+  right: clamp(16px, 2vw, 24px);
+  height: 64px;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 20;
+}
+@media (min-width: 768px) {
+  .mm-nav-close { height: 72px; }
 }
 
 /* Pinned hero stage. 100dvh (dynamic viewport height) keeps the bottom-anchored panels
