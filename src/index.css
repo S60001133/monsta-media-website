@@ -285,11 +285,19 @@ section[id] {
 
 /* Pinned hero stage. 100dvh (dynamic viewport height) keeps the bottom-anchored panels
    inside the visible area on mobile Safari/Chrome, where 100vh includes the collapsing
-   address bar and pushes them under the toolbar. Two declarations = cascade fallback:
-   browsers without dvh keep the 100vh line. */
+   address bar and pushes them under the toolbar.
+   The 100vh fallback MUST live outside the dvh rule: esbuild collapses duplicate
+   declarations in one rule to the last one (verified — `height:100vh;height:100dvh`
+   minified down to just `height:100dvh`), and with no height at all the sticky stage
+   collapses to 0 (every child is absolutely positioned) so the hero disappears on
+   browsers without dvh. @supports can't be collapsed away. */
 .mm-stage {
   height: 100vh;
-  height: 100dvh;
+}
+@supports (height: 100dvh) {
+  .mm-stage {
+    height: 100dvh;
+  }
 }
 
 /* ============================================================
