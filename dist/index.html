@@ -77,43 +77,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght=900&display=swap" rel="stylesheet">
   </noscript>
 
-  <!-- Vapi AI Assistant Button Styles -->
-  <style>
-    button[id*="vapi-support-btn"], .vapi-btn {
-      position: fixed !important;
-      bottom: 16px !important;
-      left: 16px !important;
-      z-index: 2147483647 !important; /* force above all content */
-      pointer-events: auto !important;
-      font-family: "Times New Roman", Times, serif !important;
-      display: flex !important;
-      align-items: center !important;
-    }
-    button[id*="vapi-support-btn"] *, .vapi-btn * {
-      font-family: "Times New Roman", Times, serif !important;
-    }
-    #vapi-title-container {
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
-      align-items: flex-start !important;
-      gap: .1px !important;
-    }
-    #vapi-title, #vapi-subtitle {
-      line-height: 1.2 !important;
-      margin: 0 !important;
-    }
-    @media (max-width: 768px) {
-      button[id*="vapi-support-btn"], .vapi-btn {
-        bottom: 24px !important;
-        left: 16px !important;
-        transform: none !important;
-        max-width: calc(100vw - 32px) !important;
-      }
-      #vapi-title { font-size: 13px !important; }
-      #vapi-subtitle { font-size: 11px !important; }
-    }
-  </style>
   <!-- Facebook Domain Verification -->
   <meta name="facebook-domain-verification" content="8z81g0u98zgt1shdizvp76m6fkfpqg" />
   
@@ -256,24 +219,20 @@
   }
   </script>
 
-  <!-- Botpress Webchat v5 — head embed (deferred so it never blocks first paint) -->
-  <link rel="preconnect" href="https://cdn.botpress.cloud" />
-  <link rel="preconnect" href="https://files.bpcontent.cloud" />
+  <!-- Chat + voice: Botpress Webchat and Vapi load on demand from the floating contact
+       button (src/components/ContactLauncher.tsx), not on page load. -->
   <link rel="dns-prefetch" href="https://cdn.botpress.cloud" />
   <link rel="dns-prefetch" href="https://files.bpcontent.cloud" />
-  <script src="https://cdn.botpress.cloud/webchat/v5.0/inject.js" defer></script>
-  <script src="https://files.bpcontent.cloud/2026/10/19/22/20261019224648-XDHY3KNO.js" defer></script>
-  <!-- End Botpress Webchat -->
 
-  <script type="module" crossorigin src="/assets/index-gE0Hnust.js"></script>
-  <link rel="modulepreload" crossorigin href="/assets/react-vendor-D7amQhf0.js">
-  <link rel="modulepreload" crossorigin href="/assets/motion-vendor-trGRCzNc.js">
-  <link rel="stylesheet" crossorigin href="/assets/index-Bd7g1l_O.css">
+  <script type="module" crossorigin src="/assets/index-7xa4VNUP.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/react-vendor-Ba007idI.js">
+  <link rel="modulepreload" crossorigin href="/assets/motion-vendor-DnvalOko.js">
+  <link rel="stylesheet" crossorigin href="/assets/index-BFV9r_mp.css">
 </head>
 
 <body style="background-color: #0B0B0F; margin: 0;">
   <div id="root"></div>
-  <!-- LeadConnector (GHL) chat widget removed 2026-10-20 — subscription cancelled. Botpress Webchat v5 (in <head>) is the site's chat. -->
+  <!-- LeadConnector (GHL) chat widget removed 2026-10-20 — subscription cancelled. Chat is Botpress, opened from ContactLauncher. -->
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNSXF6Z3"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

@@ -1,0 +1,167 @@
+/* ContactLauncher — single floating contact button + menu (see ContactLauncher.tsx).
+   Unlayered on purpose (like the other .mm-* classes) so Tailwind utilities can't
+   override it. z-index sits below Botpress's chat window (9998+), which replaces
+   this button while open. */
+
+.mm-contact {
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  font-family: var(--font-body);
+}
+@media (min-width: 768px) {
+  .mm-contact { right: 24px; bottom: 24px; }
+}
+
+.mm-contact-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---- toggle (closed: chat icon, open: X) ---- */
+.mm-contact-toggle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-brand-pink);
+  color: #fff;
+  box-shadow: 0 10px 28px rgba(233, 23, 140, 0.35), 0 2px 6px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.mm-contact-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(233, 23, 140, 0.45), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.mm-contact-toggle:focus-visible,
+.mm-contact-call:focus-visible,
+.mm-contact-item:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+/* ---- menu ---- */
+.mm-contact-menu {
+  width: min(320px, calc(100vw - 32px));
+  background: var(--surface);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 16px;
+  padding: 14px 8px 8px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5);
+  animation: mm-contact-in 0.18s ease-out;
+  transform-origin: bottom right;
+}
+@keyframes mm-contact-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+.mm-contact-menu ul { list-style: none; }
+
+.mm-contact-heading {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  padding: 0 10px 8px;
+}
+
+.mm-contact-error {
+  margin: 0 6px 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 80, 80, 0.4);
+  background: rgba(255, 80, 80, 0.08);
+  color: #ff9a9a;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.mm-contact-item {
+  width: 100%;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  text-decoration: none;
+  font: inherit;
+  transition: background-color 0.15s ease;
+}
+.mm-contact-item:hover { background: rgba(245, 240, 232, 0.06); }
+.mm-contact-item:disabled { opacity: 0.7; cursor: progress !important; }
+
+.mm-contact-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(233, 23, 140, 0.14);
+  color: var(--color-brand-pink);
+}
+.mm-contact-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.mm-contact-sub {
+  display: block;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+/* ---- call pill (connecting / live) ---- */
+.mm-contact-call {
+  height: 56px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline-strong);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+.mm-contact-call.is-active {
+  background: #DC2626;
+  border-color: #DC2626;
+  color: #fff;
+}
+.mm-contact-call.is-active:hover { background: #B91C1C; }
+
+.mm-contact-live {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  animation: mm-contact-pulse 1.4s ease-in-out infinite;
+}
+@keyframes mm-contact-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}

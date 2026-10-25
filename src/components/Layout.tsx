@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
+import ContactLauncher from './ContactLauncher'
 import { initSmoothScroll } from '../lib/scroll'
 
 interface LayoutProps {
@@ -19,6 +20,7 @@ export default function Layout({ children }: LayoutProps) {
         {children}
       </main>
       <Footer />
+      <ContactLauncher />
     </div>
   )
 }
